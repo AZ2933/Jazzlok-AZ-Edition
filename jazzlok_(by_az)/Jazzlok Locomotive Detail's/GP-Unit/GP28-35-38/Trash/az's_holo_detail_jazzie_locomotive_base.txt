@@ -1,0 +1,89 @@
+@name AZ'S Holo Detail Jazzie LocoMotive Base
+@inputs LocoMotive_Base:entity Open_EngineRoom_Door Open_EngineCabinets_Doors
+@outputs Open_EngineRoom_Door Open_EngineCabinets_Doors Random_Ouput_Enabled
+@persist A E:entity
+#@model models/maxofs2d/lamp_flashlight.mdl
+if(first()||dupefinished()){
+    
+#Created by AZ2933
+#Not Sure If this Is Gonna Have A V2 Or Not (This Will Be Updated If I Know My Answer
+#Enable On Of These To Add The Holo Models! \/
+#Part 1/LocoMotive Base E2S (Not Sure If Its Part 1???)
+
+#MakeE2Invisible = 1
+
+#LowNose
+F_Or_B1 = (0) #Forwards Or Backwards?
+L_Or_R1 = (0) #Left Or Right?(Go To The Front, Look At The Front Way And Look At The Left,- 
+#-Go Back And Go To The Door To Know Where It Goes.)
+Height1 = (0)  #How High Does The Hood Go?
+########################2ND/EngineRoom Door####################################################
+F_Or_B2 = (34.8) 
+L_Or_R2 = (-174.5) 
+Height2 = (5) 
+########################3RD/Nothing########################
+F_Or_B3 = (0) 
+L_Or_R3 = (0) 
+Height3 = (0) 
+
+A=1
+holoCreate(A)
+holoPos(A,LocoMotive_Base:toWorld(vec(F_Or_B1,L_Or_R1,Height1)))
+holoParent(A,LocoMotive_Base)
+holoModel(A, "models/jazzie/trains/locomotives/emd/gp28-35/lowhood.mdl")
+holoScale(A,vec(1))
+holoMaterial(A,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(A,LocoMotive_Base:toWorld(ang(0.00,0.00,0.00))) #With # = Moved, Without # = In The Right Spot
+
+A=2
+holoCreate(A)
+holoPos(A,LocoMotive_Base:toWorld(vec(F_Or_B2,L_Or_R2,Height2)))
+holoParent(A,LocoMotive_Base)
+holoModel(A, "models/jazzie/trains/locomotives/emd/gp28-35/engineroom_door.mdl")
+holoScale(A,vec(1))
+holoMaterial(A,"")
+
+A=3
+holoCreate(A)
+holoPos(A,LocoMotive_Base:toWorld(vec(F_Or_B3,L_Or_R3,Height3)))
+holoParent(A,LocoMotive_Base)
+holoModel(A, "models/jazzie/trains/locomotives/emd/gp28-35/base.mdl")
+holoScale(A,vec(1))
+holoMaterial(A,"") 
+holoAng(A,LocoMotive_Base:toWorld(ang(0.00,0.00,0.00)))
+
+}
+########################ANGLES & STUFF########################
+
+Moved = (-90.00)
+
+if(Open_EngineRoom_Door < 1)
+{
+    holoAng(2,entity():toWorld(ang(-45.00,0.00,0.00)))
+
+}
+else {
+    holoAng(2,entity():toWorld(ang(0.00,Moved,45.00)))
+
+}
+
+if(Open_EngineCabinets_Doors == 1){
+holoBodygroup(3,1,1)
+}else{
+holoBodygroup(3,1,0)
+}
+
+
+########################EXTRAS########################
+
+Random_Output_Enabled=1
+
+#if(MakeE2Invisible == 1){
+#E:setAlpha(0) #Invisible
+#}else{
+#E:setAlpha(255) #Visible
+#}
+
+#E = entity()

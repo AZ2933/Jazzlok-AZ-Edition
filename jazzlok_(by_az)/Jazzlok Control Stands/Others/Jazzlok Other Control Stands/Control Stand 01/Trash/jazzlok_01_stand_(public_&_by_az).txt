@@ -1,0 +1,59 @@
+@name Jazzlok 01 Stand (Public & By AZ)
+@inputs Control_stand_01:entity MU_Master RLCPT:entity Pod:entity Seat:entity
+@outputs CONSTRAINT
+@persist #InterMul:number 
+@trigger 
+
+#Started At 9:06 - 2:36
+#Time: UTC-3 PM 7/19/21 - 7/20/21 AM
+
+#Lables1#
+
+CONSTRAINT = 1
+
+SE = Seat
+
+E = Control_stand_01
+
+FirstDupeCode = first()|dupefinished()
+
+FirstDupeCode2 = first()|duped()
+
+
+
+#########
+
+#
+
+#Lables2#
+
+SeatModel = "models/jazzie/trains/locomotives/emd/cab_seat01.mdl"
+SeatColor = vec(255)
+SeatHeight = 16.65
+SeatPos = vec(0,-2.2,SeatHeight)
+SeatAng = ang(0,0,0)
+
+#Holos#
+
+if(FirstDupeCode2){
+
+    A = 0
+    holoCreate(A)
+    holoParent(A,SE)
+    holoScale(A,vec(1))
+    holoColor(A,SeatColor)
+    holoModel(A,SeatModel)
+    holoPos(A,SE:toWorld(SeatPos))
+    holoAng(A,SE:toWorld(SeatAng))
+    holoBodygroup(0,2,1)
+    holoBodygroup(0,3,1)
+    holoBodygroup(0,4,1)
+    #holoSkin(A,0)
+    #holoEntity(A):setSubMaterial(1,"")
+    #holoEntity(A):setSubMaterial(2,"")
+
+    SE:setAlpha(0)
+
+}
+
+#######

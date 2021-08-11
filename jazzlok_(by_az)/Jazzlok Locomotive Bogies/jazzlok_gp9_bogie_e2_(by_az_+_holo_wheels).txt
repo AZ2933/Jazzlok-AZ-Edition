@@ -1,0 +1,98 @@
+@name Jazzlok GP9 bogie E2 (By AZ + Holo Wheels)
+@inputs GP9NW:entity Trucks:array Brake 
+@outputs Air
+@persist Roll Speed Vel VelR Angle
+@trigger 
+
+GP9NoWheels = GP9NW
+E = GP9NoWheels
+
+FrontWheelSubMat1 = "jazzie/trains/bogy_wheel01"
+FrontWheelSubMat2 = "jazzie/trains/bogy_wheel02a"
+BackWheelSubMat1 = "jazzie/trains/bogy_wheel01"
+BackWheelSubMat2 = "jazzie/trains/bogy_wheel02a"
+
+FWSB1 = FrontWheelSubMat1
+FWSB2 = FrontWheelSubMat2
+BWSB1 = BackWheelSubMat1
+BWSB2 = BackWheelSubMat2
+
+if(first()|duped()){
+    
+    E:setAlpha(0)
+
+}
+
+if(first()|dupefinished()){
+    
+    A = 0
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/jazzie/trains/locomotives/emd/gp9_bogie_nowheels.mdl")
+    holoScale(A,vec(1))
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+
+    A = 1
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/jazzie/trains/locomotives/emd/wheelset_40.mdl")
+    holoScale(A,vec(1))
+    #holoColor(A,vec(255,255,255))
+    holoPos(A,E:toWorld(vec(0,55.3,17.6)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+    holoEntity(A):setSubMaterial(1,FWSB1)
+    holoEntity(A):setSubMaterial(2,FWSB2)
+
+
+    A = 2
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/jazzie/trains/locomotives/emd/wheelset_40.mdl")
+    holoScale(A,vec(1))
+    #holoColor(A,vec(255,255,255))
+    holoPos(A,E:toWorld(vec(0,-54.9,17.6)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+    holoEntity(A):setSubMaterial(1,BWSB1)
+    holoEntity(A):setSubMaterial(2,BWSB2)
+    
+
+}
+
+#Trucks Coding
+
+if(Brake){
+    
+    PP = "dirt"
+    Air = 1
+    
+}else{
+   
+    PP = "gmod_ice"
+    Air = 0    
+    
+}
+
+for(TE=Air,Trucks:count()){
+Trucks[TE,entity]:propPhysicalMaterial(PP)
+}
+
+#Wheel Coding
+
+InterMul = 100
+
+Angle
+
+Total = round(Angle)
+
+Speed = E:vel():length()
+
+interval(InterMul)
+
+Vel = E:velL():y()/-4.25
+
+Roll+=Vel
+
+holoAng(1,E:toWorld(ang(0,0,Roll)))
+holoAng(2,E:toWorld(ang(0,0,Roll)))

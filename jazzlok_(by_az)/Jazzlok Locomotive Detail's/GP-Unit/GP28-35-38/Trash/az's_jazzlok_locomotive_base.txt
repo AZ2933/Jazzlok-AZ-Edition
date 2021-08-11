@@ -1,0 +1,170 @@
+@name AZ'S Jazzlok Locomotive Base
+@inputs Locomotive_Base:entity Doors:entity Details:entity Engine_Cabinet_Doors Engine_Room_Door Battery_Door Cabinet_Door Cabinet_Door2  
+@outputs Engine_Cabinet_Doors Engine_Room_Door Battery_Door Cabinet_Door Cabinet_Door2 
+@persist A
+@trigger 
+
+Hood = 1
+
+
+
+if(Hood == 0){
+A=0
+holoCreate(A)
+holoPos(A,Locomotive_Base:toWorld(vec(0,0,0)))
+holoParent(A,Locomotive_Base)
+holoModel(A, "")
+holoScale(A,vec(1))
+holoMaterial(A,"Models/effects/vol_light001")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(A,Locomotive_Base:toWorld(ang(0,0,0)))
+#holoColor(A,vec(0,0,0))
+}
+if(Hood == 1){
+A=100 #Random
+holoCreate(A)
+holoPos(A,Locomotive_Base:toWorld(vec(0,0,0)))
+holoParent(A,Locomotive_Base)
+holoModel(A, "models/jazzie/trains/locomotives/emd/gp28-35/lowhood.mdl")
+holoScale(A,vec(1))
+holoMaterial(A,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(A,Locomotive_Base:toWorld(ang(0,0,0)))
+#holoColor(A,vec(0,0,0))
+A=200 #Random
+holoCreate(A)
+holoPos(A,Details:toWorld(vec(0,0,0)))
+holoParent(A,Details)
+holoModel(A, "models/jazzie/trains/locomotives/emd/gp28-35/lowhood_glass.mdl")
+holoScale(A,vec(1))
+holoMaterial(A,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(A,Details:toWorld(ang(0,0,0)))
+#holoColor(A,vec(0,0,0))
+}
+if(Hood == 2){
+A=300
+holoCreate(A)
+holoPos(A,Locomotive_Base:toWorld(vec(0,0,0)))
+holoParent(A,Locomotive_Base)
+holoModel(A, "models/jazzie/trains/locomotives/emd/gp28-35/highhood.mdl")
+holoScale(A,vec(1))
+holoMaterial(A,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(A,Locomotive_Base:toWorld(ang(0,0,0)))
+#holoColor(A,vec(0,0,0))
+A=400 #Random
+holoCreate(A)
+holoPos(A,Details:toWorld(vec(0,0,0)))
+holoParent(A,Details)
+holoModel(A, "models/jazzie/trains/locomotives/emd/gp28-35/highhood_glass.mdl")
+holoScale(A,vec(1))
+holoMaterial(A,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(A,Details:toWorld(ang(0,0,0)))
+#holoColor(A,vec(0,0,0))
+}
+
+A = 2
+holoCreate(A)
+holoPos(A,Doors:toWorld(vec(34.9,-174.5,5)))
+holoParent(A,Doors)
+holoModel(A, "models/jazzie/trains/locomotives/emd/gp28-35/engineroom_door.mdl")
+holoScale(A,vec(1))
+holoMaterial(A,"")
+#entity():setSubMaterial(1,"")
+holoAng(A,Doors:toWorld(ang(0,0,0)))
+#holoColor(A,vec(0,0,0))
+
+A = 3
+holoCreate(A)
+holoPos(A,Doors:toWorld(vec(32.6,163.8,23.5)))
+holoParent(A,Doors)
+holoModel(A, "models/jazzie/trains/locomotives/emd/gp28-35/battery_door.mdl")
+holoScale(A,vec(1))
+holoMaterial(A,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(A,Doors:toWorld(ang(0,0,0)))
+#holoColor(A,vec(0,0,0))
+
+A = 4
+holoCreate(A)
+holoPos(A,Doors:toWorld(vec(10,163.8,52)))
+holoParent(A,Doors)
+holoModel(A, "models/jazzie/trains/locomotives/emd/gp28-35/cabinet_door.mdl")
+holoScale(A,vec(1))
+holoMaterial(A,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(A,Doors:toWorld(ang(0,0,0)))
+#holoColor(A,vec(0,0,0))
+
+
+
+A++
+holoCreate(A)
+holoPos(A,Details:toWorld(vec(0,0,0)))
+holoParent(A,Details)
+holoModel(A, "models/jazzie/trains/locomotives/emd/gp28-35/plow_none.mdl")
+holoScale(A,vec(1))
+holoMaterial(A,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(A,Details:toWorld(ang(0,0,0)))
+#holoColor(A,vec(0,0,0))
+
+
+
+
+
+
+if(Engine_Cabinet_Doors){Engine_Cabinet_Doors=1 #Works
+Locomotive_Base:setBodygroup(1,1)
+soundPlay("Engine_Cabinet_Doors",0,"_jazzlok/switches/cabinet_door01.wav")
+}else{Engine_Cabinet_Doors=0
+Locomotive_Base:setBodygroup(1,0)
+
+}
+
+if(Engine_Room_Door){Engine_Room_Door=1 #Works
+holoAng(2,Doors:toWorld(ang(0,-125,0)))
+soundPlay("Engine_Room_Door",0,"_jazzlok/switches/cabinet_door02.wav")
+}else{Engine_Room_Door=0
+
+}
+
+if(Battery_Door){Battery_Door=1 #Works
+holoAng(3,Doors:toWorld(ang(0,-90,0)))
+soundPlay("Battery_Door",0,"_jazzlok/switches/cabinet_door02.wav")
+}else{Battery_Door=0
+
+}
+
+if(Cabinet_Door){Cabinet_Door=1 #Works
+holoAng(4,Doors:toWorld(ang(0,-90,0)))
+soundPlay("Cabniet_Door",0,"_jazzlok/switches/cabinet_door02.wav")
+}else{Cabinet_Door=0
+
+}
+
+##################################Jazzlok Cab Details###################################
+
+
+A++
+holoCreate(A)
+holoPos(A,Details:toWorld(vec(50,200,66.3)))
+holoParent(A,Details)
+holoModel(A, "models/jazzie/trains/locomotives/emd/cab/cab_light.mdl")
+holoScale(A,vec(1))
+holoMaterial(A,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(A,Details:toWorld(ang(41,0,0)))
+#holoColor(A,vec(0,0,0))
+

@@ -1,0 +1,511 @@
+@name Jazzlok SD-GP9-18-20 Stand (VPT2 & By AZ)
+@inputs GPStand:entity RLCPT:entity CtlTable:table MU_Master EngineRun Emergency ForceSand WheelSlip BellToggle LightSwitch
+@outputs Bell Sounds:array LightPower LightGB:vector
+@persist LocoBrake_A AirBrake_A Reverser_A Throttle_A Dynamics_A NWheel_A DWheel_A Load_A Sander_A Bell_A LightSwitch_A LightSwitch_B
+@trigger 
+
+#Maybe My Biggest E2..?
+
+E = GPStand
+FirstDupeCode = first()|dupefinished()
+CTLT = CtlTable
+StandSounds = E
+
+#[
+
+Welcome to my first Jazzlok SD-GP9-18-20 Stand! since nobody obviously uses jazzlok then i decided to make one for ME.ONLY.
+THERE WAS e2s that was changed into usable e2s.. so techinically jazzlok is "still a bit alive"
+Probably gonna make the other stands soon and no not the ones that have been already recreated.
+
+
+#
+
+
+                    Started At -
+                    8:03PM - 8:21PM EST 6/7/21 -        (1)
+                    9:03PM - 11:43PM EST 6/8/21 -       (2)
+                    5:31PM - 11:35PM EST 6/9/21 -       (3)
+                    5:21PM - 12:06PM EST 6/10 > 11/21 - (4)
+                    2:48PM - 11:58PM  EST 6/24/21 .     (5)
+                    Finished At -
+                    2:00PM - 11:00PM  EST 6/25/21 .     (6)
+
+]#
+
+
+
+#Stand Controls
+
+LocoBrakeModel   = "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_inde_brake_lever.mdl"
+LocoBrake        = CTLT["SetLocoBrakePressure",number]
+Sounds[1,number] = LocoBrake
+
+AirBrakeModel = "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_auto_brake_lever.mdl"
+AirBrake         = CTLT["SetBrakeNotch",number]
+Sounds[2,number] = AirBrake
+
+TransitionModel  = "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_transition_lever.mdl"
+Reverser         = CTLT["SetReverser",number]
+Sounds[3,number] = Reverser
+
+ThrottleModel    = "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_throttle_lever.mdl"
+Notch            = -CTLT["SetThrottle",number]
+Sounds[4,number] = Notch
+
+DynamicModel = "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_throttle_lever.mdl"
+Dynamics         = -CTLT["SetDynamics",number]
+Sounds[5,number] = Dynamics
+
+NotchWheelModel  = "models/jazzie/trains/number_wheel_throttle.mdl"
+
+###############
+
+
+
+#Gauges
+
+MainResModel     = "models/jazzie/trains/gauges/pointer_01.mdl"
+EqualResModel    = "models/jazzie/trains/gauges/pointer_01.mdl"
+BrakePipeModel   = "models/jazzie/trains/gauges/pointer_01.mdl"
+CylModel         = "models/jazzie/trains/gauges/pointer_01.mdl"
+
+#######
+
+
+
+#Stand Details
+
+LoadModel = "models/jazzie/trains/gauges/pointer_02.mdl"
+
+SandModel = "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_sander_switch.mdl"
+
+BellModel = "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_bell_lever.mdl"
+
+LightSwitchModel = "models/jazzie/trains/locomotives/emd/cab/control_panel_switch1.mdl"
+
+#############
+
+
+
+#RLC Links
+
+PTWL = RLCPT:wirelink()
+
+#Idk what local does but pt1 reasons :| ?
+
+local BrakeInfo1 = PTWL["MainRes"  ,number]
+local BrakeInfo2 = PTWL["EqualRes" ,number]
+local BrakeInfo3 = PTWL["BrakePipe",number]
+local BrakeInfo4 = PTWL["Cyl"      ,number]
+local    Load    = PTWL["Notch"    ,number]
+
+#Gauge Order: MainRes EqualRes BrakePipe Cyl 
+
+##########
+
+
+
+#Holos
+
+if(FirstDupeCode){
+    
+A = 1
+holoCreate(A) 
+holoParent(A,E)
+holoModel(A,LocoBrakeModel)
+holoScale(A,vec(1))
+holoAng(A,E:toWorld(ang(0,0,0)))
+holoPos(A,E:toWorld(vec(-20.3,-5.5,-0.95)))
+holoColor(A,vec(255))
+holoEntity(A):setSubMaterial(1,"")
+holoMaterial(A,"")
+holoAlpha(A,255)
+
+
+A = 2
+holoCreate(A) 
+holoParent(A,E)
+holoModel(A,AirBrakeModel)
+holoScale(A,vec(1))
+holoAng(A,E:toWorld(ang(0,0,0)))
+holoPos(A,E:toWorld(vec(-20.3,-5,9.44)))
+holoColor(A,vec(255))
+holoEntity(A):setSubMaterial(1,"")
+holoMaterial(A,"")
+holoAlpha(A,255)
+
+
+A = 3
+holoCreate(A) 
+holoParent(A,E)
+holoModel(A,TransitionModel)
+holoScale(A,vec(1))
+holoAng(A,E:toWorld(ang(0,0,0)))
+holoPos(A,E:toWorld(vec(6.25,-2.79,4.75)))
+holoColor(A,vec(255))
+holoEntity(A):setSubMaterial(1,"")
+holoMaterial(A,"")
+holoAlpha(A,255)
+
+
+A = 4
+holoCreate(A) 
+holoParent(A,E)
+holoModel(A,ThrottleModel)
+holoScale(A,vec(1))
+holoAng(A,E:toWorld(ang(0,0,0)))
+holoPos(A,E:toWorld(vec(0,-1.01,0)))
+holoColor(A,vec(255))
+holoEntity(A):setSubMaterial(1,"")
+holoMaterial(A,"")
+holoAlpha(A,255)
+
+
+A = 5
+holoCreate(A) 
+holoParent(A,E)
+holoModel(A,DynamicModel)
+holoScale(A,vec(1))
+holoAng(A,E:toWorld(ang(0,0,0)))
+holoPos(A,E:toWorld(vec(6.3,-0,-4.75)))
+holoColor(A,vec(255))
+holoEntity(A):setSubMaterial(1,"")
+holoMaterial(A,"")
+holoAlpha(A,255)
+
+
+A = 6
+holoCreate(A) 
+holoParent(A,E)
+holoModel(A,NotchWheelModel)
+holoScale(A,vec(0.1))
+holoAng(A,E:toWorld(ang(0,254,0)))
+holoPos(A,E:toWorld(vec(-4.77,-2.65,7.6)))
+holoColor(A,vec(255))
+holoEntity(A):setSubMaterial(1,"")
+holoMaterial(A,"")
+holoAlpha(A,255)
+
+
+A = 7
+holoCreate(A) 
+holoParent(A,E)
+holoModel(A,NotchWheelModel)
+holoScale(A,vec(0.1))
+holoAng(A,E:toWorld(ang(0,254,0)))
+holoPos(A,E:toWorld(vec(-4.77,-2.65,8.4)))
+holoColor(A,vec(255))
+holoEntity(A):setSubMaterial(1,"")
+holoMaterial(A,"")
+holoAlpha(A,255)
+
+A = 8
+holoCreate(A) 
+holoParent(A,E)
+holoModel(A,MainResModel)
+holoScale(A,vec(1))
+holoAng(A,E:toWorld(ang(0,0,0)))
+holoPos(A,E:toWorld(vec(10.3,2.4,20.5)))
+holoColor(A,vec(255,0,0))
+holoEntity(A):setSubMaterial(1,"")
+holoMaterial(A,"")
+holoAlpha(A,255)
+
+
+A = 9
+holoCreate(A) 
+holoParent(A,E)
+holoModel(A,EqualResModel)
+holoScale(A,vec(1))
+holoAng(A,E:toWorld(ang(0,0,0)))
+holoPos(A,E:toWorld(vec(3,2.28,20.5)))
+holoColor(A,vec(255))
+holoEntity(A):setSubMaterial(1,"")
+holoMaterial(A,"")
+holoAlpha(A,255)
+
+
+A = 10
+holoCreate(A) 
+holoParent(A,E)
+holoModel(A,BrakePipeModel)
+holoScale(A,vec(1))
+holoAng(A,E:toWorld(ang(0,0,0)))
+holoPos(A,E:toWorld(vec(3,2.4,20.5)))
+holoColor(A,vec(255,0,0))
+holoEntity(A):setSubMaterial(1,"")
+holoMaterial(A,"")
+holoAlpha(A,255)
+
+A = 11
+holoCreate(A) 
+holoParent(A,E)
+holoModel(A,CylModel)
+holoScale(A,vec(1))
+holoAng(A,E:toWorld(ang(0,0,0)))
+holoPos(A,E:toWorld(vec(10.3,2.28,20.5)))
+holoColor(A,vec(255))
+holoEntity(A):setSubMaterial(1,"")
+holoMaterial(A,"")
+holoAlpha(A,255)
+
+
+A = 12
+holoCreate(A) 
+holoParent(A,E)
+holoModel(A,LoadModel)
+holoScale(A,vec(1))
+holoAng(A,E:toWorld(ang(0,0,0)))
+holoPos(A,E:toWorld(vec(-4.28,2.28,24.05)))
+holoColor(A,vec(255))
+holoEntity(A):setSubMaterial(1,"")
+holoMaterial(A,"")
+holoAlpha(A,255)
+
+
+A = 13
+holoCreate(A) 
+holoParent(A,E)
+holoModel(A,SandModel)
+holoScale(A,vec(1))
+holoAng(A,E:toWorld(ang(0,0,0)))
+holoPos(A,E:toWorld(vec(0,0,0)))
+holoColor(A,vec(255))
+holoEntity(A):setSubMaterial(1,"")
+holoMaterial(A,"")
+holoAlpha(A,255)
+
+
+A = 14
+holoCreate(A) 
+holoParent(A,E)
+holoModel(A,BellModel)
+holoScale(A,vec(1))
+holoAng(A,E:toWorld(ang(0,0,0)))
+holoPos(A,E:toWorld(vec(-10.57,-5.09,-2.6)))
+holoColor(A,vec(255))
+holoEntity(A):setSubMaterial(1,"")
+holoMaterial(A,"")
+holoAlpha(A,255)
+
+A = 15
+holoCreate(A) 
+holoParent(A,E)
+holoModel(A,LightSwitchModel)
+holoScale(A,vec(1))
+holoAng(A,E:toWorld(ang(0,0,0)))
+holoPos(A,E:toWorld(vec(-10.57,-7,-2.6)))
+holoColor(A,vec(255))
+holoEntity(A):setSubMaterial(1,"")
+holoMaterial(A,"")
+holoAlpha(A,255)
+
+######
+
+}
+
+#
+
+E:setBodygroup(2,Emergency)
+E:setBodygroup(3,ForceSand)
+E:setBodygroup(4,WheelSlip)
+E:setBodygroup(7,EngineRun)
+#E:setBodygroup(0,0)
+
+##############################Welcome To   T h e   C o d i n g   " D u n g e o n " ################################################
+
+#[
+
+If your really smart with coding then you should know how all of this works / how all of this "makes sense" :3
+
+(Line 413 Is The End)
+
+]#
+
+if(MU_Master){
+    
+holoAlpha(3,255)
+
+#
+
+interval(100)
+
+LocoBrakeOn  = 38
+LocoBrakeOff = -1
+
+LocoBrake_A = LocoBrake_A + (LocoBrake - LocoBrake_A) / max( 4 , 1 )
+holoAng(1,E:toWorld(ang(0,(LocoBrake_A-LocoBrakeOff+LocoBrake-LocoBrakeOn),0)))
+
+
+
+#AirBrakeOn  = 0
+#AirBrakeOff = 0
+
+if(AirBrake == 0){
+AirBrakeAng  = 60    
+}elseif(AirBrake == 1){
+AirBrakeAng = 20
+}elseif(AirBrake == 2){
+AirBrakeAng = -20
+}elseif(AirBrake == 6){
+AirBrakeAng = -45
+}
+
+if(Reverser == 1){
+ReverserAng = -30
+}elseif(Reverser == 0){
+ReverserAng = 0
+}elseif(Reverser == -1){
+ReverserAng = 30
+}
+
+AirBrake_A = AirBrake_A + (AirBrake - AirBrake_A) / max( 4 , 1 )
+holoAng(2,E:toWorld(ang(0,(AirBrake_A-AirBrakeAng+AirBrake),0)))
+
+
+
+ReverserA = Reverser_A + (Reverser - Reverser_A) / max( 4 , 1 )
+holoAng(3,E:toWorld(ang(0,(Reverser_A-ReverserAng+Reverser),0)))
+
+
+
+NotchAng = 0.28
+
+Throttle_A = Throttle_A + (Notch - Throttle_A) / max( 4 , 1 )
+holoAng(4,E:toWorld(ang(0,(Throttle_A-NotchAng*Notch+35),0)))
+
+
+
+DynamicsAng = 0.28
+
+Dynamics_A = Dynamics_A + (Dynamics - Dynamics_A) / max( 4 , 1 )
+holoAng(5,E:toWorld(ang(0,(Dynamics_A-DynamicsAng*Dynamics+35.9),0)))
+
+
+
+NWheelAng = -1.8
+
+NWheel_A = NWheel_A + (Notch - NWheel_A) / max( 4 , 1 )
+holoAng(6,E:toWorld(ang(0,(NWheel_A-NWheelAng*Notch+253),0)))
+
+
+
+DWheelAng = -2.22
+
+DWheel_A = DWheel_A + (Dynamics_A - DWheel_A) / max( 4 , 1 )
+holoAng(7,E:toWorld(ang(0,(DWheel_A-DWheelAng*Dynamics+296),0)))
+
+
+
+holoAng(8,E:toWorld(ang(60+BrakeInfo1,0,90)))
+holoAng(9,E:toWorld(ang(60+BrakeInfo2,0,90)))
+holoAng(10,E:toWorld(ang(60+BrakeInfo4,0,90)))
+holoAng(11,E:toWorld(ang(60+BrakeInfo3,0,90)))
+
+
+#The reason why dynamics don't work for the loadmeter is because jazzlok
+
+if(Reverser == 1){
+
+LoadAng = 7.6
+
+}elseif(Reverser == 0){
+
+LoadAng = 0
+
+}elseif(Reverser == -1){
+
+LoadAng = 7.6
+
+}
+
+
+Load_A = Load_A + (Load_A - Load_A) / max( 4 , 1 )
+holoAng(12,E:toWorld(ang((Load_A-LoadAng*Load+120),0,90)))
+
+
+
+SanderPos = 5.09
+
+Sander_A = Sander_A + (ForceSand - Sander_A) / max( 4 , 1 )
+holoPos(13,E:toWorld(vec(-5.3, Sander_A*ForceSand-SanderPos #[-5.09]#,-6.3)))
+
+
+
+BellAng1 = 60
+BellAng2 = 30
+
+Bell_A = Bell_A + (BellToggle - Bell_A) / max( 4 , 1 )
+holoAng(14,E:toWorld(ang(BellToggle+BellAng1 * Bell_A-BellAng2,0,0)))
+
+
+#~
+
+if(BellToggle & ~BellToggle){
+    
+                                      Bell                  =                !Bell
+E:soundPlay(0,1,Bell ? "gsgtrainsounds/misc/air_switch.wav" : "_jazzlok/switches/air_switch.wav")
+
+}
+
+
+
+if(LightSwitch & ~LightSwitch)
+{
+    LightSwitch_B++
+LightColor = vec(63)
+
+}
+
+#[
+
+if(LightSwitch_B >= 1)
+{
+    LightSwitch_B = 0
+LightColor = vec(127)
+
+}
+
+if(LightSwitch_B >= 2)
+{
+    LightSwitch_B = 0
+LightColor = vec(255)
+
+}
+
+]#
+
+if(LightSwitch_B >= 3)
+{
+    
+    LightSwitch_B = 0
+
+
+}
+
+LightColorMul = 125
+LightSwitchMul = max( 4 , 0 )
+
+LightGB = vec(LightSwitch_B*LightColorMul)
+
+
+
+LightSwitch_A = LightSwitch_A + ( LightSwitch_B - LightSwitch_A ) /  LightSwitchMul 
+holoAng(15,E:toWorld(ang(90*-LightSwitch_A,180,-90)))
+
+
+
+
+
+#The End!
+
+
+
+
+#MU End
+
+}else{
+
+holoAlpha(3,0)
+
+}

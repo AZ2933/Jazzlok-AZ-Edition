@@ -1,0 +1,693 @@
+@name Jazzlok GP-28-35-38 Control Stand (PT2 & Simple Manual Lapping)
+@inputs Control_stand:entity CtlTable:table F_Light MU_Master Horn Bell Notch Dynamics FBogey:entity BBogey:entity Engine_Run Gen_Field BrakeCutIn ForceSand WheelSlip LightF LightB MainRes EqualRes BrakePipe Cyl
+@outputs F_Light_On Reverser DifferentAirBrake DynamicOut RGB:vector Sander AirBell
+@persist LightSwitch_A LightSwitch_B LightSwitch_C LightSwitch_D
+@trigger 
+
+
+if(first() | dupefinished())
+{
+timer("spawn",1) 
+
+#1000 = 2 seconds 
+#2000 = 3 seconds 
+#3000 = 4 or 3.9 seconds
+
+}
+
+E = Control_stand
+
+if(first()|dupefinished()){
+    
+    reset()
+    
+}
+
+if(clk("spawn"))
+{  
+
+Control_stand:setSubMaterial(1,"models/proppertextures/enamel_black") #Stand
+Control_stand:setSubMaterial(3,"models/proppertextures/enamel_black") #Stand
+Control_stand:setSubMaterial(4,"models/proppertextures/enamel_black") #Stand
+
+
+
+
+
+    A = 1
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/horn_bell_lever01.mdl")
+    holoPos(A,Control_stand:toWorld(vec(-16.38,-6.93,9.5)))
+    holoAng(A,Control_stand:toWorld(ang(0,0,0)))
+
+    A = 2
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_inde_brake_lever.mdl")
+    holoPos(A,Control_stand:toWorld(vec(-22.30,-9.2,-0.9)))
+    holoAng(A,Control_stand:toWorld(ang(0,0,0)))
+
+    A = 3
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_auto_brake_lever.mdl")
+    holoPos(A,Control_stand:toWorld(vec(-22.45,-8.8,9.4)))
+    holoAng(A,Control_stand:toWorld(ang(0,0,0)))
+
+    A = 4
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_transition_lever.mdl")
+    holoPos(A,Control_stand:toWorld(vec(6.2,-2.7,4.8)))
+    holoAng(A,Control_stand:toWorld(ang(0,0,0)))
+    holoEntity(A):setSubMaterial(1,"models/proppertextures/enamel_black")
+    holoEntity(A):setSubMaterial(2,"models/proppertextures/enamel_gray")
+
+    A = 5
+    holoCreate(A)
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/control_panel_switch1.mdl")
+    holoScale(A,vec(1))
+    holoPos(A,Control_stand:toWorld(vec(15.1,-4.5,-4))) #For Some Reason I Don't Use Left, Forward And Others On This Thing.
+    holoParent(A,Control_stand)
+    holoAng(A,Control_stand:toWorld(ang(0,0,90)))
+
+    A = 6
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_throttle_lever.mdl")
+    holoPos(A,Control_stand:toWorld(vec(0,-1.1,0)))
+    holoAng(A,Control_stand:toWorld(ang(0,0,0)))
+    holoEntity(A):setSubMaterial(2,"models/proppertextures/enamel_black")
+    holoEntity(A):setSubMaterial(1,"models/proppertextures/enamel_gray")
+
+    A = 7
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_throttle_lever.mdl")
+    holoPos(A,Control_stand:toWorld(vec(6.3,0,-4.7)))
+    holoAng(A,Control_stand:toWorld(ang(0,0,0)))
+    holoEntity(A):setSubMaterial(2,"models/proppertextures/enamel_black")
+    holoEntity(A):setSubMaterial(1,"models/proppertextures/enamel_gray")
+
+#Notch & Dynamic Wheel
+
+    A = 8
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/number_wheel_throttle.mdl")
+    holoScale(A,vec(0.1))
+    holoPos(A,Control_stand:toWorld(vec(-4.8,-2.81,8.46)))
+    holoAng(A,Control_stand:toWorld(ang(0,253,0)))
+
+    A = 9
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/number_wheel_throttle.mdl")
+    holoScale(A,vec(0.1))
+    holoPos(A,Control_stand:toWorld(vec(-4.8,-2.78,7.60)))
+    holoAng(A,Control_stand:toWorld(ang(0,253,0)))
+
+#Left Gauge
+
+    A = 10
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A,"models/jazzie/trains/gauges/pointer_01.mdl")
+    holoScale(A,vec(1))
+    holoPos(A,Control_stand:toWorld(vec(-9.1,1.76,14.99)))
+    holoAng(A,Control_stand:toWorld(ang(62,0,90)))
+
+    A = 11
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255,0,0))
+    holoModel(A,"models/jazzie/trains/gauges/pointer_01.mdl")
+    holoScale(A,vec(1))
+    holoPos(A,Control_stand:toWorld(vec(-9.1,1.9,15)))
+    holoAng(A,Control_stand:toWorld(ang(62,0,90)))
+
+#Right Gauge
+
+    A = 12
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A,"models/jazzie/trains/gauges/pointer_01.mdl")
+    holoScale(A,vec(1))
+    holoPos(A,Control_stand:toWorld(vec(-1.9,1.76,14.99)))
+    holoAng(A,Control_stand:toWorld(ang(62,0,90)))
+
+    A = 13
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255,0,0))
+    holoModel(A,"models/jazzie/trains/gauges/pointer_01.mdl")
+    holoScale(A,vec(1))
+    holoPos(A,Control_stand:toWorld(vec(-1.9,1.9,15)))
+    holoAng(A,Control_stand:toWorld(ang(62,0,90)))
+
+#LoadMeter
+
+    A = 14
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A,"models/jazzie/trains/gauges/pointer_02.mdl")
+    holoScale(A,vec(0.83,1,1))
+    holoPos(A,Control_stand:toWorld(vec(10,0,15)))
+    holoAng(A,Control_stand:toWorld(ang(0,0,0)))
+
+#"Push Buttons"
+
+    A = 15
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A,"models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_sander_switch.mdl")
+    holoScale(A,vec(1))
+    holoPos(A,Control_stand:toWorld(vec(-15.8,-5.8,0.5)))
+    holoAng(A,Control_stand:toWorld(ang(0,0,0)))
+
+    A = 16
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A,"models/jazzie/trains/locomotives/emd/cab/bell_switch.mdl")
+    holoScale(A,vec(1))
+    holoPos(A,Control_stand:toWorld(vec(-15.8,-5.8,-5.64)))
+    holoAng(A,Control_stand:toWorld(ang(0,0,0)))
+
+}
+
+
+
+
+
+#########################################################################################
+
+if(changed(Horn))
+{
+    Control_stand:soundPlay("horn",0,"_jazzlok/switches/throttle_lever05.wav") 
+    soundStop("horn",0.5) 
+}
+
+if(Horn){
+
+holoAng(1,Control_stand:toWorld(ang(0,0,30)))
+
+R = 1
+
+}else{
+
+holoAng(1,Control_stand:toWorld(ang(0,0,0)))
+
+R = 0
+
+}
+
+#########################################################################################
+
+#[
+
+if(Brake){
+
+holoAng(3,Control_stand:toWorld(ang(0,80,0)))
+
+Braked = 1
+
+}else{
+
+holoAng(3,Control_stand:toWorld(ang(0,-50,0)))
+
+Braked = 0
+
+}
+
+]#
+
+if(changed(DifferentAirBrake))
+{
+    Control_stand:soundPlay("brake",0,"_jazzlok/switches/valve_01.wav") 
+    soundStop("brake",0.2) 
+}
+
+#########################################################################################
+
+if(CtlTable["SetBrakeNotch",number] == 2){
+    
+    PP = "dirt" 
+
+}elseif(CtlTable["SetBrakeNotch",number] == 2){
+
+    PP = "glass"
+    
+}elseif(CtlTable["SetBrakeNotch",number] == 0){
+    
+    PP = "gmod_ice" #Super Ice
+
+}
+
+    FBogey:propPhysicalMaterial(PP)
+    BBogey:propPhysicalMaterial(PP)
+
+#########################################################################################
+#[
+if(F_Light){
+holoAng(5,Control_stand:toWorld(ang(-90,0,90)))
+RGB=vec(255)
+F_Light_On = 1
+
+}else{
+holoAng(5,Control_stand:toWorld(ang(180,0,90)))
+RGB=vec(0)
+F_Light_On = 0
+}
+]#
+
+ #255 / 2 = 127.5 / 2 = 63.75
+
+if(F_Light & ~F_Light)
+{
+    LightSwitch_B++
+}
+
+if(LightSwitch_B>= 1)
+{
+    Color = 127.5
+}
+
+if(LightSwitch_B >= 2)
+{
+     
+    Color = 255
+    
+}
+
+if(LightSwitch_B >= 3)
+{
+    LightSwitch_B = 0
+    
+    Color = 0
+    
+}
+
+
+RGB = (vec(Color))
+
+LightSwitch_A = LightSwitch_A + ( LightSwitch_B - LightSwitch_A ) /  max( 4, 0 )  
+holoAng(5,E:toWorld(ang(180-LightSwitch_A * -90,0,90)))
+
+if(changed(LightSwitch_B))
+{
+    Control_stand:soundPlay("f_light",0,"_jazzlok/switches/rotary_switch.wav") 
+    soundStop("f_light",0.4) 
+}
+
+
+#########################################################################################
+
+CONSTAINT = 1
+
+#########################################################################################
+#[
+  ReverserAng = 14
+
+  RA=Reverser*ReverserAng
+
+  holoAng(4,Control_stand:toWorld(ang(0,RA,0)))  
+]#   
+  if(changed(Reverser))
+{  
+    
+  Control_stand:soundPlay("reverser",0,"_jazzlok/switches/selector_action.wav") 
+  soundStop("reverser",0.4)
+ 
+}
+
+#########################################################################################
+
+if(changed(CtlTable["SetThrottle",number]))
+{  
+    
+  Control_stand:soundPlay("notch",0,"_jazzlok/switches/throttle_lever03.wav") 
+  soundStop("notch",0.2)
+ 
+}
+#[  
+  NotchAng = -8.8
+  NotchAng2 = 35
+  
+  NA=Notch*NotchAng 
+  NA2 = NotchAng2
+
+  holoAng(6,Control_stand:toWorld(ang(0,NA+NA2,0)))
+]#       
+#########################################################################################        
+        
+if(changed(Dynamics))
+{  
+    
+  Control_stand:soundPlay("dynamics",0,"_jazzlok/switches/throttle_lever03.wav") 
+  soundStop("dynamics",0.5)
+ 
+}
+#[  
+  DynamicAng = -60
+  DynamicAng2 = 35
+  
+  DA=Dynamics*DynamicAng 
+  DA2 = DynamicAng2
+
+  holoAng(7,Control_stand:toWorld(ang(0,DA+DA2,0)))        
+]#        
+#########################################################################################        
+        
+if(MU_Master){
+    holoAlpha(4,255)        
+}else{
+    holoAlpha(4,0)
+}        
+#########################################################################################
+
+LocoBrakeStart = -26.8
+LocoBrakeEnd = 2.14
+
+NotchStart = 30
+NotchEnd = 0
+
+
+holoAng(2,Control_stand:toWorld(ang(0,LocoBrakeStart+CtlTable["SetLocoBrakePressure",number]*LocoBrakeEnd,0)))
+#holoAng(6,Control_stand:toWorld(ang(0,NotchStart-CtlTable["SetThrottle",number]-NotchEnd,0)))
+
+#########################################################################################
+
+#interval(100)
+
+Control_stand:setBodygroup(1,Engine_Run)
+Control_stand:setBodygroup(4,Gen_Field)
+Control_stand:setBodygroup(10,ForceSand)
+
+#########################################################################################
+
+CTLT = CtlTable
+Lable1 = "SetThrottle"
+Lable2 = "SetDynamics"
+Lable3 = "SetReverser"
+Lable4 = "SetBrakeNotch"
+
+NotchAng = 35.8
+DynamicAng = NotchAng
+
+HoloIndex7 = 7
+
+DAng = DynamicAng
+
+    holoAng(6,Control_stand:toWorld(ang(0,NotchAng,0)))
+    holoAng(HoloIndex7,Control_stand:toWorld(ang(0,DynamicAng,0)))
+
+if(CTLT[Lable1,number] == 12.5){
+    
+    holoAng(6,Control_stand:toWorld(ang(0,NotchAng-8,0)))
+    
+}elseif(CTLT[Lable1,number] == 25){
+
+    holoAng(6,Control_stand:toWorld(ang(0,NotchAng-15,0)))
+
+}elseif(CTLT[Lable1,number] == 37.5){
+
+    holoAng(6,Control_stand:toWorld(ang(0,NotchAng-25,0)))    
+
+}elseif(CTLT[Lable1,number] == 50){
+
+    holoAng(6,Control_stand:toWorld(ang(0,NotchAng-35,0)))    
+
+}elseif(CTLT[Lable1,number] == 62.5){
+
+    holoAng(6,Control_stand:toWorld(ang(0,NotchAng-45,0)))        
+
+}elseif(CTLT[Lable1,number] == 75){
+
+    holoAng(6,Control_stand:toWorld(ang(0,NotchAng-55,0)))        
+
+}elseif(CTLT[Lable1,number] == 87.5){
+
+    holoAng(6,Control_stand:toWorld(ang(0,NotchAng-65,0)))        
+
+}elseif(CTLT[Lable1,number] == 100){
+
+    holoAng(6,Control_stand:toWorld(ang(0,NotchAng-71.1,0)))        
+
+}
+
+
+if(CTLT[Lable3,number] == 0){
+    
+    LoadMeterAng =  0
+    LoadMeterPos1 = 0
+    LoadMeterPos3 = 0
+
+}elseif(CTLT[Lable3,number] == 1 | -1){
+
+    LoadMeterAng =  -8.6
+    LoadMeterPos1 = -0.03
+    LoadMeterPos3 =  0.01
+
+}
+
+  NotchWheelAng = -34.7
+
+  LMA=Notch*LoadMeterAng
+  LMP3=Notch*LoadMeterPos3
+  LMP1=Notch*LoadMeterPos1
+#[
+  LMA=Dynamics*LoadMeterAng
+  LMP3=Dynamics*LoadMeterPos3
+  LMP1=Dynamics*LoadMeterPos1
+]#
+  NotchWheelAng = -34.7
+  
+  NWA=Notch*NotchWheelAng
+
+  holoAng(8,Control_stand:toWorld(ang(0,NWA+253,0)))
+  #holoAng(9,Control_stand:toWorld(ang(0,253,0)))
+  holoAng(14,Control_stand:toWorld(ang(LMA+128,0,90)))
+  holoPos(14,Control_stand:toWorld(vec(LMP1+10,1.9,LMP3+18)))   
+
+
+
+
+#########################################################################################
+
+Dynamics = CTLT[Lable2,number]
+
+if(Dynamics == 0){
+
+Control_stand:setBodygroup(8,0)
+
+}elseif(Dynamics == 10){
+
+
+Control_stand:setBodygroup(8,CTLT[Lable2,number]==10)
+
+}
+
+#[
+Control_stand:setBodygroup(8,CTLT[Lable2,number] == 10)
+Control_stand:setBodygroup(8,CTLT[Lable2,number] == 21.25)
+Control_stand:setBodygroup(8,CTLT[Lable2,number] == 32.5)
+Control_stand:setBodygroup(8,CTLT[Lable2,number] == 43.75)
+Control_stand:setBodygroup(8,CTLT[Lable2,number] == 55)
+Control_stand:setBodygroup(8,CTLT[Lable2,number] == 66.25)
+Control_stand:setBodygroup(8,CTLT[Lable2,number] == 77.5)
+Control_stand:setBodygroup(8,CTLT[Lable2,number] == 88.75)
+Control_stand:setBodygroup(8,CTLT[Lable2,number] == 100)
+]#
+
+
+
+if(CTLT[Lable2,number] == 10){
+
+    holoAng(HoloIndex7,Control_stand:toWorld(ang(0,DAng-4,0)))    
+    
+
+}elseif(CTLT[Lable2,number] == 21.25){
+    
+    holoAng(HoloIndex7,Control_stand:toWorld(ang(0,DAng-8,0)))
+    
+    
+}elseif(CTLT[Lable2,number] == 32.5){
+
+    holoAng(HoloIndex7,Control_stand:toWorld(ang(0,DAng-15,0)))
+    
+
+}elseif(CTLT[Lable2,number] == 43.75){
+
+    holoAng(HoloIndex7,Control_stand:toWorld(ang(0,DAng-25,0)))    
+    Control_stand:setBodygroup(8,Dynamics)
+
+}elseif(CTLT[Lable2,number] == 55){
+
+    holoAng(HoloIndex7,Control_stand:toWorld(ang(0,DAng-35,0)))    
+    
+
+}elseif(CTLT[Lable2,number] == 66.25){
+
+    holoAng(HoloIndex7,Control_stand:toWorld(ang(0,DAng-45,0)))        
+    
+
+}elseif(CTLT[Lable2,number] == 77.5){
+
+    holoAng(HoloIndex7,Control_stand:toWorld(ang(0,DAng-55,0)))        
+    
+
+}elseif(CTLT[Lable2,number] == 88.75){
+
+    holoAng(HoloIndex7,Control_stand:toWorld(ang(0,DAng-65,0)))        
+    
+
+}elseif(CTLT[Lable2,number] == 100){
+
+    holoAng(HoloIndex7,Control_stand:toWorld(ang(0,DAng-71.1,0)))        
+    
+
+}
+
+
+
+  DynamicWheelAng1 = -3.19
+  DynamicWheelAng2 = 293.6
+
+  DA=Dynamics*DynamicAng 
+  DWA=Dynamics*DynamicWheelAng1      
+
+  holoAng(9,Control_stand:toWorld(ang(0,DWA+DynamicWheelAng2,0)))
+
+
+
+#########################################################################################
+
+Reverser = CTLT[Lable3,number]
+
+RevAng = 0
+
+if(CTLT[Lable3,number] == 1){
+
+    holoAng(4,Control_stand:toWorld(ang(0,RevAng+28,0)))    
+
+}
+
+if(CTLT[Lable3,number] == 0){
+
+    holoAng(4,Control_stand:toWorld(ang(0,RevAng,0)))    
+
+}
+
+if(CTLT[Lable3,number] == -1){
+
+    holoAng(4,Control_stand:toWorld(ang(0,RevAng-28,0)))    
+
+}
+
+#########################################################################################
+
+DifferentAirBrake = CTLT[Lable4,number]
+DAB = DifferentAirBrake
+
+BrakeAng = -51
+
+holoAng(3,Control_stand:toWorld(ang(0,BrakeAng,0)))
+
+if(CTLT[Lable4,number] == 1){
+
+    holoAng(3,Control_stand:toWorld(ang(0,BrakeAng+30,0)))    
+
+}
+
+if(CTLT[Lable4,number] == 2){
+
+    holoAng(3,Control_stand:toWorld(ang(0,BrakeAng+90,0)))    
+
+}
+
+if(CTLT[Lable4,number] == 6){
+
+    holoAng(3,Control_stand:toWorld(ang(0,BrakeAng+131,0)))    
+
+}
+
+#########################################################################################
+
+if(CTLT["SetBrakeNotch",number] == 6){
+
+Control_stand:setBodygroup(9,CTLT["SetBrakeNotch",number] == 6)
+
+}else{
+
+Control_stand:setBodygroup(9,0)
+
+}
+
+#########################################################################################
+
+if(WheelSlip){
+    
+    Control_stand:setBodygroup(11,WheelSlip)
+    
+}else{
+
+    Control_stand:setBodygroup(11,0)
+
+}
+
+#########################################################################################
+
+holoAng(10,Control_stand:toWorld(ang(62+MainRes,0,90)))  #Red
+holoAng(11,Control_stand:toWorld(ang(62+EqualRes,0,90))) #White
+holoAng(12,Control_stand:toWorld(ang(62+Cyl,0,90)))      #White
+holoAng(13,Control_stand:toWorld(ang(62+BrakePipe,0,90)))#Red
+
+#########################################################################################
+
+if(ForceSand){
+    
+    Sander = 1
+    holoPos(15,Control_stand:toWorld(vec(-15.8,-4.9,0.5)))
+    
+}else{
+
+    Sander = 0
+    holoPos(15,Control_stand:toWorld(vec(-15.8,-5.8,0.5)))
+    
+}
+
+#########################################################################################
+
+if(Bell){
+   
+   holoPos(16,Control_stand:toWorld(vec(-15.8,-4.9,-5.64)))
+
+}else{  
+   
+    holoPos(16,Control_stand:toWorld(vec(-15.8,-5.75,-5.64)))
+
+}
+
+if(Bell & ~Bell){
+    AirBell = !AirBell
+    E:soundPlay(0,1,AirBell ? "gsgtrainsounds/misc/air_on.wav" : "gsgtrainsounds/misc/air_off.wav")
+}
+
+#########################################################################################
+
+#Last Saved At 11:32PM EST 5/15/21 - 4/23/21 11:23PM
+

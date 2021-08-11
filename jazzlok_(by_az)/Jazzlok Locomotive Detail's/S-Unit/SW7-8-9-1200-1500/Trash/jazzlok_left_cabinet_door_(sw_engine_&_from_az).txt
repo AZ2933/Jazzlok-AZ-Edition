@@ -1,0 +1,35 @@
+@name Jazzlok Left Cabinet Door (Sw Engine & From AZ)
+@inputs Handle
+@outputs OutPut
+@persist 
+@trigger 
+
+Model = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_left_cabinet_door.mdl"
+
+E = entity()
+
+if(Handle){
+    
+    Angle = -90
+    OutPut = 1
+    
+}else{
+
+    Angle = 0
+    OutPut = 0
+
+}
+
+if(first()|dupefinished()){
+
+    A = 0
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A,Model)
+    #holoScale(A,vec(1))
+    #holoColor(A,vec(255,255,255))
+    holoPos(A,E:toWorld(vec(0,0,15)))
+    
+}
+
+    holoAng(A,E:toWorld(ang(0,Angle,0)))

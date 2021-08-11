@@ -1,0 +1,77 @@
+@name Jazzlok EMD Control Stand GP-28-35-38-39-40 By AZ (Old RLC Edition) Unfinished
+@inputs Control_stand:entity MU_Master Horn Reverser Throttle Dynamics FLight Brake 
+@outputs R_Horn
+@persist HornAng
+#@model models/jazzie/trains/locomotives/emd/cab/gp28-35-38_control_stand.mdl
+
+#Horn Position
+
+HLeft_Right = -10 # "-" = Left, Without "-" = Right
+HF_B = -10 # "-" = Forward / Close To You, Without "-" = BackWards
+HHeight = 10 # "-" = Down, Without "-" = Up
+
+#Loco Brake Position 
+
+LBLeft_Right = -22.30 # "-" = Left, Without "-" = Right
+LBF_B = -9.2 # "-" = Forward / Close To You, Without "-" = BackWards
+LBHeight = -0.9 # "-" = Down, Without "-" = Up
+
+
+
+#E = entity()
+
+Control_stand:setSubMaterial(1,"models/proppertextures/enamel_black")
+Control_stand:setSubMaterial(3,"models/proppertextures/enamel_black")
+Control_stand:setSubMaterial(4,"models/proppertextures/enamel_black")
+
+
+
+if(first() | dupefinished())
+{
+timer("spawn",1)
+}
+
+if(clk("spawn"))
+{  
+
+    A = 1
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/horn_bell_lever01.mdl")
+    holoPos(A,Control_stand:toWorld(vec(HLeft_Right,HF_B,HHeight)))
+    holoAng(A,Control_stand:toWorld(ang(0,0,0)))
+
+    A = 2
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_inde_brake_lever.mdl")
+    holoPos(A,Control_stand:toWorld(vec(LBLeft_Right,LBF_B,LBHeight)))
+    holoAng(A,Control_stand:toWorld(ang(0,80,0)))
+
+}
+
+if(Dynamics){
+    
+    Control_stand:setBodygroup(1,8)
+    
+}else{
+
+    Control_stand:setBodygroup(1,0)
+
+}
+
+if(changed(Horn))
+{
+    soundPlay("horn",0,"_jazzlok/switches/throttle_lever05.wav") 
+    soundStop("horn",0.5) 
+
+HornAng = HornAng + ( Horn - HornAng ) /  max( 2, 0 )  
+holoPos(1,Control_stand:toWorld(vec(HLeft_Right,HF_B,HHeight - (HornAng / 2) )))
+
+} 
+
+
+
+interval(100)

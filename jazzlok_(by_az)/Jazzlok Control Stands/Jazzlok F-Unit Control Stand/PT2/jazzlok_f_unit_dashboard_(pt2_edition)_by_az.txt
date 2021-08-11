@@ -1,0 +1,99 @@
+@name Jazzlok F Unit DashBoard (PT2 Edition) By AZ
+@inputs DashBoard:entity Notch MainRes EqualRes BrakePipe Cyl
+@outputs NotchPower MainAir EqualAir BrakeAir CyAir
+@persist MotorAng
+@trigger 
+
+#Model = models/jazzie/trains/locomotives/emd/cab/f_unit_dashboard.mdl
+#Get the jazzlok pack aka the person who makes props very  r e a l i s t i c .
+#Created 5/1/21 (Now 5/9/21)
+
+NeedleMul = 125.2 #How Far U Want The LoadMeter To Go #Full Throttle = 125.2 / Notch, Throttle = 100.2 
+Internum = 80 #Don't change this
+
+#Extras
+
+NotchPower = Notch
+
+E = DashBoard
+
+MR = MainRes
+ER = EqualRes
+BP = BrakePipe
+C = Cyl
+
+#Random \/
+MainAir = MR
+EqualAir = ER
+BrakeAir = BP 
+CyAir = C
+
+if(dupefinished()) #This Will Help You Lowerer Your 300 (Which I Used To Have) Ops To 100 Ops (I THINK) (+ Ur Ops Limit Is 111)
+{
+    reset()
+}
+
+#
+
+    A = 1
+    holoCreate(A)
+    holoParent(A,E)
+    holoMaterial(A,"wtp/paint_1")
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/ammeter_needle.mdl")
+    holoDisableShading(A,1)
+    holoPos(A,E:toWorld(vec(4.25,2.25,-1)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+    holoClipEnabled(A,1,1)
+    holoClip(A,1,vec(0,0,2.75),vec(0,0,1),0)
+
+
+interval(Internum)
+MotorAng = MotorAng + ( Notch*NeedleMul - MotorAng ) /  max( 10, 0 )
+holoAng(1,E:toWorld(ang(67-(MotorAng / 7.45),0,0)))
+
+
+#Right Gauge
+
+    A = 2
+    holoCreate(A)
+    holoColor(A,vec(255,0,0))
+    holoParent(A,E)
+    holoModel(A, "models/jazzie/trains/gauges/pointer_01.mdl")
+    holoDisableShading(A,1)
+    holoScale(A,vec(1.2))
+    holoPos(A,E:toWorld(vec(-4.65,0.2,-3.7)))
+    holoAng(A,E:toWorld(ang(-118.5+MainRes,180,-90)))
+    
+    A = 3
+    holoCreate(A)
+    holoColor(A,vec(255))
+    holoParent(A,E)
+    holoModel(A, "models/jazzie/trains/gauges/pointer_01.mdl")
+    holoDisableShading(A,1)
+    holoScale(A,vec(1.2))
+    holoPos(A,E:toWorld(vec(-4.65,0.3,-3.7)))
+    holoAng(A,E:toWorld(ang(-118.5+ER,180,-90)))
+
+#Left Gauge
+
+    A = 4
+    holoCreate(A)
+    holoColor(A,vec(255,0,0))
+    holoParent(A,E)
+    holoModel(A, "models/jazzie/trains/gauges/pointer_01.mdl")
+    holoDisableShading(A,1)
+    holoScale(A,vec(1.2))
+    holoPos(A,E:toWorld(vec(-11.75,0.2,-3.7)))
+    holoAng(A,E:toWorld(ang(-118.5+C,180,-90)))
+    
+    A = 5
+    holoCreate(A)
+    holoColor(A,vec(255))
+    holoParent(A,E)
+    holoModel(A, "models/jazzie/trains/gauges/pointer_01.mdl")
+    holoDisableShading(A,1)
+    holoScale(A,vec(1.2))
+    holoPos(A,E:toWorld(vec(-11.75,0.3,-3.7)))
+    holoAng(A,E:toWorld(ang(-118.5+BP,180,-90)))
+
+

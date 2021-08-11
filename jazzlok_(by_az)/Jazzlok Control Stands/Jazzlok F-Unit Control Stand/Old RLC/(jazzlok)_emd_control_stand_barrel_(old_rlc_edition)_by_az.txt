@@ -1,0 +1,108 @@
+@name (Jazzlok) EMD Control Stand Barrel (Old RLC Edition) By AZ
+@inputs Barrel:entity MU_Master Reverser Notch Dynamics
+@outputs CONSTRAINT
+@persist 
+@trigger 
+
+#Wire Model To models/jazzie/trains/locomotives/emd/cab/barrel_control_stand_base.mdl
+
+    E = Barrel
+
+    A=1
+    holoCreate(A)
+    holoColor(A,vec(255))
+    holoParent(A,E)
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/barrel_control_stand_reverser.mdl")
+    #holoDisableShading(A,1)
+    holoScale(A,vec(1))
+    holoPos(A,E:toWorld(vec(0,0,-6.1)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+    
+
+    A=2
+    holoCreate(A)
+    holoColor(A,vec(255))
+    holoParent(A,E)
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/barrel_control_stand_throttle.mdl")
+    #holoDisableShading(A,1)
+    holoScale(A,vec(1))
+    holoPos(A,E:toWorld(vec(-1.2,-2.5,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+    
+    A=3
+    holoCreate(A)
+    holoColor(A,vec(255))
+    holoParent(A,E)
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/barrel_control_stand_throttle.mdl")
+    holoScale(A,vec(1))
+    holoPos(A,E:toWorld(vec(-1.2,2.5,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+#Angles
+
+ReverserAng = 10
+
+RA=Reverser*ReverserAng
+
+holoAng(1,E:toWorld(ang(0,RA,0)))
+
+NotchAng = 10.5
+
+NA=Notch*NotchAng
+
+holoAng(2,E:toWorld(ang(0,-84+NA,0)))
+
+#Part 2
+
+DynamicAng = -77
+
+DA=Dynamics*DynamicAng
+
+holoAng(3,E:toWorld(ang(0,-103+DA,0)))
+
+#End Of Angles
+
+#Sounds
+
+if(changed(Notch)){
+ 
+Barrel:soundPlay("notch",0,"_jazzlok/switches/barrel_notch.wav")
+soundStop("notch",0.4)
+   
+}
+
+if(changed(Reverser)){
+ 
+Barrel:soundPlay("notch",0,"_jazzlok/switches/switch_heavy_01.wav")
+soundStop("notch",0.5)
+   
+}
+
+if(changed(Dynamics)){
+    
+Barrel:soundPlay("dynamics",0,"_jazzlok/switches/switch_heavy_01.wav")
+soundStop("dynamics",0.5)    
+
+}
+
+#Ending Of Sounds
+
+#HoloAlpha's 
+
+if(MU_Master){
+
+holoAlpha(1,255)
+
+}else{
+
+holoAlpha(1,0)
+
+}
+
+#End Of HA's
+
+#Extras
+
+CONSTRAINT = 1
+
+#interval(100)

@@ -1,0 +1,91 @@
+@name Jazzlok GP7 Stand (PT2 & By AZ)
+@inputs Stand_gp7:entity
+@outputs 
+@persist E:entity
+@trigger 
+
+#Started At 5:25 - 7:06
+#Time: PM UTC-3 7/19/21
+
+#Lables1#
+
+E = Stand_gp7
+
+FirstDupeCode = first()|dupefinished()
+
+FirstDupeCode2 = first()|duped()
+
+#########
+
+#
+
+#Lables2#
+
+
+
+##Stand##
+
+StandModel = "models/jazzie/trains/locomotives/emd/cab/control_stand_gp7.mdl"
+StandColor = vec(255)
+
+Height = 44
+StandPos = vec(6.03,5.25#[5.75]#,Height)
+StandAng = ang(0,180,0)
+
+StandSubMat1 = "models/magtrainslocos/cabmetal_seafoam"
+
+#########
+
+#
+
+#ControlBase#
+
+ControlModel = "models/jazzie/trains/locomotives/emd/cab/barrel_control_stand.mdl"
+ControlColor = vec(255)
+
+Height = 44
+ControlPos = vec(-20,10,Height)
+ControlAng = ang(0,-135,0)
+
+ControlSubMat1 = "models/magtrainslocos/cabmetal_seafoam"
+
+#############
+
+
+
+
+
+
+
+
+#########
+
+    A = 0
+    holoCreate(A)
+    holoParent(A,E)
+    holoScale(A,vec(1))
+    holoColor(A,StandColor)
+    holoModel(A,StandModel)
+    holoPos(A,E:toWorld(StandPos))
+    holoAng(A,E:toWorld(StandAng))
+    #holoBodygroup(0,1,TruckType)
+    #holoBodygroup(0,2,TruckBearingType)
+    #holoSkin(A,BogeySkin)
+    #holoEntity(A):setSubMaterial(1,BogeyWheelsSubMat)
+    holoEntity(A):setSubMaterial(3,StandSubMat1)
+
+#
+
+    A = 1
+    holoCreate(A)
+    holoParent(A,E)
+    holoScale(A,vec(1))
+    holoColor(A,ControlColor)
+    holoModel(A,ControlModel)
+    holoPos(A,E:toWorld(ControlPos))
+    holoAng(A,E:toWorld(ControlAng))
+    #holoBodygroup(0,1,TruckType)
+    #holoBodygroup(0,2,TruckBearingType)
+    #holoSkin(A,BogeySkin)
+    #holoEntity(A):setSubMaterial(1,BogeyWheelsSubMat)
+    holoEntity(A):setSubMaterial(3,ControlSubMat1)

@@ -1,0 +1,454 @@
+@name Jazzlok EMD Control Stand GP-28-35-38 By AZ (Old RLC Edition)
+@inputs Control_stand:entity FBogey:entity BBogey:entity MU_Master Horn Reverser Notch Dynamics F_Light Brake Bell
+@outputs R Braked RGB:vector F_Light_On CONSTAINT BellToggle
+@persist 
+#@model models/jazzie/trains/locomotives/emd/cab/gp28-35-38_control_stand.mdl
+
+#Horn Position
+
+HLeft_Right = -16.38 # "-" = Left, Without "-" = Right
+HF_B = -6.93 # "-" = Forward / Close To You, Without "-" = BackWards
+HHeight = 9.5 # "-" = Down, Without "-" = Up
+
+#Loco Brake Position 
+
+LBLeft_Right = -22.30 # "-" = Left, Without "-" = Right
+LBF_B = -9.2 # "-" = Forward / Close To You, Without "-" = BackWards
+LBHeight = -0.9 # "-" = Down, Without "-" = Up
+
+#AirBrake Position
+
+ABLeft_Right = -22.30 # "-" = Left, Without "-" = Right
+ABF_B = -9.2 # "-" = Forward / Close To You, Without "-" = BackWards
+ABHeight = 9.4 # "-" = Down, Without "-" = Up
+
+#Transition Lever Position
+
+TLLeft_Right = 6.2
+TLF_B = -2.7
+TLHeight = 4.8 
+
+#Throttle Lever Position
+
+TL2Left_Right = 0
+TL2F_B = -1.1
+TL2Height = 0 
+
+#Dynamic's Position
+
+DLeft_Right = 6.3
+DF_B = 0
+DHeight = -4.7 
+
+
+#E = entity()
+
+
+
+
+if(first() | dupefinished())
+{
+timer("spawn",1) 
+
+#1000 = 2 seconds 
+#2000 = 3 seconds 
+#3000 = 4 or 3.9 seconds
+
+}
+
+E = Control_stand
+
+if(clk("spawn"))
+{  
+
+Control_stand:setSubMaterial(1,"models/proppertextures/enamel_black") #Stand
+Control_stand:setSubMaterial(3,"models/proppertextures/enamel_black") #Stand
+Control_stand:setSubMaterial(4,"models/proppertextures/enamel_black") #Stand
+
+
+
+
+
+    A = 1
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/horn_bell_lever01.mdl")
+    holoPos(A,Control_stand:toWorld(vec(HLeft_Right,HF_B,HHeight)))
+    holoAng(A,Control_stand:toWorld(ang(0,0,0)))
+
+    A = 2
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_inde_brake_lever.mdl")
+    holoPos(A,Control_stand:toWorld(vec(LBLeft_Right,LBF_B,LBHeight)))
+    holoAng(A,Control_stand:toWorld(ang(0,100,0)))
+
+    A = 3
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_auto_brake_lever.mdl")
+    holoPos(A,Control_stand:toWorld(vec(ABLeft_Right,ABF_B,ABHeight)))
+    holoAng(A,Control_stand:toWorld(ang(0,0,0)))
+
+    A = 4
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_transition_lever.mdl")
+    holoPos(A,Control_stand:toWorld(vec(TLLeft_Right,TLF_B,TLHeight)))
+    holoAng(A,Control_stand:toWorld(ang(0,0,0)))
+    holoEntity(A):setSubMaterial(1,"models/proppertextures/enamel_black")
+    holoEntity(A):setSubMaterial(2,"models/proppertextures/enamel_gray")
+
+    A = 5
+    holoCreate(A)
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/control_panel_switch1.mdl")
+    holoScale(A,vec(1))
+    holoPos(A,Control_stand:toWorld(vec(15.1,-4.5,-4))) #For Some Reason I Don't Use Left, Forward And Others On This Thing.
+    holoParent(A,Control_stand)
+    holoAng(A,Control_stand:toWorld(ang(0,0,90)))
+
+    A = 6
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_throttle_lever.mdl")
+    holoPos(A,Control_stand:toWorld(vec(TL2Left_Right,TL2F_B,TL2Height)))
+    holoAng(A,Control_stand:toWorld(ang(0,0,0)))
+    holoEntity(A):setSubMaterial(2,"models/proppertextures/enamel_black")
+    holoEntity(A):setSubMaterial(1,"models/proppertextures/enamel_gray")
+
+    A = 7
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_throttle_lever.mdl")
+    holoPos(A,Control_stand:toWorld(vec(DLeft_Right,DF_B,DHeight)))
+    holoAng(A,Control_stand:toWorld(ang(0,0,0)))
+    holoEntity(A):setSubMaterial(2,"models/proppertextures/enamel_black")
+    holoEntity(A):setSubMaterial(1,"models/proppertextures/enamel_gray")
+
+#Notch & Dynamic Wheel
+
+    A = 8
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/number_wheel_throttle.mdl")
+    holoScale(A,vec(0.1))
+    holoPos(A,Control_stand:toWorld(vec(-4.8,-2.81,8.46)))
+    holoAng(A,Control_stand:toWorld(ang(0,253,0)))
+
+    A = 9
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/number_wheel_throttle.mdl")
+    holoScale(A,vec(0.1))
+    holoPos(A,Control_stand:toWorld(vec(-4.8,-2.78,7.60)))
+    holoAng(A,Control_stand:toWorld(ang(0,253,0)))
+
+#Left Gauge
+
+    A = 10
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A,"models/jazzie/trains/gauges/pointer_01.mdl")
+    holoScale(A,vec(1))
+    holoPos(A,Control_stand:toWorld(vec(-9.1,1.76,14.99)))
+    holoAng(A,Control_stand:toWorld(ang(62,0,90)))
+
+    A = 11
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255,0,0))
+    holoModel(A,"models/jazzie/trains/gauges/pointer_01.mdl")
+    holoScale(A,vec(1))
+    holoPos(A,Control_stand:toWorld(vec(-9.1,1.9,15)))
+    holoAng(A,Control_stand:toWorld(ang(62,0,90)))
+
+#Right Gauge
+
+    A = 12
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A,"models/jazzie/trains/gauges/pointer_01.mdl")
+    holoScale(A,vec(1))
+    holoPos(A,Control_stand:toWorld(vec(-1.9,1.76,14.99)))
+    holoAng(A,Control_stand:toWorld(ang(62,0,90)))
+
+    A = 13
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255,0,0))
+    holoModel(A,"models/jazzie/trains/gauges/pointer_01.mdl")
+    holoScale(A,vec(1))
+    holoPos(A,Control_stand:toWorld(vec(-1.9,1.9,15)))
+    holoAng(A,Control_stand:toWorld(ang(62,0,90)))
+
+#LoadMeter
+
+    A = 14
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A,"models/jazzie/trains/gauges/pointer_02.mdl")
+    holoScale(A,vec(0.83,1,1))
+    holoPos(A,Control_stand:toWorld(vec(0,0,0)))
+    holoAng(A,Control_stand:toWorld(ang(0,0,0)))
+
+#"Push Buttons"
+
+    A = 15
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A,"models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_sander_switch.mdl")
+    holoScale(A,vec(1))
+    holoPos(A,Control_stand:toWorld(vec(-15.8,-5.8,0.5)))
+    holoAng(A,Control_stand:toWorld(ang(0,0,0)))
+
+    A = 16
+    holoCreate(A)
+    holoParent(A,Control_stand)
+    holoColor(A,vec(255))
+    holoModel(A,"models/jazzie/trains/locomotives/emd/cab/bell_switch.mdl")
+    holoScale(A,vec(1))
+    holoPos(A,Control_stand:toWorld(vec(-15.8,-5.8,-5.64)))
+    holoAng(A,Control_stand:toWorld(ang(0,0,0)))
+
+
+}
+
+
+
+#########################################################################################
+
+if(changed(Horn))
+{
+    Control_stand:soundPlay("horn",0,"_jazzlok/switches/throttle_lever05.wav") 
+    soundStop("horn",0.5) 
+}
+
+if(Horn){
+
+holoAng(1,Control_stand:toWorld(ang(0,0,30)))
+
+R = 1
+
+}else{
+
+holoAng(1,Control_stand:toWorld(ang(0,0,0)))
+
+R = 0
+
+}
+
+#########################################################################################
+
+if(Brake){
+
+holoAng(3,Control_stand:toWorld(ang(0,80,0)))
+
+Braked = 1
+
+}else{
+
+holoAng(3,Control_stand:toWorld(ang(0,-50,0)))
+
+Braked = 0
+
+}
+
+if(changed(Brake))
+{
+    Control_stand:soundPlay("brake",0,"_jazzlok/switches/valve_02.wav") 
+    soundStop("brake",0.5) 
+}
+
+#########################################################################################
+
+if(Brake){
+    
+    PP = "wood" 
+    FBogey:propPhysicalMaterial(PP)
+    BBogey:propPhysicalMaterial(PP)
+
+}else{
+
+    PP = "gmod_ice" #Super Ice
+    FBogey:propPhysicalMaterial(PP)
+    BBogey:propPhysicalMaterial(PP)
+
+}
+
+#########################################################################################
+
+if(F_Light){
+holoAng(5,Control_stand:toWorld(ang(-90,0,90)))
+RGB=vec(255)
+F_Light_On = 1
+
+}else{
+holoAng(5,Control_stand:toWorld(ang(180,0,90)))
+RGB=vec(0)
+F_Light_On = 0
+}
+
+if(changed(F_Light))
+{
+    Control_stand:soundPlay("f_light",0,"_jazzlok/switches/rotary_switch.wav") 
+    soundStop("f_light",0.4) 
+}
+
+
+#########################################################################################
+
+CONSTAINT = 1
+
+#########################################################################################
+
+  ReverserAng = 14
+
+  RA=Reverser*ReverserAng
+
+  holoAng(4,Control_stand:toWorld(ang(0,RA,0)))  
+    
+  if(changed(Reverser))
+{  
+    
+  Control_stand:soundPlay("reverser",0,"_jazzlok/switches/selector_action.wav") 
+  soundStop("reverser",0.4)
+ 
+}
+
+#########################################################################################
+
+if(changed(Notch))
+{  
+    
+  Control_stand:soundPlay("notch",0,"_jazzlok/switches/throttle_lever03.wav") 
+  soundStop("notch",0.2)
+ 
+}
+  
+  NotchAng = -8.8
+  NotchAng2 = 35
+  NotchWheelAng = -35
+  LoadMeterAng = -8.6
+  LoadMeterPos1 = -0.03
+  LoadMeterPos3 = 0.01
+
+  NA=Notch*NotchAng 
+  NA2 = NotchAng2
+  NWA=Notch*NotchWheelAng
+  LMA=Notch*LoadMeterAng
+  LMP3=Notch*LoadMeterPos3
+  LMP1=Notch*LoadMeterPos1
+
+  holoAng(6,Control_stand:toWorld(ang(0,NA+NA2,0)))
+  holoAng(8,Control_stand:toWorld(ang(0,NWA+254.3,0)))
+  holoAng(14,Control_stand:toWorld(ang(LMA+128,0,90)))
+  holoPos(14,Control_stand:toWorld(vec(LMP1+10,1.9,LMP3+18)))
+
+#########################################################################################        
+        
+if(changed(Dynamics))
+{  
+    
+  Control_stand:soundPlay("dynamics",0,"_jazzlok/switches/throttle_lever03.wav") 
+  soundStop("dynamics",0.2)
+ 
+}
+  
+  DynamicAng = -60
+  DynamicAng2 = 35
+  DynamicWheelAng = -78.1  
+  OffDynamicWheelAng = 293.6
+
+  DA=Dynamics*DynamicAng 
+  DA2 = DynamicAng2
+  DWA=Dynamics*DynamicWheelAng
+
+  holoAng(7,Control_stand:toWorld(ang(0,DA+DA2,0)))        
+
+  holoAng(9,Control_stand:toWorld(ang(0,DWA+OffDynamicWheelAng,0)))
+        
+if(Dynamics){
+    
+    Control_stand:setBodygroup(8,Dynamics)
+    
+}else{
+
+    Control_stand:setBodygroup(8,0)
+
+}
+        
+
+        
+
+        
+#########################################################################################        
+        
+if(MU_Master){
+
+holoAlpha(4,255)        
+E:setBodygroup(1,MU_Master)
+E:setBodygroup(2,MU_Master)
+E:setBodygroup(3,MU_Master)
+E:setBodygroup(4,MU_Master)
+~Notch
+~Reverser
+~Dynamics
+~Brake
+
+#~
+
+}else{
+
+holoAlpha(4,0)
+E:setBodygroup(1,0)
+E:setBodygroup(2,0)
+E:setBodygroup(3,0)
+E:setBodygroup(4,0)
+!Notch
+!Reverser
+!Dynamics
+!Brake
+
+#!
+
+}        
+#########################################################################################        
+        
+if(Bell){
+
+if(BellToggle){
+
+   BellToggle=0
+
+}else{
+
+   BellToggle=1
+}
+ #Toggled Out End
+
+} #Toggled In End
+        
+#########################################################################################
+        
+#Finished At 10:47PM EST 5/14/21
+        
+        
+        
+        
+                                                                                                                                                                                                                                                        if(Control_stand:model()== "models/jazzie/trains/locomotives/emd/cab/gp28-35-38_control_stand.mdl"){
+
+                                                                                                                                                                                                                                                          }else{
+                                                                                                                                                                                                                                                              error("Wrong model!")
+                                                                                                                                                                                                                                                          }

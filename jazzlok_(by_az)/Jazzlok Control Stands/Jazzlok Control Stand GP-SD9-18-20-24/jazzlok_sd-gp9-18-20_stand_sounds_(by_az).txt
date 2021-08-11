@@ -1,0 +1,131 @@
+@name Jazzlok SD-GP9-18-20 Stand Sounds (By AZ)
+@inputs Stand:entity Sounds:array
+@outputs 
+@persist 
+@trigger 
+
+E = Stand
+
+#Started At 11:12PM - 11:35PM EST 6/9/21 # 5:24PM - 12:06AM EST 6/10 (11)/21
+
+
+LocoBrake  = Sounds[1,number]
+
+AirBrake   =  Sounds[2,number]
+
+Reverser   =  Sounds[3,number]
+
+Notch      = Sounds[4,number]
+
+Dynamics   = Sounds[5,number]
+
+Bell       = Sounds[6,number]
+
+#          = Sounds[7,number]
+
+if(changed(LocoBrake == 60)){
+
+E:soundPlay("lbrakeon",0,"_jazzlok/brakes/air_brake_quick_2.wav")
+soundStop("lbrakeoff")
+
+}elseif(changed(LocoBrake == 59)){
+
+soundStop("lbrakeoff")
+soundStop("lbrakeon")
+
+}elseif(changed(LocoBrake == 58)){
+
+soundStop("lbrakeoff")
+soundStop("lbrakeon")
+
+}elseif(changed(LocoBrake == 57)){
+
+soundStop("lbrakeoff")
+soundStop("lbrakeon")
+
+}elseif(changed(LocoBrake == 56)){
+
+soundStop("lbrakeoff")
+soundStop("lbrakeon")
+
+}elseif(changed(LocoBrake == 55)){
+
+soundStop("lbrakeoff")
+soundStop("lbrakeon")
+
+}elseif(changed(LocoBrake == 10)){
+
+soundStop("lbrakeoff")
+soundStop("lbrakeon")
+
+}elseif(changed(LocoBrake == 5)){
+
+soundStop("lbrakeoff")
+soundStop("lbrakeon")
+
+}elseif(changed(LocoBrake == 4)){
+
+soundStop("lbrakeoff")
+soundStop("lbrakeon")
+
+}elseif(changed(LocoBrake == 3)){
+
+soundStop("lbrakeoff")
+soundStop("lbrakeon")
+
+}elseif(changed(LocoBrake == 2)){
+
+soundStop("lbrakeoff")
+soundStop("lbrakeon")
+
+}elseif(changed(LocoBrake == 1)){
+
+soundStop("lbrakeoff")
+soundStop("lbrakeon")
+
+}elseif(changed(LocoBrake == 0)){
+
+E:soundPlay("lbrakeoff",0,"_jazzlok/brakes/air_brake_release_2.wav")
+soundStop("lbrakeon")
+
+}
+
+#
+
+if(changed(AirBrake)){
+
+E:soundPlay("abrake",0,"_jazzlok/switches/valve_02.wav")
+soundStop("abrake",0.5)
+    
+}
+
+#
+
+if(changed(Reverser)){
+    
+E:soundPlay("reverser",0,"_jazzlok/switches/selector_action.wav")
+soundStop("reverser",0.41)
+
+}
+
+#
+
+if(changed(Notch)){
+    
+E:soundPlay("notch",0,"_jazzlok/switches/throttle_lever03.wav")
+soundStop("notch",0.23)
+
+}
+
+#
+
+if(changed(Dynamics)){
+    
+E:soundPlay("dynamic",0,"_jazzlok/switches/throttle_lever03.wav")
+soundStop("dynamic",0.25)
+
+}
+
+
+
+

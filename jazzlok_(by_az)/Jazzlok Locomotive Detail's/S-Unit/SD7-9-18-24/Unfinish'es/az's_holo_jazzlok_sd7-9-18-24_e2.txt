@@ -1,0 +1,300 @@
+@name AZ'S Holo Jazzlok sd7-9-18-24 E2
+@inputs Sd7_24:entity Sd7_24_Doors:entity Sd7_24_Details:entity BogeyF:entity FCoupler BogeyB:entity BCoupler EngineDoors RearDoors LeftCabinetDoor
+@outputs EngineDoors_Out RearDoors_Out FCoupler_Out BCoupler_Out LeftCabinetDoor_Out
+@persist A 
+@trigger 
+
+SD24 = 0
+Dynamics = 1
+Hood = 1
+SmokeStack = 1
+
+noCollideAll(Sd7_24,1)
+
+if(SD24 == 0){
+holoCreate(1)
+holoPos(1,Sd7_24_Doors:toWorld(vec(0,0,0)))
+holoParent(1,Sd7_24_Doors)
+holoModel(1, "models/jazzie/trains/locomotives/emd/sd7-9-18-24/sd7-9-18-24_standard_eng_body_doors_closed_left.mdl")
+holoScale(1,vec(1))
+holoMaterial(1,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(1,Sd7_24_Doors:toWorld(ang(0.00,0.00,0.00)))
+
+holoCreate(2)
+holoPos(2,Sd7_24_Doors:toWorld(vec(0,0,0)))
+holoParent(2,Sd7_24_Doors)
+holoModel(2, "models/jazzie/trains/locomotives/emd/sd7-9-18-24/sd7-9-18-24_standard_eng_body_doors_open_left.mdl")
+holoScale(2,vec(1))
+holoMaterial(2,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(2,Sd7_24_Doors:toWorld(ang(0.00,0.00,0.00)))
+
+holoCreate(3)
+holoPos(3,Sd7_24:toWorld(vec(0,0,0)))
+holoParent(3,Sd7_24)
+holoModel(3, "models/jazzie/trains/locomotives/emd/sd7-9-18-24/sd7-9-18-24_standard_eng_body.mdl")
+holoScale(3,vec(1))
+holoMaterial(3,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(3,Sd7_24:toWorld(ang(0.00,0.00,0.00)))
+
+}elseif(SD24 == 1){
+holoCreate(1)
+holoPos(1,Sd7_24_Doors:toWorld(vec(0,0,0)))
+holoParent(1,Sd7_24_Doors)
+holoModel(1, "models/jazzie/trains/locomotives/emd/sd7-9-18-24/sd7-9-18-24_sd24_eng_body_doors_closed_left.mdl")
+holoScale(1,vec(1))
+holoMaterial(1,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(1,Sd7_24_Doors:toWorld(ang(0.00,0.00,0.00)))
+
+holoCreate(2)
+holoPos(2,Sd7_24_Doors:toWorld(vec(0,0,0)))
+holoParent(2,Sd7_24_Doors)
+holoModel(2, "models/jazzie/trains/locomotives/emd/sd7-9-18-24/sd7-9-18-24_sd24_eng_body_doors_open_left.mdl")
+holoScale(2,vec(1))
+holoMaterial(2,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(2,Sd7_24_Doors:toWorld(ang(0.00,0.00,0.00)))
+
+holoCreate(3)
+holoPos(3,Sd7_24:toWorld(vec(0,0,0)))
+holoParent(3,Sd7_24)
+holoModel(3, "models/jazzie/trains/locomotives/emd/sd7-9-18-24/sd7-9-18-24_sd24_body.mdl")
+holoScale(3,vec(1))
+holoMaterial(3,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(3,Sd7_24:toWorld(ang(0.00,0.00,0.00)))
+}
+
+holoCreate(5)
+holoPos(5,Sd7_24:toWorld(vec(0,0,0)))
+holoParent(5,Sd7_24)
+holoModel(5, "models/jazzie/trains/locomotives/emd/sd7-9-18-24/sd7-9-18-24_dynamics.mdl")
+holoScale(5,vec(1))
+holoMaterial(5,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(5,Sd7_24:toWorld(ang(0.00,0.00,0.00)))
+holoAlpha(5,0)
+
+if(Dynamics == 1){
+holoAlpha(5,255)
+}else{
+holoAlpha(5,0)
+}
+
+if(EngineDoors){
+EngineDoors_Out = 1
+holoAlpha(2,255)
+holoAlpha(1,0)
+}else{
+EngineDoors_Out = 0
+holoAlpha(1,255)
+holoAlpha(2,0)
+}
+
+if(SmokeStack == 1){
+holoCreate(6)
+holoPos(6,Sd7_24:toWorld(vec(0,0,0)))
+holoParent(6,Sd7_24)
+holoModel(6, "models/jazzie/trains/locomotives/emd/sd7-9-18-24/sd7-9-18-24_singlel_smokestack.mdl")
+holoScale(6,vec(1))
+holoMaterial(6,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(6,Sd7_24:toWorld(ang(0.00,0.00,0.00)))
+holoAlpha(17,0)
+}
+
+holoCreate(7)
+holoPos(7,Sd7_24_Details:toWorld(vec(0,0,0)))
+holoParent(7,Sd7_24_Details)
+holoModel(7, "models/jazzie/trains/locomotives/emd/sd7-9-18-24/sd7-9-18-24_roof_air_tanks.mdl")
+holoScale(7,vec(1))
+holoMaterial(7,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(7,Sd7_24_Details:toWorld(ang(0.00,0.00,0.00)))
+
+holoCreate(8)
+holoPos(8,Sd7_24_Details:toWorld(vec(0,0,0)))
+holoParent(8,Sd7_24_Details)
+holoModel(8, "models/jazzie/trains/locomotives/emd/sd7-9-18-24/sd7-9-18-24_air_tanks_under.mdl")
+holoScale(8,vec(1))
+holoMaterial(8,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(8,Sd7_24_Details:toWorld(ang(0,0,0)))
+
+holoCreate(9)
+holoPos(9,Sd7_24:toWorld(vec(0,0,0)))
+holoParent(9,Sd7_24)
+holoModel(9, "models/jazzie/trains/locomotives/emd/sd7-9-18-24/sd7-9-18-24_rear_body.mdl")
+holoScale(9,vec(1))
+holoMaterial(9,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(9,Sd7_24:toWorld(ang(0,0,0)))
+
+
+if(Hood == 1){
+holoCreate(10)
+holoPos(10,Sd7_24:toWorld(vec(0,0,0)))
+holoParent(10,Sd7_24)
+holoModel(10, "models/jazzie/trains/locomotives/emd/sd7-9-18-24/sd7-9-18-24_lowhood.mdl")
+holoScale(10,vec(1))
+holoMaterial(10,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(10,Sd7_24:toWorld(ang(0,0,0)))
+}elseif(Hood == 2){
+holoCreate(11)
+holoPos(11,Sd7_24:toWorld(vec(0,0,0)))
+holoParent(11,Sd7_24)
+holoModel(11, "models/jazzie/trains/locomotives/emd/sd7-9-18-24/sd7-9-18-24_highhood.mdl")
+holoScale(11,vec(1))
+holoMaterial(11,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(11,Sd7_24:toWorld(ang(0,0,0)))
+}
+
+holoCreate(12)
+holoPos(12,Sd7_24_Doors:toWorld(vec(0,0,0)))
+holoParent(12,Sd7_24_Doors)
+holoModel(12, "models/jazzie/trains/locomotives/emd/sd7-9-18-24/sd7-9-18-24_rear_body_doors_closed_left.mdl")
+holoScale(12,vec(1))
+holoMaterial(12,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(12,Sd7_24_Doors:toWorld(ang(0,0,0)))
+
+holoCreate(13)
+holoPos(13,Sd7_24_Doors:toWorld(vec(0,0,0)))
+holoParent(13,Sd7_24_Doors)
+holoModel(13, "models/jazzie/trains/locomotives/emd/sd7-9-18-24/sd7-9-18-24_rear_body_doors_open_left.mdl")
+holoScale(13,vec(1))
+holoMaterial(13,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(13,Sd7_24_Doors:toWorld(ang(0,0,0)))
+
+if(RearDoors){
+RearDoors_Out = 1
+holoAlpha(12,0)
+holoAlpha(13,255)
+}else{
+holoAlpha(12,255)
+holoAlpha(13,0)
+RearDoors_Out = 0
+}
+
+holoCreate(14)
+holoPos(14,Sd7_24:toWorld(vec(0,0,0)))
+holoParent(14,Sd7_24)
+holoModel(14, "models/jazzie/trains/locomotives/emd/sd7-9-18-24/emd_567c_rootsblower.mdl")
+holoScale(14,vec(1))
+holoMaterial(14,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(14,Sd7_24:toWorld(ang(0,0,0)))
+
+
+
+
+
+BogeyF:propPhysicalMaterial("gmod_ice")
+BogeyF:setColor(255,255,255)
+BogeyF:setSubMaterial(0,"models/proppertextures/enamel_black")
+BogeyF:setSubMaterial(5,"models/proppertextures/enamel_black")
+holoCreate(15)
+holoPos(15,BogeyF:toWorld(vec(-4,-170,41)))
+holoParent(15,BogeyF)
+holoModel(15, "models/gsgtrainprops/parts/couplers/type_e_coupler.mdl")
+holoScale(15,vec(1))
+holoMaterial(15,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(15,BogeyF:toWorld(ang(0,-90,0)))
+
+if(FCoupler){
+FCoupler_Out = 1   
+holoBodygroup(15,1,1) 
+
+}else{
+FCoupler_Out = 0   
+holoBodygroup(15,1,0) 
+
+}
+
+BogeyB:propPhysicalMaterial("gmod_ice")
+BogeyB:setColor(255,255,255)
+BogeyB:setSubMaterial(0,"models/proppertextures/enamel_black")
+BogeyB:setSubMaterial(5,"models/proppertextures/enamel_black")
+
+holoCreate(16)
+holoPos(16,Sd7_24_Details:toWorld(vec(0,0,0)))
+holoParent(16,Sd7_24_Details)
+holoModel(16, "models/jazzie/trains/locomotives/emd/sd7-9-18-24/sd7-9-18-24_roof_cooling.mdl")
+holoScale(16,vec(1))
+holoMaterial(16,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(16,Sd7_24_Details:toWorld(ang(0.00,0.00,0.00)))
+
+if(SmokeStack == 2){
+holoCreate(17)
+holoPos(17,Sd7_24_Details:toWorld(vec(0,0,0)))
+holoParent(17,Sd7_24_Details)
+holoModel(17, "models/jazzie/trains/locomotives/emd/sd7-9-18-24/sd7-9-18-24_dual_smokestack.mdl")
+holoScale(17,vec(1))
+holoMaterial(17,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(17,Sd7_24_Details:toWorld(ang(0.00,0.00,0.00)))
+holoAlpha(6,0)
+}
+
+if(SmokeStack == 0){
+holoAlpha(6,0)
+holoAlpha(17,0)
+}
+
+holoCreate(18)
+holoPos(18,Sd7_24_Doors:toWorld(vec(0,180,30)))
+holoParent(18,Sd7_24_Doors)
+holoModel(18, "models/jazzie/trains/locomotives/emd/gp28-35/cabinet_door.mdl")
+holoScale(18,vec(1))
+holoMaterial(18,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+holoAng(18,Sd7_24_Doors:toWorld(ang(0.00,0.00,0.00)))
+
+if(LeftCabinetDoor){
+LeftCabinetDoor_Out = 1
+holoAng(18,Sd7_24_Doors:toWorld(ang(0.00,-40,0.00)))
+
+}
+
+
+
+
+
+
+#holoCreate(A)
+#holoPos(A,Entity:toWorld(vec(-372.33,17.48,1.1)))
+#holoParent(A,Entity)
+#holoModel(A, "models/gsgtrainprops/parts/headlights/pyle_large_single.mdl")
+#holoScale(A,vec(1))
+#holoMaterial(A,"")
+#entity():setSubMaterial(1,"")
+#entity():setBodygroup(1,0)
+#holoAng(A,Entity:toWorld(ang(0.00,180.00,0.00)))

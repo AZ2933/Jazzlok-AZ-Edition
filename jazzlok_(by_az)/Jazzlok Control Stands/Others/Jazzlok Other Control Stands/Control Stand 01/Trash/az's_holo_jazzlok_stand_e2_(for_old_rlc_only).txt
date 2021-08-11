@@ -1,0 +1,142 @@
+@name AZ'S Holo Jazzlok Stand E2 (For Old RLC Only)
+@inputs Gp28_35_38_control_stand:entity MU_Master Load Reverser Notch HDLT Brake Horn
+@outputs CONSTANT RGB:vector HDLT_On MU_Master Braked
+@persist MaxRevang A MaxNotchang LoadMeter
+@trigger 
+
+#12:59 PM EST 2/21/21
+#0:00 PM EST 2/00/21
+
+#holoPos(3,Gp28_35_38_control_stand:toWorld(vec(-Left, Right,-Forwards, Backwards,Up, -Down)))
+
+
+if( first() | duped() ){
+    
+MaxRevang=24 #maximum angle of the lever    
+MaxNotchang = 0
+LoadMeter = -8.82
+}
+
+holoAlpha(1,0)
+ 
+if(MU_Master){
+   
+A=1
+holoCreate(1)
+holoModel(1, "models/jazzie/trains/locomotives/emd/cab/selector_reverser_lever01.mdl")
+holoScale(1,vec(1))
+holoPos(1,Gp28_35_38_control_stand:toWorld(vec(6.3,-2,4.8)))
+holoColor(1,vec(0))
+holoParent(1, Gp28_35_38_control_stand)
+#holoMaterial(1,"wtp/metal_2")
+holoAng(1,Gp28_35_38_control_stand:toWorld(ang(0,0,0)))
+
+holoAlpha(1,255)
+MU_Master = 1
+
+}else{
+
+holoAlpha(1,0)
+MU_Master = 0
+
+}
+
+
+
+A=2
+holoCreate(2)
+holoModel(2, "models/jazzie/trains/locomotives/emd/cab/control_panel_switch1.mdl")
+holoScale(2,vec(1))
+holoPos(2,Gp28_35_38_control_stand:toWorld(vec(15.1,-4.5,-4)))
+holoColor(2,vec(0))
+holoParent(2, Gp28_35_38_control_stand)
+#holoMaterial(1,"wtp/metal_2")
+holoAng(2,Gp28_35_38_control_stand:toWorld(ang(180,0,90)))
+
+
+
+AngThing=Reverser*MaxRevang
+LoadAng=Load*LoadMeter
+
+holoAng(1,Gp28_35_38_control_stand:toWorld(ang(0,AngThing,0)))
+
+
+CONSTANT = 1
+
+if(HDLT){
+holoAng(2,Gp28_35_38_control_stand:toWorld(ang(0,0,90)))
+RGB=vec(255)
+HDLT_On = 1
+
+}else{
+holoAng(2,Gp28_35_38_control_stand:toWorld(ang(180,0,90)))
+RGB=vec(0)
+HDLT_On = 0
+}
+
+
+
+A=3
+holoCreate(3)
+holoModel(3, "models/jazzie/trains/locomotives/emd/cab/horn_bell_lever01.mdl")
+holoScale(3,vec(1))
+holoPos(3,Gp28_35_38_control_stand:toWorld(vec(-16.4,-7,9.5)))
+#holoColor(3,vec(255))
+holoParent(3, Gp28_35_38_control_stand)
+#holoMaterial(1,"wtp/metal_2")
+holoAng(3,Gp28_35_38_control_stand:toWorld(ang(0,0,0)))
+
+A=4
+holoCreate(4)
+holoModel(4, "models/jazzie/trains/locomotives/emd/cab/autobrake_lever01.mdl")
+holoScale(4,vec(1))
+holoPos(4,Gp28_35_38_control_stand:toWorld(vec(-22.4,-9,9.5)))
+#holoColor(4,vec(255))
+holoParent(4, Gp28_35_38_control_stand)
+holoAng(4,Gp28_35_38_control_stand:toWorld(ang(0,0,0)))
+
+A=5
+holoCreate(5)
+holoModel(5, "models/jazzie/trains/locomotives/emd/cab/ammeter_needle.mdl")
+holoScale(5,vec(1))
+holoPos(5,Gp28_35_38_control_stand:toWorld(vec(9.9,3.5,18.2)))
+#holoColor(5,vec(255))
+holoParent(5, Gp28_35_38_control_stand)
+holoAng(5,Gp28_35_38_control_stand:toWorld(ang(-140 + LoadAng,0,0)))
+
+
+
+if(Horn){
+    
+holoAng(3,Gp28_35_38_control_stand:toWorld(ang(0,0,30)))
+
+
+}else{
+
+
+
+
+}
+
+
+if(Brake){
+
+
+Braked = 1 
+holoAng(4,Gp28_35_38_control_stand:toWorld(ang(0,98,0)))
+
+}else{
+
+Braked = 0
+holoAng(4,Gp28_35_38_control_stand:toWorld(ang(0,-64,0)))
+
+}
+
+
+
+
+
+
+
+
+

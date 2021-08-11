@@ -1,0 +1,30 @@
+@name Jazzlok F Unit Stand Array Info's (By AZ, Part 2)
+@inputs #[CtlTable:table]# SoundInfo:array SoundEnt:entity 
+@outputs AngleInfo:array 
+@persist  
+#@trigger 
+
+#LocoBrake Info
+
+AngleInfo[1,number] = 96.1 #LocoBrakeStart
+AngleInfo[2,number] = 2.06 #LocoBrakeEnd
+
+############################################
+
+#AirBrake Info
+
+AngleInfo[3,number] = -100 #AirBrakeStart
+AngleInfo[4,number] = 18.5 #AirBrakeEnd
+
+AirBrake = SoundInfo[1,number]
+
+############################################
+
+#Sound Info
+
+if(changed(AirBrake)){
+
+    SoundEnt:soundPlay("airbrake",0,"_jazzlok/switches/valve_01.wav")
+    soundStop("airbrake",0.2)
+
+}

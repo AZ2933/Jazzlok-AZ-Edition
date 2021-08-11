@@ -1,0 +1,451 @@
+@name Jazzlok Sw7 - 1200 E2 (By AZ)
+@inputs Sw7_8_9_900_1200:entity FrontHoodDoorsLeft HoodDoorsLeft FrontHoodDoorsRight HoodDoorsRight LeftCabDoor RearCabDoor CabinetDoor
+@outputs 
+@persist Cabinet_A
+@trigger 
+
+#I Realized How Confusing This Fucking Is So I Am Thinking About Remaking This So It Will Be More UnderStandable
+
+#Started At 11:03PM - 11:32 PM EST 5/11/21 - 10:00 PM 5/12/21 - 5/13/21 5:05PM
+#This Is Also The First Time That I Had More Holos Then Uhh.. "1's Place"
+
+#Wire Model models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200.mdl
+
+#Options
+
+Engine = 1      #0 = Nothing, 1 = V8, 2 = V12
+Hood = 1        #0 = Nothing, 1 = Low / NormalHood, 2 = High / UpHood
+RunOnTick = 0   #Will give you 600 - 800+ ops >_< It refreshes the e2 every time the tick happens on the server?
+SmokeStacks = 3 #1 = FrontStack, 2 = BackStack, 3 = BothStacks
+InterMul = 100  #Don't Touch This (Interval Code)
+
+#Engine Detail Models
+
+EngineModel1 = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_emd567_v8_engine.mdl"
+EngineModel2 = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_emd567_v12_engine.mdl"
+
+HoodModel1 = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_normalhood.mdl"
+HoodModel2 = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_uphood.mdl"
+
+SmokeStackModel1 = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_smokestack01.mdl"
+SmokeStackModel2 = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_smokestack02.mdl"
+
+#Engine Door Config
+
+FHNDCLM = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_fronthood_normal_doors_closed_left.mdl"
+FHNDOLM = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_fronthood_doors_open_left.mdl"
+
+HDCLM = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_hood_doors_closed_left.mdl"
+HDOLM = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_hood_doors_open_left.mdl"
+
+FHNDCRM = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_fronthood_normal_doors_closed_right.mdl"
+FHNDORM = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_fronthood_normal_doors_open_right.mdl"
+
+HDCRM = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_hood_doors_closed_right.mdl"
+HDORM = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_hood_doors_open_right.mdl"
+
+FHDORM = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_fronthood_doors_open_right.mdl"
+
+#Cab Doors
+
+LeftCabDoorOpenModel = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_cab_door_front_open.mdl"
+LeftCabDoorCloseModel = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_cab_door_front_closed.mdl"
+
+LeftCabRearDoorClosedModel = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_cab_door_rear_closed.mdl"
+LeftCabRearDoorOpenModel = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_cab_door_rear_open.mdl"
+
+CabinetDoorModel1 = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_right_cabinet_door.mdl"
+CabinetDoorModel2 = "models/jazzie/trains/locomotives/emd/sw7-8-9-900-1200/sw7-8-9-900-1200_cab_cabinet_door.mdl"
+
+#
+
+#UseLess? Options
+
+#Lables[
+
+#Holos
+E = Sw7_8_9_900_1200
+#Left Doors
+FrontHoodNormalDoorsClosedLeftModel = FHNDCLM
+HoodDoorsClosedLeftModel = HDCLM
+FrontHoodNormalDoorsOpenLeftModel = FHNDOLM
+HoodDoorsOpenLeftModel = HDOLM
+#Right Doors
+FrontHoodNormalDoorsClosedRightModel = FHNDCRM
+FrontHoodNormalDoorsOpenRightModel = FHNDORM
+HoodDoorsOpenRightModel = HDORM
+HoodDoorsClosedRightModel = HDCRM
+FrontHoodDoorsOpenRightModel = FHDORM
+
+#Wire
+FHDL = FrontHoodDoorsLeft
+ROT = RunOnTick
+FHDR = FrontHoodDoorsRight
+HDL = HoodDoorsLeft
+HDR = HoodDoorsRight
+LCD = LeftCabDoor
+RCD = RearCabDoor
+CD = CabinetDoor
+#Lables End
+
+if(first()|dupefinished()){
+
+    runOnTick(ROT)
+
+#Engine Details
+    
+    A = 1
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,EngineModel1)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A = 2
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,EngineModel2)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A = 3
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,HoodModel1)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A = 4
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,HoodModel2)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+#Left Doors
+
+    A = 5
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,FrontHoodNormalDoorsClosedLeftModel)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A = 6
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,HoodDoorsClosedLeftModel)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A = 7
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,FrontHoodNormalDoorsOpenLeftModel)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+    holoClip(A,1,vec(0,-198,0),vec(0,1,0),0)
+    holoClipEnabled(A,1,1)
+  
+    A = 8
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,HoodDoorsOpenLeftModel)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+    holoClip(A,1,vec(0,-64,0),vec(0,1,0),0)
+    holoClipEnabled(A,1,1)
+
+#Right Doors
+
+    A = 9
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,HoodDoorsOpenRightModel)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+    holoClip(A,1,vec(0,-64,0),vec(0,1,0),0)
+    holoClipEnabled(A,1,1)
+
+    A = 10
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,FrontHoodNormalDoorsOpenRightModel)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+    
+
+    A = 11
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,HoodDoorsClosedRightModel)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+    
+    A = 12
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,FrontHoodNormalDoorsClosedRightModel)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A = 13
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,FrontHoodDoorsOpenRightModel)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+#Cab Doors 1
+
+    A = 14
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,LeftCabDoorOpenModel)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A = 15
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,LeftCabDoorCloseModel)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+#SmokeStack
+
+    A = 16
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,SmokeStackModel1)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A = 17
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,SmokeStackModel2)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+#Cab Doors 2
+
+    A = 18
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,LeftCabRearDoorOpenModel)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A = 19
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,LeftCabRearDoorClosedModel)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+#Cab Details
+
+    A = 20
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,CabinetDoorModel1)
+    holoPos(A,E:toWorld(vec(-10,144.9,104)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+    holoScale(A,vec(1.38,1,1))
+    
+    A = 21
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,CabinetDoorModel2)
+    holoPos(A,E:toWorld(vec(34,144.9,104)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+    
+
+}
+
+
+#HoloAlpha Coding
+
+
+
+#Engine
+
+if(Engine == 0){
+    
+    holoAlpha(1,0)
+    holoAlpha(2,0)
+
+}elseif(Engine == 1){
+
+    holoAlpha(1,255)
+    holoAlpha(2,0)
+
+}elseif(Engine == 2){
+
+    holoAlpha(1,0)
+    holoAlpha(2,255)
+
+}
+
+#Hood
+
+if(Hood == 0){
+    
+    holoAlpha(3,0)
+    holoAlpha(4,0)
+
+}elseif(Hood == 1){
+
+    holoAlpha(3,255)
+    holoAlpha(4,0)
+
+}elseif(Hood == 2){
+
+    holoAlpha(3,0)
+    holoAlpha(4,255)
+
+}
+
+#[
+if(){
+
+}
+]#
+
+#FrontHoodDoors & HoodDoors Left
+
+if(FHDL){
+    
+    holoAlpha(5,0)
+    holoAlpha(7,255)
+
+}else{
+
+    holoAlpha(5,255)
+    holoAlpha(7,0)
+
+}
+
+if(HDL){
+    
+    holoAlpha(6,0)
+    holoAlpha(8,255)
+
+}else{
+
+    holoAlpha(6,255)
+    holoAlpha(8,0)
+
+}
+
+#FrontHoodDoors & HoodDoors Right
+
+if(FrontHoodDoorsRight){
+    
+    holoAlpha(9,255)
+    holoAlpha(11,0)
+
+}else{
+
+    holoAlpha(9,0)
+    holoAlpha(11,255)
+
+}
+
+if(HoodDoorsRight){
+
+    holoAlpha(13,255)
+    holoAlpha(12,0)
+    
+}else{
+
+    holoAlpha(13,0)
+    holoAlpha(12,255)
+    
+}
+
+#Cab Doors
+
+if(LCD){
+    
+    holoAlpha(14,255)
+    holoAlpha(15,0)
+
+}else{
+
+    holoAlpha(14,0)
+    holoAlpha(15,255)
+    
+}
+
+#SmokeStacks
+
+if(SmokeStacks == 0){
+    
+    holoAlpha(16,0)
+    holoAlpha(17,0)
+    
+}elseif(SmokeStacks == 1){
+
+    holoAlpha(16,255)
+    holoAlpha(17,0)
+
+}elseif(SmokeStacks == 2){
+
+    holoAlpha(16,0)
+    holoAlpha(17,255)
+
+}elseif(SmokeStacks == 3){
+
+    holoAlpha(16,255)
+    holoAlpha(17,255)
+
+}
+
+#Cab Doors 2
+
+if(RCD){
+ 
+    holoAlpha(18,255)
+    holoAlpha(19,0)
+   
+}else{
+
+    holoAlpha(18,0)
+    holoAlpha(19,255)
+
+}
+
+#Cabniet Door (The Cool Part :) )
+
+CDAngleMul1 = -90
+CDAngleMul2 = 90
+CDSpeedMul = 30
+
+interval(InterMul)
+
+Cabinet_A = Cabinet_A + ( CD - Cabinet_A ) /  max( CDSpeedMul, 0 )  
+holoAng(20,E:toWorld(ang(0,0-Cabinet_A * CDAngleMul1,0)))
+holoAng(21,E:toWorld(ang(0,0-Cabinet_A * CDAngleMul2,0)))

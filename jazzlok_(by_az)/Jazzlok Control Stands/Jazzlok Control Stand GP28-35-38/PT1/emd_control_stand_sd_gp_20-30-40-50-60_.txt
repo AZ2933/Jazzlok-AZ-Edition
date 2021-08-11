@@ -1,0 +1,920 @@
+@name EMD Control Stand sd gp 20-30-40-50-60 
+@inputs RLCPT:entity Seat:entity Wire_lamp:entity WheelSlip Load Sand
+@outputs Control Fuel_Pump Generator_Field Engine_Run Gauge_lighting Numberboards Bell Head_light Middle_mars Top_mars Top_mars_R Middle_mars_R Rear_light
+@outputs Red Green White ClassLight Light:vector ClassLights:vector Lamp Light_brightness 
+@persist Reverser_C TNotch NotchIndicator TransitionIndicator Transition Select Brake_A Brake_B Brake_C Load_A Load_B Dim_A Dim_B Select_A Switch_A Horn_A Gauge_lighting_A
+@persist Dim Red_Mars Light_Sw_F Light_Sw_R
+@persist Reverser_M:string
+@model models/woozie/jazzlok1-1/trains/cab/sd-gp28-30-35-38-39-40_control_stand.mdl
+#================================================================================================================
+    
+    #6:41 - 7:38?
+    #Time EST PM 6/24/21 
+    #Edited By AZ
+    
+    RLCPTW = RLCPT:wirelink()
+    local Reverser = RLCPTW["Reverser",number]
+    local Notch = RLCPTW["Notch",number]
+    local Dynamics = RLCPTW["Dynamics",number]
+    local BrakeInfo = RLCPTW["BrakeInfo",array]
+    local LocoBrakePressure = BrakeInfo[4,number]
+    local TrainBrakePressure = BrakeInfo[2,number]
+    local BrakeLine = round(BrakeInfo[1,number])
+    local MPH = round(RLCPTW["MPH",number])
+    local Emergency = RLCPTW["Emergency",number]
+    local AirBrake = RLCPTW["AB16M_Notch",number]
+    
+#================================================================================================================
+if(first()|dupefinished()){
+#================================================================================================================
+    entity():setAlpha(0)
+    Color1 = vec(255)
+    Color2 = vec(255)
+    M = ""
+    M2 = ""
+    M3 = "models/props_gulch/tinycars/tc_lightgray"#    2ndary material
+    M4 = "models/props_gulch/tinycars/tc_darkgray"#   main material 
+    I = "models/flak/invisible"#    Invis material
+#================================================================================================================
+#                                               wiring instructions
+#================================================================================================================
+#   rlcpt = rlc chip
+#   seat = steat prop
+#   wheelslip = rlc
+#   load = rlc
+#   sand = rlc
+#   control = mu master rlc 
+#   Fuelpump & Generator_Field & & engine run are all mis switches for random things like wipers 
+#   numberboards = numberboard lights 
+#   bell = your bell e2
+#   headlights & rear lights go to the corrisponding input on your lighting e2 or wire lamps
+#   classlight & classlights:vector to your splight e2
+#   wire your wire lamp's RGB input to light:vector()
+#   lamp = your headlight lamp
+#   light brightness  = wirelamp brightness input
+#================================================================================================================
+#                                               controls
+#================================================================================================================
+#==================================================================
+#   number 5 =  bell
+#==================================================================
+#   numpad 0 = Control
+#   numpad 1 = fuel pump
+#   numpad 2 = gen feild
+#   numpad 3 = engine run
+#   numpad 4 = Headlight
+#   numpad 5 = dimmer
+#   numpad 6 = gauge lights
+#   numpad 7 = top mars
+#   numpad 8 = rear light 
+#   numpad 9 = middle mars rear
+#   numpad minus  = wire lamp on 
+#   numpad plus  = red emergency lights (middle mars & Top_mars_R)
+#   numpad enter = numberboard lights
+#==================================================================
+#   keyboard I = Red
+#   keyboard O = Green
+#   keyboard P = White
+#   keyboard I or O or P = turns on the classlight output for turning on the splight e2
+#================================================================================================================
+#gauges
+A = 0
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,Color1)
+    holoModel(A, "models/woozie/jazzlok1-1/trains/cab/sd-gp28-30-35-38-39-40_control_stand.mdl")
+    holoPos(A,entity():toWorld(vec(0,0,0)))
+    holoAng(A,entity():toWorld(ang(0,0,0)))
+    holoEntity(A):setSubMaterial(1,I)#independant 
+    holoEntity(A):setSubMaterial(2,I)#train brake
+    holoEntity(A):setSubMaterial(3,I)#screws n stuff
+    holoEntity(A):setSubMaterial(4,I)#lever housings
+    holoEntity(A):setSubMaterial(5,I)#rear pannels and front inlays
+    holoEntity(A):setSubMaterial(6,I)#blank outs
+    holoEntity(A):setSubMaterial(7,I)#main texture
+    holoEntity(A):setSubMaterial(8,I)#headlight switch screws
+    holoEntity(A):setSubMaterial(9,I)
+    holoEntity(A):setSubMaterial(10,I)
+#    holoEntity(A):setSubMaterial(11,I)#Psi gauges
+#    holoEntity(A):setSubMaterial(12,I)#amp gauges
+    holoEntity(A):setSubMaterial(13,I)
+    holoEntity(A):setSubMaterial(14,I)
+    holoEntity(A):setSubMaterial(15,I)
+    holoEntity(A):setSubMaterial(16,I)
+    holoEntity(A):setSubMaterial(17,I)
+    holoEntity(A):setSubMaterial(18,I)    
+    holoEntity(A):setSubMaterial(19,I)
+    holoEntity(A):setSubMaterial(20,I)
+    holoEntity(A):setSubMaterial(21,I)
+    holoEntity(A):setSubMaterial(22,I)
+    holoEntity(A):setSubMaterial(23,I)
+    holoEntity(A):setSubMaterial(24,I)
+    holoEntity(A):setSubMaterial(25,I)
+    holoEntity(A):setSubMaterial(26,I)
+#stand
+A = 1
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,Color1)
+    holoModel(A, "models/woozie/jazzlok1-1/trains/cab/sd-gp28-30-35-38-39-40_control_stand.mdl")
+    holoPos(A,entity():toWorld(vec(0,0,0)))
+    holoAng(A,entity():toWorld(ang(0,0,0)))
+    holoEntity(A):setSubMaterial(1,M3)#independant 
+    holoEntity(A):setSubMaterial(2,M3)#train brake
+    holoEntity(A):setSubMaterial(3,M3)#screws n stuff
+    holoEntity(A):setSubMaterial(4,M4)#lever housings
+    holoEntity(A):setSubMaterial(5,M4)#rear pannels and front inlays
+    holoEntity(A):setSubMaterial(6,M4)#blank outs
+    holoEntity(A):setSubMaterial(7,M4)#main texture
+    holoEntity(A):setSubMaterial(8,I)#headlight switch screws
+#    holoEntity(A):setSubMaterial(9,I)
+#    holoEntity(A):setSubMaterial(11,I)#Psi gauges
+#    holoEntity(A):setSubMaterial(12,I)#amp gauges
+#    holoEntity(A):setSubMaterial(13,I)
+    holoEntity(A):setSubMaterial(26,I)
+#reverser
+A = 2
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,Color1)
+    holoModel(A,"models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_reverser_base.mdl")
+    holoPos(A,entity():toWorld(vec(6.25,1,-4.75)))
+    holoAng(A,entity():toWorld(ang(0,0,0)))
+    holoEntity(A):setSubMaterial(1,M3)
+A = 3
+    holoCreate(A)
+    holoParent(A,2)
+    holoColor(A,Color1)
+    holoModel(A,"models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_reverser_lever.mdl")
+    holoPos(A,entity():toWorld(vec(6.25,2.6,-4.75)))
+    holoAng(A,entity():toWorld(ang(0,0,0)))
+    holoScale(A,vec(1,1,1))
+    holoEntity(A):setSubMaterial(1,M4)
+    holoEntity(A):setSubMaterial(2,M3)
+A = 4
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,Color1)
+    holoModel(A,"models/woozie/jazzlok1-1/trains/cab/control_stand_sd-gp28-30-35-38-39-40/throttle_lever.mdl")
+    holoPos(A,entity():toWorld(vec(0,0,0)))
+    holoAng(A,entity():toWorld(ang(0,0,0)))
+    holoScale(A,vec(1,1,1))
+    holoEntity(A):setSubMaterial(1,M3)
+    holoEntity(A):setSubMaterial(2,M4)
+A = 5
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,Color1)
+    holoModel(A,"models/woozie/jazzlok1-1/trains/cab/control_stand_sd-gp28-30-35-38-39-40/control_stand_transition.mdl")
+    holoPos(A,entity():toWorld(vec(6.3,-2.5,4.5)))
+    holoAng(A,entity():toWorld(ang(0,0,0)))
+    holoScale(A,vec(1,1,1))
+    holoEntity(A):setSubMaterial(1,M4)
+    holoEntity(A):setSubMaterial(2,M3)
+A = 6
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,Color1)
+    holoModel(A,"models/jazzie/trains/number_wheel_throttle.mdl")
+    holoPos(A,entity():toWorld(vec(-4.67,-2.35,7.6)))
+    holoAng(A,entity():toWorld(ang(180,31,180)))  
+    holoScale(A,vec(0.13,0.12,0.09))
+A = 7
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,Color1)
+    holoModel(A,"models/jazzie/trains/number_wheel_selector.mdl")
+    holoPos(A,entity():toWorld(vec(-4.7,-2.4,8.45)))
+    holoAng(A,entity():toWorld(ang(180,31,180))) 
+    holoScale(A,vec(0.12,0.12,0.09))
+A = 8
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_auto_brake_lever.mdl")
+    holoPos(A,entity():toWorld(vec(-22.48,-8.8,9.45)))
+    holoAng(A,entity():toWorld(ang(0,0,0))) 
+    holoEntity(A):setSubMaterial(1,M3)
+    holoEntity(A):setSubMaterial(2,"models/proppertextures/brakehandle")
+                         
+A = 9
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_inde_brake_lever.mdl")
+    holoPos(A,entity():toWorld(vec(-22.4,-9,-1)))
+    holoAng(A,entity():toWorld(ang(0,70,0))) 
+    holoEntity(A):setSubMaterial(1,M4)
+    holoEntity(A):setSubMaterial(3,M3)
+                                                 
+A = 10
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec(255,0,0))
+    holoScale(A,vec(0.97))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/speedometer_pointer.mdl")
+    holoPos(A,entity():toWorld(vec(-9.15,1.72,15)))
+    holoAng(A,entity():toWorld(ang(-210,0,90)))    
+    holoEntity(A):setSubMaterial(1,M)
+    holoEntity(A):setSubMaterial(2,M3)
+    holoEntity(A):setSubMaterial(3,M3)
+    
+A = 11
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.97))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/speedometer_pointer.mdl")
+    holoPos(A,entity():toWorld(vec(-9.15,1.68,15)))
+    holoAng(A,entity():toWorld(ang(-210,0,90)))  
+    holoEntity(A):setSubMaterial(1,M)
+    holoEntity(A):setSubMaterial(2,M3)
+    holoEntity(A):setSubMaterial(3,M3)
+    
+A = 12
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec(255,0,0))
+    holoScale(A,vec(0.97))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/speedometer_pointer.mdl")
+    holoPos(A,entity():toWorld(vec(-1.87,1.72,15)))
+    holoAng(A,entity():toWorld(ang(-210,0,90)))    
+    holoEntity(A):setSubMaterial(1,M)
+    holoEntity(A):setSubMaterial(2,M3)
+    holoEntity(A):setSubMaterial(3,M3)
+    
+A = 13
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.97))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/speedometer_pointer.mdl")
+    holoPos(A,entity():toWorld(vec(-1.87,1.68,15)))
+    holoAng(A,entity():toWorld(ang(-210,0,90)))   
+    holoEntity(A):setSubMaterial(1,M)
+    holoEntity(A):setSubMaterial(2,M3)
+    holoEntity(A):setSubMaterial(3,M3)   
+A = 14
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec(220,170,0))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_horn_lever.mdl")
+    holoPos(A,entity():toWorld(vec(-16.2,-6.9,9.25)))
+    holoAng(A,entity():toWorld(ang(0,0,0)))            
+    holoEntity(A):setSubMaterial(1,M3)
+    holoEntity(A):setSubMaterial(2,M4)  
+A = 15
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.69))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/ammeter_needle.mdl")
+    holoPos(A,entity():toWorld(vec(9.6,3.15,16.5)))
+    holoAng(A,entity():toWorld(ang(-135,0,0))) 
+A = 16
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec(255))
+    holoModel(A, "plane")
+    holoScale(A,vec(0.07,0.3,1))
+    holoPos(A,entity():toWorld(vec(6.275,-4.6,-2.5)))
+    holoAng(A,entity():toWorld(ang(90,0,90))) 
+    holoMaterial(A,"trans_train_stuff/cabstuff/labelplates/label_reverser") 
+A = 17
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec(255))
+    holoModel(A, "plane")
+    holoScale(A,vec(1.5,1.5,1))
+    holoPos(A,entity():toWorld(vec(-2,-4.41,4.2)))
+    holoAng(A,entity():toWorld(ang(90,0,90))) 
+    holoMaterial(A,"models/cab/standoperation") 
+A = 18
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec(255))
+    holoModel(A, "plane")
+    holoScale(A,vec(0.5))
+    holoPos(A,entity():toWorld(vec(8.8,-4.41,0)))
+    holoAng(A,entity():toWorld(ang(90,0,90))) 
+    holoMaterial(A,"models/cab/notice2") 
+A =19
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec(255))
+    holoModel(A, "plane")
+    holoScale(A,vec(0.8,0.8,1))
+    holoPos(A,entity():toWorld(vec(-2,-4.41,-5)))
+    holoAng(A,entity():toWorld(ang(90,0,90))) 
+    holoMaterial(A,"models/cab/notice1") 
+A =20
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec(255))
+    holoModel(A, "plane")
+    holoScale(A,vec(0.25,0.6,1))
+    holoPos(A,entity():toWorld(vec(0.5,6.1,5.7)))
+    holoAng(A,entity():toWorld(ang(90,0,-90))) 
+    holoMaterial(A,"cubics_pack/safety_fourth/600_volts") 
+A = 21
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec(255))
+    holoModel(A, "plane")
+    holoScale(A,vec(0.25,0.6,1))
+    holoPos(A,entity():toWorld(vec(0.5,6.1,-19)))
+    holoAng(A,entity():toWorld(ang(90,0,-90))) 
+    holoMaterial(A,"cubics_pack/safety_fourth/600_volts")
+A = 22
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec(255))
+    holoModel(A, "plane")
+    holoScale(A,vec(0.25,0.6,1))
+    holoPos(A,entity():toWorld(vec(-23.8,3.4,5.7)))
+    holoAng(A,entity():toWorld(ang(90,0,-105))) 
+    holoMaterial(A,"cubics_pack/safety_fourth/600_volts") 
+A = 23
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec(255))
+    holoModel(A, "plane")
+    holoScale(A,vec(0.25,0.6,1))
+    holoPos(A,entity():toWorld(vec(-23.8,3.4,-19)))
+    holoAng(A,entity():toWorld(ang(90,0,-105))) 
+    holoMaterial(A,"cubics_pack/safety_fourth/600_volts") 
+A = 24
+    holoCreate(A)
+    holoParent(A,entity())
+    holoModel(A, "models/magtrainslocos/rotaryswitches/headlight_emd.mdl")
+    holoScale(A,vec(1.15))
+    holoPos(A,entity():toWorld(vec(15.1,-4.4,-4)))
+    holoAng(A,entity():toWorld(ang(0,0,90))) 
+    holoEntity(A):setSubMaterial(1,M3)
+    holoEntity(A):setSubMaterial(6,M4)
+A = 25
+    holoCreate(A)
+    holoParent(A,entity())
+    holoModel(A, "models/magtrainslocos/rotaryswitches/headlight_emd.mdl")
+    holoScale(A,vec(1.15))
+    holoPos(A,entity():toWorld(vec(-11,-4.4,-4)))
+    holoAng(A,entity():toWorld(ang(0,0,90))) 
+    holoEntity(A):setSubMaterial(1,M3)
+    holoEntity(A):setSubMaterial(6,M4)
+A = 26
+    holoCreate(A)
+    holoParent(A,entity())
+    holoModel(A, "models/titus's_propper_model_pack_2.4/propper/cabradios/cabradionew.mdl")
+    holoScale(A,vec(1))
+    holoPos(A,entity():toWorld(vec(-25,-2,17)))
+    holoAng(A,entity():toWorld(ang(0,-75,0))) 
+    holoEntity(A):setSubMaterial(1,M4)
+    holoEntity(A):setSubMaterial(3,M3)
+A = 27
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.47,0.1,0.47))
+    holoModel(A, "models/sprops/geometry/t_fdisc_12.mdl")
+    holoPos(A,entity():toWorld(vec(-9.15,1.6,15)))
+    holoAng(A,entity():toWorld(ang(0,0,0))) 
+    holoMaterial(A,"models/proppertextures/glass_clear") 
+    holoAlpha(A,30)
+A = 28
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.47,0.1,0.47))
+    holoModel(A, "models/sprops/geometry/t_fdisc_12.mdl")
+    holoPos(A,entity():toWorld(vec(-1.9,1.6,15)))
+    holoAng(A,entity():toWorld(ang(0,0,0))) 
+    holoMaterial(A,"models/proppertextures/glass_clear") 
+    holoAlpha(A,30)
+A  = 29
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec(255))
+    holoScale(A,vec(0.47,0.1,0.47))
+    holoModel(A, "models/sprops/geometry/t_fdisc_12.mdl")
+    holoPos(A,entity():toWorld(vec(9.65,1.6,15)))
+    holoAng(A,entity():toWorld(ang(0,0,0))) 
+    holoMaterial(A,"models/proppertextures/glass_clear") 
+    holoAlpha(A,30)
+A = 30
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec4(250,250,250,20))
+    holoScale(A,vec(0.65,0.65,0.1))
+    holoModel(A, "models/sprops/cylinders/size_4/cylinder_9x3.mdl")
+    holoPos(A,entity():toWorld(vec(-9.15,2.01,15)))
+    holoAng(A,entity():toWorld(ang(0,0,90))) 
+    holoMaterial(A,"models/proppertextures/lightglow_warmwhite")
+A = 31
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec4(250,250,250,20))
+    holoScale(A,vec(0.65,0.65,0.1))
+    holoModel(A, "models/sprops/cylinders/size_4/cylinder_9x3.mdl")
+    holoPos(A,entity():toWorld(vec(-1.9,2.01,15)))
+    holoAng(A,entity():toWorld(ang(0,0,90))) 
+    holoMaterial(A,"models/proppertextures/lightglow_warmwhite")
+A = 32
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec4(250,250,250,20))
+    holoScale(A,vec(0.65,0.65,0.1))
+    holoModel(A, "models/sprops/cylinders/size_4/cylinder_9x3.mdl")
+    holoPos(A,entity():toWorld(vec(9.65,2.01,15)))
+    holoAng(A,entity():toWorld(ang(0,0,90))) 
+    holoMaterial(A,"models/proppertextures/lightglow_warmwhite")
+A = 33
+    holoCreate(A)
+    holoParent(A,entity())
+    holoModel(A, "models/bull/buttons/toggle_switch.mdl")
+    holoScale(A,vec(0.3))
+    holoPos(A,entity():toWorld(vec(-16,-5.3,5)))
+    holoAng(A,entity():toWorld(ang(90,0,75))) 
+    holoEntity(A):setSubMaterial(1,M3)
+    holoEntity(A):setSubMaterial(6,M4)
+A = 34
+    holoCreate(A)
+    holoParent(A,entity())
+    holoModel(A, "plane")
+    holoScale(A,vec(0.27))
+    holoPos(A,entity():toWorld(vec(-16,-5.3,5.81)))
+    holoAng(A,entity():toWorld(ang(90,0,75))) 
+    holoMaterial(A,"anytrains/labels/labels_a")
+    holoClipEnabled(A,1,1) 
+    holoClip(A,1,vec(0,0,0),vec(1,0,0),0) 
+A = 35
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec(255))
+    holoModel(A, "plane")
+    holoScale(A,vec(0.07,0.3,1))
+    holoPos(A,entity():toWorld(vec(0,-4.4,2.5)))
+    holoAng(A,entity():toWorld(ang(90,0,90))) 
+    holoMaterial(A,"trans_train_stuff/cabstuff/labelplates/label_throttle") 
+A = 36
+    holoCreate(A)
+    holoParent(A,entity())
+    holoModel(A, "plane")
+    holoScale(A,vec(0.4))
+    holoPos(A,entity():toWorld(vec(15.1,-4.7,-4)))
+    holoAng(A,entity():toWorld(ang(90,0,90))) 
+    holoMaterial(A,"titus's_trainbuild_content_pack_1.1/control_stand_propper/hdlt_front_decal")
+    holoClipEnabled(A,1,1) 
+    holoClip(A,1,vec(-0.2,0,0),vec(1,0,0),0) 
+A = 37
+    holoCreate(A)
+    holoParent(A,entity())
+    holoModel(A, "plane")
+    holoScale(A,vec(0.4))
+    holoPos(A,entity():toWorld(vec(-11,-4.7,-4)))
+    holoAng(A,entity():toWorld(ang(90,0,90))) 
+    holoMaterial(A,"titus's_trainbuild_content_pack_1.1/control_stand_propper/hdlt_rear_decal")
+    holoClipEnabled(A,1,1) 
+    holoClip(A,1,vec(-0.2,0,0),vec(1,0,0),0) 
+A = 38
+    holoCreate(A)
+    holoParent(A,entity())
+    holoModel(A, "plane")
+    holoScale(A,vec(0.03))
+    holoPos(A,entity():toWorld(vec(13.9,-4.7,-2.5)))
+    holoAng(A,entity():toWorld(ang(90,0,90))) 
+    holoMaterial(A,"goomzmodels/fonts/clarendon_bt/cbt_1")
+A = 39
+    holoCreate(A)
+    holoParent(A,entity())
+    holoModel(A, "plane")
+    holoScale(A,vec(0.03))
+    holoPos(A,entity():toWorld(vec(15.1,-4.7,-2.2)))
+    holoAng(A,entity():toWorld(ang(90,0,90))) 
+    holoMaterial(A,"goomzmodels/fonts/clarendon_bt/cbt_2")
+A = 40
+    holoCreate(A)
+    holoParent(A,entity())
+    holoModel(A, "plane")
+    holoScale(A,vec(0.03))
+    holoPos(A,entity():toWorld(vec(16.6,-4.7,-2.5)))
+    holoAng(A,entity():toWorld(ang(90,0,90))) 
+    holoMaterial(A,"goomzmodels/fonts/clarendon_bt/cbt_3")
+A = 41
+    holoCreate(A)
+    holoParent(A,entity())
+    holoModel(A, "plane")
+    holoScale(A,vec(0.03))
+    holoPos(A,entity():toWorld(vec(-12.4,-4.7,-2.5)))
+    holoAng(A,entity():toWorld(ang(90,0,90))) 
+    holoMaterial(A,"goomzmodels/fonts/clarendon_bt/cbt_1")
+A = 42
+    holoCreate(A)
+    holoParent(A,entity())
+    holoModel(A, "plane")
+    holoScale(A,vec(0.03))
+    holoPos(A,entity():toWorld(vec(-11,-4.7,-2.2)))
+    holoAng(A,entity():toWorld(ang(90,0,90))) 
+    holoMaterial(A,"goomzmodels/fonts/clarendon_bt/cbt_2")
+A = 43
+    holoCreate(A)
+    holoParent(A,entity())
+    holoModel(A, "plane")
+    holoScale(A,vec(0.03))
+    holoPos(A,entity():toWorld(vec(-9.6,-4.7,-2.5)))
+    holoAng(A,entity():toWorld(ang(90,0,90))) 
+    holoMaterial(A,"goomzmodels/fonts/clarendon_bt/cbt_3")
+A = 44
+    holoCreate(A)
+    holoParent(A,entity())
+    holoModel(A, "models/magtrainslocos/rotaryswitches/headlight_emd.mdl")
+    holoScale(A,vec(1.15))
+    holoPos(A,entity():toWorld(vec(-11,-4.4,3)))
+    holoAng(A,entity():toWorld(ang(0,0,90))) 
+    holoEntity(A):setSubMaterial(1,M3)
+    holoEntity(A):setSubMaterial(5,M3)
+    holoEntity(A):setSubMaterial(6,M4)
+    holoEntity(A):setSubMaterial(7,M3)
+    holoClipEnabled(A,1,1) 
+    holoClip(A,1,vec(0,0,0.5),vec(0,0,-1),0) 
+A = 45
+    holoCreate(A)
+    holoParent(A,entity())
+    holoModel(A, "models/flak/part/misc/knobswitch.mdl")
+    holoScale(A,vec(1))
+    holoPos(A,entity():toWorld(vec(-11,-4.4,3)))
+    holoAng(A,entity():toWorld(ang(0,0,180))) 
+    holoEntity(A):setSubMaterial(2,I)
+A = 46
+    holoCreate(A)
+    holoParent(A,entity())
+    holoModel(A, "plane")
+    holoScale(A,vec(0.1,0.2,1))
+    holoPos(A,entity():toWorld(vec(-11,-4.7,4.8)))
+    holoAng(A,entity():toWorld(ang(90,0,90))) 
+    holoMaterial(A,"cubics_pack/breakers/dimmer")
+A = 47
+    holoCreate(A)
+    holoParent(A,entity())
+    holoModel(A, "plane")
+    holoScale(A,vec(0.1))
+    holoPos(A,entity():toWorld(vec(-11,-4.4,-0.5)))
+    holoAng(A,entity():toWorld(ang(90,0,90))) 
+    holoMaterial(A,"cubics_pack/breakers/74v")
+}
+#================================================================================================================
+#transtion
+if(Notch&!Dynamics){
+    Transition = 1
+}
+if(!Notch&Dynamics){
+    Transition = -1
+}
+if(Notch==0&Dynamics==0){
+    Transition = 0
+}
+#================================================================================================================
+#red mars shit for changing lamp color
+if(Red_Mars){
+    Light = vec(255,0,0)
+    Wire_lamp:setAlpha(0)
+}
+if(!Red_Mars){
+    Light = vec(255,190,100)
+    Wire_lamp:setAlpha(0)
+}
+#================================================================================================================
+#splight class color changing 
+#now unused
+if(Red){
+    ClassLights = vec(255,0,0)
+}
+if(Green){
+    ClassLights = vec(0,255,0)
+}
+if(White){
+    ClassLights = vec(255)
+}
+if(Red|Green|White){
+    ClassLight = 1
+}else{
+ClassLight = 0
+}
+#================================================================================================================
+if(changed(Dim)&Dim){
+    Dim_A = 2
+}
+if(changed(Dim)&!Dim){
+    Dim_A = 8
+}
+#================================================================================================================
+#head light switch movment
+if(Head_light){
+    Light_Sw_F = 1
+}
+if((Head_light&Top_mars)|Top_mars){
+    Light_Sw_F = 2
+}
+if((Head_light&Top_mars&Middle_mars)|Middle_mars){
+    Light_Sw_F = 3
+}
+if(!Head_light&!Middle_mars&!Top_mars){
+    Light_Sw_F = 0
+}
+#================================================================================================================
+#rear light switch movment
+if(Rear_light){
+    Light_Sw_R = 1
+}
+if((Rear_light&Middle_mars_R)|Middle_mars_R){
+    Light_Sw_R = 2
+}
+if((Rear_light&Middle_mars_R&Top_mars_R)|Top_mars_R){
+    Light_Sw_R = 3
+}
+if(!Rear_light&!Middle_mars_R&!Top_mars_R){
+    Light_Sw_R = 0
+}
+#================================================================================================================
+#control stand switches
+if(changed(Gauge_lighting)&Gauge_lighting){
+    holoDisableShading(0,1)
+}elseif(changed(Gauge_lighting)&!Gauge_lighting){
+    holoDisableShading(0,0)
+}
+if(changed(Control)&Control){
+    holoBodygroup(1,2,1)
+    soundPlay("reverser",0,"titus's_trainbuild_content_pack_1.1/propper/misc/cab_door_open.wav")
+    holoScale(3,vec(1))
+}elseif(changed(Control)&!Control){    
+    holoBodygroup(1,2,0)
+    soundPlay("reverser",0,"titus's_trainbuild_content_pack_1.1/propper/misc/cab_door_close.wav")
+    holoScale(3,vec(0))
+}
+if(changed(Fuel_Pump)&Fuel_Pump){
+    holoBodygroup(1,3,1)
+}elseif(changed(Fuel_Pump)&!Fuel_Pump){
+    holoBodygroup(1,3,0)
+}
+if(changed(Engine_Run)&Engine_Run){
+    holoBodygroup(1,1,1)
+}elseif(changed(Engine_Run)&!Engine_Run){
+    holoBodygroup(1,1,0)
+}
+if(changed(Generator_Field)&Generator_Field){
+    holoBodygroup(1,4,1)
+}elseif(changed(Generator_Field)&!Generator_Field){
+    holoBodygroup(1,4,0)
+}
+if(changed(Lamp)&Lamp){
+    holoBodygroup(1,5,1)
+}elseif(changed(Lamp)&!Lamp){
+    holoBodygroup(1,5,0)
+}
+#================================================================================================================
+#indicators
+if(Load>90&!Dynamics){
+    holoBodygroup(1,7,1)
+    soundPlay("GND",0,"_jazzlok/switches/big_relay04.wav")
+    timer("triped",1000)
+}else{
+    holoBodygroup(1,7,0)
+}
+if(changed(Dynamics)&Dynamics){
+    holoBodygroup(1,8,1)
+}elseif(changed(Dynamics)&!Dynamics){
+    holoBodygroup(1,8,0)
+}
+if(changed(Sand)&Sand){
+    holoBodygroup(1,10,1)
+    holoBodygroup(1,14,1)
+    holoAnim(33,1,0,1)
+    soundPlay("sand",0,"infra/buttons/button_001.wav")
+    soundPlay("sand2",0,"_jazzlok/switches/air_switch.wav")
+}elseif(changed(Sand)&!Sand){
+    holoBodygroup(1,10,0)
+    holoBodygroup(1,14,0)
+    holoAnim(33,0,0,1)
+    soundPlay("sand",0,"infra/buttons/button_002.wav")
+    soundPlay("sand2",0,"_jazzlok/switches/air_switch.wav")
+}     
+if(changed(WheelSlip)&WheelSlip){
+    holoBodygroup(1,11,1)  
+}elseif(changed(WheelSlip)&!WheelSlip){
+    holoBodygroup(1,11,0)  
+}  
+if(changed(Bell)&Bell){
+    holoBodygroup(1,13,1)  
+    soundPlay("bell",0,"infra/buttons/button_006.wav")
+}elseif(changed(Bell)&!Bell){
+    holoBodygroup(1,13,0)  
+    soundPlay("bell",0,"infra/buttons/button_007.wav")
+} 
+if(clk("triped")){
+    soundPlay("Triped",2,"_jazzlok/switches/eng_start_bell.wav")
+}
+#================================================================================================================
+#button sounds and headlight switch sounds
+if(changed(Head_light)|
+changed(Rear_light)|
+changed(Top_mars)|
+changed(Top_mars_R)|
+changed(Middle_mars)|
+changed(Middle_mars_R)|
+changed(Red)|
+changed(Green)|
+changed(White)|
+changed(Dim)){
+    Seat:soundPlay("switch2",0,                       
+        select(    
+            randint(1,2),
+            "_jazzlok/switches/switch_med_03.wav",
+            "_jazzlok/switches/throttle_lever04.wav"
+            ) 
+        )   
+    soundPitch("switch2", select(randint(1,5),140,135,140,155,150))
+    soundVolume("switch2",1)
+}
+if(changed(Control) | 
+changed(Fuel_Pump) | 
+changed(Generator_Field) | 
+changed(Engine_Run) | 
+changed(Gauge_lighting)|
+changed(Lamp)|
+changed(Numberboards))
+{
+    Seat:soundPlay("switch",0,                       
+        select(    
+            randint(1,2),
+            "_jazzlok/switches/switch_heavy_02.wav",
+            "_jazzlok/switches/switch_heavy_03.wav"
+            ) 
+        )
+        
+    soundPitch("switch", select(randint(1,5),140,135,140,155,150))
+    soundVolume("switch",1)
+    soundStop("switch",0.35) 
+} 
+#================================================================================================================
+#key pressed detection
+if(Seat:driver() == owner()) 
+{        
+    runOnKeys(owner(),1)       
+                          
+    if(Seat:driver():keyPressed("r")) 
+    {
+        Horn = 1
+    }
+    elseif(!Seat:driver():keyPressed("r"))
+    {
+        Horn = 0
+    }    
+    if(Seat:driver():keyPressed("PAD_0") & keyClk(owner())) 
+    {
+        Control = !Control
+    }
+    if(Seat:driver():keyPressed("5") & keyClk(owner())) 
+    {
+        Bell = !Bell
+    }
+    if(Seat:driver():keyPressed("PAD_1") & keyClk(owner())) 
+    {
+        Fuel_Pump = !Fuel_Pump
+    }
+
+    if(Seat:driver():keyPressed("PAD_2") & keyClk(owner())) 
+    {
+        Generator_Field = !Generator_Field
+    }
+
+    if(Seat:driver():keyPressed("PAD_3") & keyClk(owner())) 
+    {
+        Engine_Run = !Engine_Run
+    }
+
+    if(Seat:driver():keyPressed("PAD_4") & keyClk(owner())) 
+    {
+        Head_light = !Head_light
+    } 
+    if(Seat:driver():keyPressed("PAD_5") & keyClk(owner())) 
+    {
+       Dim = !Dim
+    }
+    if(Seat:driver():keyPressed("PAD_6") & keyClk(owner())) 
+    {
+        Gauge_lighting = !Gauge_lighting
+    }
+    if(Seat:driver():keyPressed("PAD_7") & keyClk(owner())) 
+    {
+        Top_mars = !Top_mars
+    }
+    if(Seat:driver():keyPressed("PAD_9") & keyClk(owner())) 
+    {
+        Middle_mars_R = !Middle_mars_R
+    }
+    if(Seat:driver():keyPressed("PAD_8") & keyClk(owner())) 
+    {
+        Rear_light = !Rear_light
+    }
+    if(Seat:driver():keyPressed("i") & keyClk(owner())) 
+    {
+        Red = !Red
+    }
+    if(Seat:driver():keyPressed("o") & keyClk(owner())) 
+    {
+        Green = !Green
+    }
+    if(Seat:driver():keyPressed("p") & keyClk(owner())) 
+    {
+        White = !White
+    }
+    if(Seat:driver():keyPressed("PAD_PLUS") & keyClk(owner())) 
+    {
+        Top_mars_R = !Top_mars_R
+        Middle_mars = !Middle_mars
+    }
+    if(Seat:driver():keyPressed("PAD_ENTER") & keyClk(owner())) 
+    {
+        Numberboards = !Numberboards
+    }
+    if(Seat:driver():keyPressed("PAD_MINUS") & keyClk(owner())) 
+    {
+        Lamp = !Lamp
+    }
+}
+#================================================================================================================
+#interval shit
+interval(100)
+if(Load<0){
+    Load_A = Load
+}elseif(Load>0){
+    Load_A = Load*-1
+}
+
+
+    holoBodygroup(24,1,Light_Sw_F)
+    
+    holoBodygroup(25,1,Light_Sw_R)
+
+    Reverser_C = Reverser_C + ( Reverser - Reverser_C ) /  max( 2, 0 )   
+    holoAng(2,entity():toWorld(ang(0,0+Reverser_C*16,0))) 
+
+    TNotch = TNotch + ( Notch - TNotch ) /  max( 2, 0 )   
+    holoAng(4,entity():toWorld(ang(0,0-(TNotch * 8),0)))    
+
+    NotchIndicator = NotchIndicator + ( Notch - NotchIndicator ) /  max( 2, 0 )     
+    holoAng(6,entity():toWorld(ang(180,73+(NotchIndicator*36)*-1,180)))    
+
+    Select_A = Select_A + ( Transition - Select_A ) /  max( 3, 0 )   
+    holoAng(5,entity():toWorld(ang(0,(Select_A*10),0)))  
+
+    TransitionIndicator = TransitionIndicator + ( Transition - TransitionIndicator ) /  max( 2, 0 )  
+    holoAng(7,entity():toWorld(ang(180,73+(TransitionIndicator*36)*-1,180)))
+
+    Brake_A = Brake_A + ( BrakeLine - Brake_A ) /  max( 3, 0 )   
+    holoAng(10,entity():toWorld(ang(150+Brake_A*1.5,0,90))) 
+    holoAng(12,entity():toWorld(ang(150+Brake_A*1.5,0,90)))
+    
+    Brake_C = Brake_C + ( TrainBrakePressure - Brake_C ) /  max( 3, 0 )   
+    
+    holoAng(11,entity():toWorld(ang(-210+Brake_C*1.5,0,90)))
+
+    Brake_B = Brake_B + ( LocoBrakePressure - Brake_B ) /  max( 3, 0 )   
+    holoAng(9,entity():toWorld(ang(0,0+Brake_B/1,0))) 
+    holoAng(13,entity():toWorld(ang(-210+Brake_B*1.5,0,90)))
+
+    Horn_A = Horn_A + ( Horn - Horn_A ) /  max( 5, 0 )   
+    holoAng(14,entity():toWorld(ang(0,0,(Horn_A*45)))) 
+
+    Load_A = Load_B + ( Load_A - Load_B ) /  max( 3, 0 )   
+    holoAng(15,entity():toWorld(ang(-135+Load_A*2.7,0,0))) 
+
+    Gauge_lighting_A = Gauge_lighting_A + ( (Gauge_lighting*20) - Gauge_lighting_A ) /  max( 5, 0 )   
+    holoAlpha(30,Gauge_lighting_A)
+    holoAlpha(31,Gauge_lighting_A)
+    holoAlpha(32,Gauge_lighting_A)
+
+    Dim_B = Dim_B + (Dim_A - Dim_B ) /  max( 10, 0 )   
+    Light_brightness = Dim_B
+    holoAng(45,entity():toWorld(ang(Dim_B*45,0,180))) 
+    
+#
+
+if(AirBrake == -1){
+    
+BrakeAng = -39
+    
+}elseif(AirBrake == 0){
+    
+BrakeAng = 0
+
+}elseif(AirBrake == 1){
+    
+BrakeAng = 50
+
+}elseif(AirBrake == 2){
+    
+BrakeAng = 79
+
+}
+
+    holoAng(8,entity():toWorld(ang(0,BrakeAng,0))) 

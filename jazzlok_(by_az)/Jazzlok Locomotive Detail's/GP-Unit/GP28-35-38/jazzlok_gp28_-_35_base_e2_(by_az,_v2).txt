@@ -1,0 +1,496 @@
+@name Jazzlok GP28 - 35 Base E2 (By AZ, V2)
+@inputs Base:entity EngineCabinetDoors EngineRoomDoor BatteryDoor CabinetDoor
+@outputs 
+@persist #[A]# ERD_A BD_B CD_C
+@trigger 
+
+#Started At 5:07 - 9:47 PM EST 5/13/21
+
+E = Base
+InterMul = 100 #Don't Touch It (Hint: Holo Door Movements)
+
+#Models
+
+GPTYPE = 1    #2 Options
+Nose = 1      #1 Option
+PlowType = 1  #5 Options (1 = Not Colored, 4 = AirHose Not Colored)
+SunShades = 1 #1 Option
+
+
+GP35FuelTank = "models/jazzie/trains/locomotives/emd/gp28-35/gp35_fueltank.mdl"
+
+HandRails = "models/jazzie/trains/locomotives/emd/gp28-35/handrails.mdl"
+
+GP28FuelTank = "models/jazzie/trains/locomotives/emd/gp28-35/gp28_fueltank.mdl"
+
+NoseLow = "models/jazzie/trains/locomotives/emd/gp28-35/lowhood.mdl"
+NoseUp = "models/jazzie/trains/locomotives/emd/gp28-35/highhood.mdl"
+
+GP28Fans = "models/jazzie/trains/locomotives/emd/gp28-35/2_fan_cooling.mdl"
+GP35Fans = "models/jazzie/trains/locomotives/emd/gp28-35/3_fan_cooling.mdl"
+
+NoseLowGlass = "models/jazzie/trains/locomotives/emd/gp28-35/lowhood_glass.mdl"
+NoseHighGlass = "models/jazzie/trains/locomotives/emd/gp28-35/highhood_glass.mdl"
+
+RootsBlowerExhaust = "models/jazzie/trains/locomotives/emd/gp28-35/rootsblower_exhaust.mdl"
+TurboExhaust = "models/jazzie/trains/locomotives/emd/gp28-35/turbo_exhaust.mdl"
+
+DynamicsModel = "models/jazzie/trains/locomotives/emd/gp28-35/dynamics.mdl"
+
+Engine567D1 = "models/jazzie/trains/locomotives/emd/engines/emd567d1.mdl"        #Eh Wrong Engine But I'll Let This Slide (EMD 645EV16)
+Engine567D3 = "models/jazzie/trains/locomotives/emd/engines/emd_567d3.mdl"       #GP35
+EngineD3Rack = "models/jazzie/trains/locomotives/emd/engines/emd_567d3_rack.mdl" #/\
+
+Ladder = "models/jazzie/trains/locomotives/emd/gp28-35/ladder.mdl"
+SunShadeModel = "models/jazzie/trains/locomotives/emd/gp28-35/suncover_plates.mdl"
+
+Plow1Model = "models/jazzie/trains/locomotives/emd/gp28-35/no_plow0.mdl"
+Plow2Model = "models/jazzie/trains/locomotives/emd/gp28-35/no_plow0_colored.mdl"
+Plow3Model = "models/jazzie/trains/locomotives/emd/gp28-35/plow_none_colored.mdl"
+Plow4Model = "models/jazzie/trains/locomotives/emd/gp28-35/standard_plow.mdl"
+Plow5Model = "models/jazzie/trains/locomotives/emd/gp28-35/standard_plow_colored.mdl"
+EngineDoorModel = "models/jazzie/trains/locomotives/emd/gp28-35/engineroom_door.mdl"
+
+BatteryDoorModel = "models/jazzie/trains/locomotives/emd/gp28-35/battery_door.mdl"
+CabinetDoorModel = "models/jazzie/trains/locomotives/emd/gp28-35/cabinet_door.mdl"
+
+# = ""
+
+#Extras
+
+GPColor = 255
+ERDColor = 255
+SubMatIndex = 1  #There Are 26 "Options" 0 Counts As 1 (From How I Know)
+SubMaterial = ""
+
+#Lables
+
+ECD = EngineCabinetDoors
+ERD = EngineRoomDoor
+BD = BatteryDoor
+CD = CabinetDoor
+Base:setColor(vec(GPColor))
+Base:setSubMaterial(SubMatIndex,SubMaterial)
+
+if(first()|dupefinished()){
+
+Seconds = 1
+timer("loadholos",Seconds) 
+
+}
+
+if(clk("loadholos")){
+    
+    
+    
+    A=0
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,GP35FuelTank)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+    
+    A=1
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,HandRails)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A=2
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,GP28FuelTank)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A=3
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,NoseLow)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+    
+    A=4
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,NoseUp)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A=5
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,GP28Fans)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+    
+    A=6
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,GP35Fans)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A=7
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,RootsBlowerExhaust)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A=8
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,TurboExhaust)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A=9
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,Engine567D1)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A=10
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,Engine567D3)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A=11
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,EngineD3Rack)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A=12
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,Ladder)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A=13
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,NoseLowGlass)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A=14
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,NoseHighGlass)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A=15
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,SunShadeModel)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A=16
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,Plow1Model)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A=17
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,Plow2Model)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A=18
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,Plow3Model)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A=19
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,Plow4Model)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A=20
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,Plow5Model)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A=21
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(ERDColor))
+    holoModel(A,EngineDoorModel)
+    holoPos(A,E:toWorld(vec(35,-174.53,5)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+    A=22
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,BatteryDoorModel)
+    holoPos(A,E:toWorld(vec(32.5,163.74,23.5)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+    
+    A=23
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,CabinetDoorModel)
+    holoPos(A,E:toWorld(vec(10,163.74,52)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+#[
+    A=24
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,"")
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+]#
+#[ Extras
+    
+    A++
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,"")
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+    
+    A=0
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A,"")
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+    
+    holoScale(A,vec(1))
+    holoAlpha(0,0 or 255)
+    
+]#
+    
+}
+
+#Holo Alphas
+
+#GP Type
+
+if(GPTYPE == 0){
+    
+    holoAlpha(0,0)
+    holoAlpha(1,0)
+    holoAlpha(2,0)
+    holoAlpha(5,0)
+    holoAlpha(6,0)
+    holoAlpha(7,0)
+    holoAlpha(8,0)
+    holoAlpha(9,0)
+    holoAlpha(10,0)
+    holoAlpha(11,0)
+    holoAlpha(12,0)
+    holoAlpha(21,0)
+    holoAlpha(22,0)
+    holoAlpha(23,0)
+
+}elseif(GPTYPE == 1){
+
+    holoAlpha(0,0)
+    holoAlpha(1,255)
+    holoAlpha(2,255)
+    holoAlpha(5,255)
+    holoAlpha(6,0)
+    holoAlpha(7,255)
+    holoAlpha(8,0)
+    holoAlpha(9,255)
+    holoAlpha(10,0)
+    holoAlpha(11,0)
+    holoAlpha(12,255)
+    holoAlpha(21,255)
+    holoAlpha(22,255)
+    holoAlpha(23,255)
+
+}elseif(GPTYPE == 2){
+
+    holoAlpha(0,255)
+    holoAlpha(1,255)
+    holoAlpha(2,0)
+    holoAlpha(5,0)
+    holoAlpha(6,255)
+    holoAlpha(7,0)
+    holoAlpha(8,255)
+    holoAlpha(9,0)
+    holoAlpha(10,255)
+    holoAlpha(11,255)
+    holoAlpha(12,255)
+    holoAlpha(21,255)
+    holoAlpha(22,255)
+    holoAlpha(23,255)
+
+}
+
+#Nose
+
+if(Nose == 0){
+    
+    holoAlpha(3,0) #Low   
+    holoAlpha(4,0) #High
+    holoAlpha(13,0)
+    holoAlpha(14,0)
+
+}elseif(Nose == 1){
+
+    holoAlpha(3,255)
+    holoAlpha(4,0) 
+    holoAlpha(13,255)
+    holoAlpha(14,0)
+
+}elseif(Nose == 2){
+
+    holoAlpha(3,0)
+    holoAlpha(4,255) 
+    holoAlpha(13,0)
+    holoAlpha(14,255)
+
+}
+
+#EngineCabinetDoors
+
+if(ECD){
+    
+E:setBodygroup(1,ECD)
+    
+}else{
+
+E:setBodygroup(1,0)
+
+}
+
+#SunShades & Plows
+
+if(SunShades == 0){
+    
+    holoAlpha(15,0)
+
+}elseif(SunShades == 1){
+
+    holoAlpha(15,255)
+    
+}
+
+#
+
+if(PlowType == 0){
+    
+    holoAlpha(16,0)
+    holoAlpha(17,0)
+    holoAlpha(18,0)
+    holoAlpha(19,0)
+    holoAlpha(20,0)
+
+}elseif(PlowType == 1){
+    
+    holoAlpha(16,255)
+    holoAlpha(17,0)
+    holoAlpha(18,0)
+    holoAlpha(19,0)
+    holoAlpha(20,0)
+
+}elseif(PlowType == 2){
+    
+    holoAlpha(16,0)
+    holoAlpha(17,255)
+    holoAlpha(18,0)
+    holoAlpha(19,0)
+    holoAlpha(20,0)
+
+}elseif(PlowType == 3){
+    
+    holoAlpha(16,0)
+    holoAlpha(17,0)
+    holoAlpha(18,255)
+    holoAlpha(19,0)
+    holoAlpha(20,0)
+
+}elseif(PlowType == 4){
+    
+    holoAlpha(16,0)
+    holoAlpha(17,0)
+    holoAlpha(18,0)
+    holoAlpha(19,255)
+    holoAlpha(20,0)
+
+}elseif(PlowType == 5){
+    
+    holoAlpha(16,0)
+    holoAlpha(17,0)
+    holoAlpha(18,0)
+    holoAlpha(19,0)
+    holoAlpha(20,255)
+
+}
+
+#Doors
+
+interval(InterMul)
+
+ERDSpeedMul1 = 4
+ERDAngleMul = 170
+ERDSPeedMul2 = 11 #Default = 0
+
+ERD_A = ERD_A + ( ERD - ERD_A ) /  max( ERDSpeedMul1, ERDSPeedMul2 )  
+holoAng(21,E:toWorld(ang(0,0-ERD_A * ERDAngleMul,0)))
+
+BDSpeedMul1 = 4
+BDAngleMul = 120
+BDSPeedMul2 = 11 
+
+BD_B = BD_B + ( BD - BD_B ) /  max( BDSpeedMul1, BDSPeedMul2 )  
+holoAng(22,E:toWorld(ang(0,0-BD_B * BDAngleMul,0)))
+
+CDSpeedMul1 = 3
+CDAngleMul = 90
+CDSPeedMul2 = 7 
+
+CD_C = CD_C + ( CD - CD_C ) /  max( CDSpeedMul1, CDSPeedMul2 )  
+holoAng(23,E:toWorld(ang(0,0-CD_C * CDAngleMul,0)))
+
+
+
+

@@ -1,0 +1,162 @@
+@name Jazzlok EMD GP28-35-38 Stand (PT2 | Part 1 | Gauge Details)
+@inputs GP28_35_38_Stand:entity RLCPT:entity
+@outputs Stand:array
+@persist Load_A Air1_A Air2_A Air3_A Air4_A #_A 
+@trigger none
+
+#Started At: 1:40 - 6:24
+#Time: PM EST 8/5/21
+#Created By AZ
+
+#------------------------------------------------------------
+
+InterMul = 120
+interval(InterMul)
+
+E = GP28_35_38_Stand
+
+FirstDupeCode = first()|dupefinished()
+
+#------------------------------------------------------------
+
+#
+
+#------------------------------------------------------------
+
+RLCPTW = RLCPT:wirelink()
+Load = RLCPTW["Load1",number]
+
+#------------------------------------------------------------
+
+#
+
+#------------------------------------------------------------
+
+
+LoadNModel = "models/jazzie/trains/locomotives/emd/cab/ammeter_needle.mdl"
+
+GaugeNModel1 = "models/jazzie/trains/gauges/pointer_01.mdl"
+GaugeNModel2 = "models/jazzie/trains/gauges/pointer_01.mdl"
+GaugeNModel3 = "models/jazzie/trains/gauges/pointer_01.mdl"
+GaugeNModel4 = "models/jazzie/trains/gauges/pointer_01.mdl"
+
+
+#------------------------------------------------------------
+
+#
+
+#------------------------------------------------------------
+
+RLCPTW = RLCPT:wirelink()
+
+Air1 = RLCPTW["MainRes",number]
+Air2  = RLCPTW["EqualRes",number]
+Air3   = RLCPTW["Cyl",number]
+Air4 = RLCPTW["BrakePipe",number]
+
+#------------------------------------------------------------
+
+#
+
+#------------------------------------------------------------
+
+if(FirstDupeCode){
+
+    A = 0
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A,LoadNModel)
+    holoScale(A,vec(1))
+    holoAng(A,E:toWorld(ang(0,0,0))) 
+    holoPos(A,E:toWorld(vec(9.81,3.8,18.3)))
+#    holoColor(A,vec(255))
+#    holoMaterial(A,"")
+#    holoEntity(A):setSubMaterial(1,"")
+
+
+
+    A = 1
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A,GaugeNModel1)
+    holoScale(A,vec(1))
+#    holoAng(A,E:toWorld(ang(60,0,90))) 
+    holoPos(A,E:toWorld(vec(-1.94,1.85,15.05)))
+    holoColor(A,vec(255,0,0))
+#    holoMaterial(A,"")
+#    holoEntity(A):setSubMaterial(1,"")
+
+     A = 2
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A,GaugeNModel2)
+    holoScale(A,vec(1))
+#    holoAng(A,E:toWorld(ang(60,0,90))) 
+    holoPos(A,E:toWorld(vec(-1.94,1.74,15.05)))
+    holoColor(A,vec(255))
+#    holoMaterial(A,"")
+#    holoEntity(A):setSubMaterial(1,"")
+
+    A = 3
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A,GaugeNModel3)
+    holoScale(A,vec(1))
+#    holoAng(A,E:toWorld(ang(60,0,90))) 
+    holoPos(A,E:toWorld(vec(-9.15,1.85,15.05)))
+    holoColor(A,vec(255,0,0))
+#    holoMaterial(A,"")
+#    holoEntity(A):setSubMaterial(1,"")
+
+     A = 4
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A,GaugeNModel4)
+    holoScale(A,vec(1))
+#    holoAng(A,E:toWorld(ang(0,0,0))) 
+    holoPos(A,E:toWorld(vec(-9.15,1.74,15.05)))
+    holoColor(A,vec(255))
+#    holoMaterial(A,"")
+#    holoEntity(A):setSubMaterial(1,"")
+
+}
+
+#------------------------------------------------------------
+
+#
+
+#------------------------------------------------------------
+
+#
+
+Load_A = Load_A + (Load - Load_A) / max(5 , 0)
+holoAng(0,E:toWorld(ang( (-147.5-Load_A*0.045) ,0,0)))
+
+#
+
+#You Can Change This, But Change The LoadMeter If You See Something Wrong- Which You Might Not?.
+
+Air1_A = Air1_A + (Air1 - Air1_A) / max( (5) , 0)
+holoAng(1,E:toWorld(ang( (60+Air1_A*1.51) ,0,90)))
+
+Air2_A = Air2_A + (Air2 - Air2_A) / max( (5) , 0)
+holoAng(2,E:toWorld(ang( (60+Air2_A*1.53) ,0,90)))
+
+Air3_A = Air3_A + (Air3 - Air3_A) / max( (5) , 0)
+holoAng(3,E:toWorld(ang( (60+Air3_A*1.53) ,0,90)))
+
+Air4_A = Air4_A + (Air4 - Air4_A) / max( (5) , 0)
+holoAng(4,E:toWorld(ang( (60+Air4_A*1.53) ,0,90)))
+
+#
+
+#------------------------------------------------------------
+
+#
+
+#------------------------------------------------------------
+
+Stand[1,number] = InterMul
+Stand[2,entity] = E
+
+#------------------------------------------------------------

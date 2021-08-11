@@ -1,0 +1,58 @@
+@name Jazzlok 160 PSI Gauges (By AZ & PT2) 
+@inputs PSIGauge1:entity PSIGauge2:entity MainRes EqualRes BrakePipe Cyl
+@outputs MainAir EqualAir BrakeAir CyAir
+#@persist 
+#@trigger  
+
+    E1 = PSIGauge1
+    E2 = PSIGauge2
+    ##############
+    MR = MainRes
+    ER = EqualRes
+    BP = BrakePipe
+    C = Cyl
+    ##############
+    MainAir = MR 
+    EqualAir = ER
+    BrakeAir = BP
+    CyAir = C
+    
+if(first()|dupefinished()){
+    
+    reset()
+    
+}
+    
+    A = 1
+    holoCreate(A)
+    holoParent(A,E1)
+    holoColor(A,vec(255,0,0))
+    holoModel(A, "models/jazzie/trains/gauges/pointer_01.mdl")
+    holoPos(A,E1:toWorld(vec(0,0,-0.15)))
+    holoAng(A,E1:toWorld(ang(0,-60.9-MR,0)))
+
+    A = 2
+    holoCreate(A)
+    holoParent(A,E1)
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/gauges/pointer_01.mdl")
+    holoPos(A,E1:toWorld(vec(0,0,0)))
+    holoAng(A,E1:toWorld(ang(0,-60.9-ER,0)))
+
+    A = 3
+    holoCreate(A)
+    holoParent(A,E2)
+    holoColor(A,vec(255,0,0))
+    holoModel(A, "models/jazzie/trains/gauges/pointer_01.mdl")
+    holoPos(A,E2:toWorld(vec(0,0,-0.15)))
+    holoAng(A,E2:toWorld(ang(0,-60.9-C,0)))
+
+    A = 4
+    holoCreate(A)
+    holoParent(A,E2)
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/gauges/pointer_01.mdl")
+    holoPos(A,E2:toWorld(vec(0,0,0)))
+    holoAng(A,E2:toWorld(ang(0,-60.9-BP,0)))
+
+

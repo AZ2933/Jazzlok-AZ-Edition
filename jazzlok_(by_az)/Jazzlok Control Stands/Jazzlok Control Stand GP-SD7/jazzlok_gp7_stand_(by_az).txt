@@ -1,0 +1,55 @@
+@name Jazzlok GP7 Stand (By AZ)
+@inputs Stand_gp7:entity
+@outputs 
+@persist E:entity
+@trigger 
+
+#Started At 5:25 - 2:36
+#Time: PM UTC-3 7/19/21 - 7/20/21 AM
+
+#Lables1#
+
+E = Stand_gp7
+
+FirstDupeCode = first()|dupefinished()
+
+FirstDupeCode2 = first()|duped()
+
+#########
+
+#
+
+#Lables2#
+
+
+
+##Stand##
+
+StandModel = "models/jazzie/trains/locomotives/emd/cab/control_stand_gp7.mdl"
+StandColor = vec(255)
+
+Height = 44
+StandPos = vec(6.03,5.25#[5.75]#,Height)
+StandAng = ang(0,180,0)
+
+StandSubMat1 = "models/magtrainslocos/cabmetal_seafoam"
+
+#########
+
+#
+
+#########
+
+    A = 0
+    holoCreate(A)
+    holoParent(A,E)
+    holoScale(A,vec(1))
+    holoColor(A,StandColor)
+    holoModel(A,StandModel)
+    holoPos(A,E:toWorld(StandPos))
+    holoAng(A,E:toWorld(StandAng))
+    #holoBodygroup(0,1,TruckType)
+    #holoBodygroup(0,2,TruckBearingType)
+    #holoSkin(A,BogeySkin)
+    #holoEntity(A):setSubMaterial(1,BogeyWheelsSubMat)
+    holoEntity(A):setSubMaterial(3,StandSubMat1)

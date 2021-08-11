@@ -1,0 +1,45 @@
+@name Jazzlok Battery Panel GP28-GP35 (By AZ)
+@inputs BPanel:entity BKSwitch
+@outputs Power
+@persist Switch_A Open:string Close:string
+@trigger 
+
+#Started At 9:43PM - 11:05 PM EST 5/18/21
+
+E = BPanel
+
+Open = "_jazzlok/switches/knife_switch_open.wav"
+Close = "_jazzlok/switches/knife_switch_close.wav"
+
+if(first()|dupefinished()){
+
+    A = 1
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/panel_breaker_battery.mdl")
+    holoScale(A,vec(1))
+    holoColor(A,vec(255))
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+
+}
+
+#Switch Coding
+
+BatteryKnifeSwitch = BKSwitch
+
+if(BatteryKnifeSwitch){
+
+   holoAng(1,E:toWorld(ang(0,0,-0)))
+   holoPos(1,E:toWorld(vec(0,-2.51,0))) 
+   E:soundPlay(2,0,Open)
+   Power = 1
+
+}else{
+
+   holoAng(1,E:toWorld(ang(0,0,-110)))
+   holoPos(1,E:toWorld(vec(0,1,2.3))) 
+   E:soundPlay(3,0,Close)
+   Power = 0
+
+}

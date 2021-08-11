@@ -1,0 +1,170 @@
+@name Jazzlok GP9 Doors (By AZ)
+@inputs GP9:entity Front_Cab_Door Back_Cab_Door Engine_Section_Cabinets_Left Engine_Section_Cabinets_Right Generator_Section_Cabinets_Left Generator_Section_Cabinets_Right Compressor_Section_Cabinets_Left Compressor_Section_Cabinets_Right 
+@outputs 
+@persist 
+@trigger 
+
+E = GP9 #There's No Reason To Ask.. Its Obvious.. Isn't It??
+
+#Extras
+
+Test = Front_Cab_Door
+
+A = Back_Cab_Door
+
+B = Engine_Section_Cabinets_Left
+
+C = Engine_Section_Cabinets_Right
+
+D = Generator_Section_Cabinets_Left
+
+E1 = Generator_Section_Cabinets_Right
+
+F = Compressor_Section_Cabinets_Right
+
+G = Compressor_Section_Cabinets_Left
+
+S = GP9
+
+#Start Config
+
+Dynamic_Cooling = 0 #Dynamics... Duh
+
+Side_Radiator = 0
+
+Hood = 0 #0 = Low, High = 1
+
+Engine_Room_Equipment = 0 
+
+
+#End Config
+
+
+
+#Engine Details Start
+
+if(Dynamic_Cooling == 1){
+    
+    E:setBodygroup(2,Dynamic_Cooling)
+
+}else{
+
+    E:setBodygroup(2,Dynamic_Cooling)
+
+}
+
+if(Side_Radiator == 1){
+    
+    E:setBodygroup(3,Side_Radiator)
+
+}else{
+
+    E:setBodygroup(3,Side_Radiator)
+
+}
+
+if(Hood == 1){
+    
+    E:setBodygroup(4,Hood)
+
+}else{
+
+    E:setBodygroup(4,Hood)
+
+}
+
+if(Engine_Room_Equipment == 1){
+    
+    E:setBodygroup(5,Engine_Room_Equipment)
+
+}else{
+
+    E:setBodygroup(5,Engine_Room_Equipment)
+
+}
+
+#Engine Details End
+
+
+
+#Engine Doors Start
+
+if(Test){
+
+E:setBodygroup(6,Test)
+
+}else{
+
+E:setBodygroup(6,Test)
+
+}
+
+if(Back_Cab_Door){
+
+E:setBodygroup(7,A)
+
+}else{
+
+E:setBodygroup(7,A)
+
+}
+
+if(Engine_Section_Cabinets_Left){
+
+E:setBodygroup(8,B)
+
+}else{
+
+E:setBodygroup(8,B)
+
+}
+
+if(Engine_Section_Cabinets_Right){
+
+E:setBodygroup(9,C)
+
+}else{
+
+E:setBodygroup(9,C)
+
+}
+
+if(Engine_Section_Cabinets_Right){
+
+E:setBodygroup(10,D)
+
+}else{
+
+E:setBodygroup(10,D)
+
+}
+
+if(Generator_Section_Cabinets_Left){
+
+E:setBodygroup(11,E1)
+
+}else{
+
+E:setBodygroup(11,E1)
+
+}
+
+if(Compressor_Section_Cabinets_Right){
+
+E:setBodygroup(12,F)
+
+}else{
+
+E:setBodygroup(12,F)
+
+}
+
+if(Compressor_Section_Cabinets_Left){
+
+E:setBodygroup(13,G)
+
+}else{
+
+E:setBodygroup(13,G)
+
+}

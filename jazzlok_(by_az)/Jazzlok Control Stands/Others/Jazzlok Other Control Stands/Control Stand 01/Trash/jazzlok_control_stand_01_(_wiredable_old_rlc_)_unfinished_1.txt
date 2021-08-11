@@ -1,0 +1,75 @@
+@name Jazzlok Control Stand 01 ( Wiredable Old RLC ) Unfinished 1
+@inputs Control_stand_01:entity Reverser Brake
+@outputs 
+@persist Brake_A Reverser_A
+@trigger 
+
+E = Control_stand_01
+FirstDupeCode = first()|dupefinished()
+#Wire To Model models/jazzie/trains/locomotives/emd/cab/control_stand_01.mdl
+
+#Started At 9:38PM - 11:36PM EST 6/7/21 | 4:00PM - 7:00PM 6/8/21
+
+
+
+if(FirstDupeCode){
+    
+    A = 1
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/autobrake_lever01.mdl")
+    holoScale(A,vec(1))
+    holoColor(A,vec(1))
+    holoAng(A,E:toWorld(ang(0,0,0)))  
+    holoPos(A,E:toWorld(vec(-16.06,-5.4,12.28)))  
+
+    A = 2
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/selector_reverser_lever01.mdl")
+    holoScale(A,vec(1))
+    holoColor(A,vec(1))
+    holoAng(A,E:toWorld(ang(0,0,0)))  
+    holoPos(A,E:toWorld(vec(6,-2.5,9.75)))  
+#[
+    A = 3
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, "models/jazzie/trains/number_wheel_selector.mdl")
+    holoScale(A,vec(1))
+    holoColor(A,vec(1))
+    holoAng(A,E:toWorld(ang(0,0,0)))  
+    holoPos(A,E:toWorld(vec(0,-5.4,12.28)))  
+]#
+}
+
+interval(100)
+
+Brake_A = Brake_A + (Brake - Brake_A) / max( 4 , 1 )
+holoAng(1,E:toWorld(ang(0,-90+(Brake_A*110),0)))
+
+#
+
+
+#ReverserB
+
+
+
+holoAng(2,E:toWorld(ang(90,0,0)))  
+
+#[
+RA = Reverser*ReverserAng
+ReverserB = Reverser
+]#
+
+ReverserAng = 20
+
+Reverser_A = Reverser_A + (Reverser - Reverser_A) / max( 4 , 1 )
+holoAng(2,E:toWorld(ang(90,-0+(Reverser_A*ReverserAng),0)))
+
+if(changed(Reverser)){
+
+E:soundPlay("reverser",0,"_jazzlok/switches/selector_action.wav")
+soundStop("reverser",0.4)
+
+}

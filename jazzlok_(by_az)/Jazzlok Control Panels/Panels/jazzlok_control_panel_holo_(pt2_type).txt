@@ -1,0 +1,44 @@
+@name Jazzlok Control Panel Holo (PT2 Type)
+@inputs Shutdown1switch Shutdown2switch
+@outputs Shutdown1
+@persist A Entity:entity C Start
+@trigger 
+@model models/jazzie/trains/locomotives/emd/cab/gp28-35-38-40_engine_control_panel.mdl
+
+#Created By AZ2933
+
+Color1=vec(0,0,0)
+Entity=entity()
+A++
+holoCreate(A)
+holoPos(A,Entity:toWorld(vec(4.4,15,0.8)))
+holoParent(A,Entity)
+holoModel(A, "models/monkcabdetailpack/buttons/sliderswitch.mdl")
+holoAng(A,Entity:toWorld(ang(0,90,0)) )
+holoScale(A, vec(1))
+#holoMaterial(A,"")
+holoColor(A, Color1)
+
+#
+
+
+#######################################Shutdown1 & 2 Config##################################################
+
+     E2=entity()
+    
+    holoCreate(1, E2:toWorld(vec(0.2,20.7,0.2)), vec(0,0,0), E2:toWorld(ang(0)))
+    holoColor(1, vec(255))
+    holoModel(1, "models/monkcabdetailpack/misc/pushbuttonbig.mdl")
+    holoScale(1, vec(1))
+    holoParent(1, E2)
+    holoEntity(1):setSubMaterial(1,"models/proppertextures/plastic_black")
+    holoEntity(1):setSubMaterial(2,"bobsters_trains/br_buffer_red")
+
+if(Shutdown1switch){Shutdown1=1
+    holoBodygroup(1,1,0)
+    soundPlay(2,1,"_jazzlok/switches/switch_light_01.wav")}else{Shutdown1=0
+     holoBodygroup(1,1,1)
+    soundPlay(1,1,"_jazzlok/switches/switch_light_02.wav")}
+
+
+
