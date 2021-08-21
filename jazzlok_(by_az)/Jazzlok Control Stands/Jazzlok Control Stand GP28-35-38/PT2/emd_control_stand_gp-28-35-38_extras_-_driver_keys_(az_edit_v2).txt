@@ -1,0 +1,51 @@
+@name EMD Control Stand GP-28-35-38 Extras - Driver Keys (AZ Edit V2)
+@inputs Driver:entity
+@outputs Engine_Run 
+@outputs Control FuelPump
+@persist 
+@trigger 
+
+#Started At 2:47 - 3:01
+#Time: PM EST 8/20/21
+#For PT2 
+
+#
+
+#-----------------------------------------------------------
+
+    runOnKeys(Driver,1)
+
+if(first()|dupefinished()){
+    Engine_Run = 0
+    Control = 0
+    FuelPump = 0
+    # = 0
+}
+
+#-----------------------------------------------------------
+
+#
+
+#-----------------------------------------------------------
+
+Key1 = "pad_7"
+Key2 = "pad_9"
+Key3 = "pad_minus"
+
+
+#-----------------------------------------------------------
+
+#
+
+if(changed(Driver:keyPressed(Key2)) & Driver:keyPressed(Key2)){
+    FuelPump = !FuelPump
+}
+
+if(changed(Driver:keyPressed(Key1)) & Driver:keyPressed(Key1)){
+    Control = !Control
+}
+if(changed(Driver:keyPressed(Key3)) & Driver:keyPressed(Key3)){
+    Engine_Run = !Engine_Run
+}
+
+#
