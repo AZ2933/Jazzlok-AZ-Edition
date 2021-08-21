@@ -1,0 +1,116 @@
+@name Jazzlok GP28-35-38 Battery E2 (By AZ)
+@inputs Battery_Panel_GP28_35:entity Battery_Switch
+@outputs GP28_35_38_Connections:array Switch_Ang
+@persist Switch_A 
+@trigger 
+
+#Started At: 5:37 - 8:04
+#Time: EST PM 8/20/21
+#For PT2 GP Stand
+
+#
+
+#------------------------------------------------------------
+
+Switch_A = Switch_A + (Battery_Switch - Switch_A) / max( 2 , 0 )
+
+Switch_Ang = Switch_A
+
+#------------------------------------------------------------
+
+#
+
+#------------------------------------------------------------
+
+FirstDupeCode = first()|dupefinished()
+
+E = Battery_Panel_GP28_35
+
+interval(120)
+
+#------------------------------------------------------------
+
+#
+
+#------------------------------------------------------------
+
+if(FirstDupeCode){
+
+    A = 0
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A, "")
+    holoScale(A,vec(0))
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+    holoEntity(A):setSubMaterial(1,"")
+
+    E1 = holoEntity(0)
+
+    A = 1
+    holoCreate(A)
+    holoParent(A,E1)
+    holoColor(A,vec(255))
+    holoModel(A, "models/jazzie/trains/locomotives/emd/cab/panel_breaker_battery.mdl")
+    holoPos(A,E1:toWorld(vec(0,-2.53,0)))
+    holoAng(A,E1:toWorld(ang(0,0,0)))
+    holoEntity(A):setSubMaterial(1,"")
+
+#[   
+    A = 2
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(255))
+    holoModel(A, "")
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+    holoEntity(A):setSubMaterial(1,"")
+]#
+
+}
+
+#------------------------------------------------------------
+
+#
+
+#------------------------------------------------------------
+
+    holoAng(0,E:toWorld(ang(0,0,180+Switch_A*180)))
+
+#------------------------------------------------------------
+
+#
+
+#------------------------------------------------------------
+
+GP28_35_38_Connections[1,number] = Battery_Switch
+
+#------------------------------------------------------------
+
+if(changed(Switch_A > 0.98) & Switch_A > 0.98){
+    
+E:soundPlay("hum",0,"_jazzlok/switches/hum.wav")
+soundVolume("hum",0.2)
+
+}elseif(changed(!Battery_Switch)){
+
+soundStop("hum",0.9)
+
+}
+
+if(changed(Switch_A > 0.7) & Switch_A > 0.7) #[Eh still act like its already open]#{
+ 
+E:soundPlay("open",1,"_jazzlok/switches/knife_switch_open.wav")
+soundVolume("close",0)
+soundStop("close")
+
+}elseif(changed(!Battery_Switch) & !Battery_Switch){
+
+E:soundPlay("close",0,"_jazzlok/switches/knife_switch_close.wav")
+soundStop("open")
+soundVolume("open",0)
+
+}
+
+#------------------------------------------------------------
