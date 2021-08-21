@@ -1,0 +1,947 @@
+@name EMD Control Stand GP-28-35-38-39-40 RLC by Shomi (AZ Edit V2)
+#------------------------------------------------------------------------------------------
+@inputs GP28_35_38_Control_Stand:entity CtlTable:table RLCPT:entity Pod:wirelink GP28_35_38_Connections:array 
+@inputs Selector MU_Master 
+@inputs Isolation Engine_Run Gen_Field 
+@inputs BCI_DN BCI_UP 
+@inputs Control FuelPump
+@inputs HDLT Headlight 
+#------------------------------------------------------------------------------------------
+@outputs CONTRAINT 
+@outputs Selector SelectorNotch MU 
+@outputs Isolation1 EngineRun GenField 
+@outputs BrakeCutIn BCI_Set #[BCI_A]#
+@outputs BCI_SetName:string 
+@outputs HornIn Bell EmBrake
+@outputs HDVec:vector HDPower
+#outputs #Brake_A (Test Reasons)
+
+#I like how it took almost the whole day (and more) just to edit this e2 xd. (same to edit this into pt2).
+
+#------------------------------------------------------------------------------------------------------------------------
+
+#Engine Stuff
+@persist Load_A Transition_A Transition2_A 
+
+#Levers
+@persist Notch_A Reverser_A Brake_A LBrake_A LocoBleed_A Dynamics_A 
+
+#Brakes
+@persist Air1_A Air2_A Air3_A Air4_A   
+
+#Driver Stuff
+@persist Horn_A  HDLT_A
+
+#Stand 
+@persist BCI_A
+
+#------------------------------------------------------------------------------------------------------------------------
+
+#@model models/jazzie/trains/locomotives/emd/cab/gp28-35-38_control_stand.mdl
+@trigger none 
+
+#[
+
+
+
+                   Finished | Finished2 | Finished3  |    Finished4
+Edited At: 12:59 -   6:26   -  10:22                 | 5:07 - 12:06 AM - 7:46 PM |
+Time: PM EST 8/13/21 | 8/14/21   -       2:39 - 2:50 |8/19/21 - 8/20/21          |
+
+Basically A Dash 1 Version xd | ( Composite Stand But AAR Controls )
+
+ R E M E M B E R ! 
+
+PLEASE PRESS THE ALT (Left) BUTTON [ LIGHTLY ], OR ELSE IT WOULD GO ON OR OFF OR IT WILL STUCK BEING ON,
+PLEASE SET YOUR "Value On" TO 1 OR ELSE THE MOVEMENT OF THE LEVERS WILL BE F--KED,
+OPEN THE SELECTOR TO OPEN MU MASTER,
+(AND) & Wire Crosshairs And Allow Buttons To CONSTRAINT PLEASE (If you want to actually).
+
+
+
+]#
+
+E = GP28_35_38_Control_Stand
+
+PTWL = RLCPT:wirelink()
+CTLT = CtlTable
+
+# RLC PTGAMMA ( PT2 )
+
+#--------------------------------------------------------------------------------
+
+#RLC Connections
+
+local Load      = PTWL["Load1",number]
+local Reverser  = CTLT["SetReverser",number]
+local Throttle  = CTLT["SetThrottle",number]
+local Dynamics  = CTLT["SetDynamics",number]
+local DynaNotch = Dynamics
+local Sander    = PTWL["ForceSand",number]
+local WheelSlip = PTWL["WheelSlip",number]
+local Sanding   = Sander
+local EmBrake   = PTWL["Emergency",number]
+
+
+
+#local BrakeInfo = PTWL["BrakeInfo",array]
+local AirBrake  = CTLT["SetBrakeNotch",number]
+local LocoBrake = CTLT["SetLocoBrakePressure",number]
+local LocoBleed = CTLT["SetBleeding",number]
+local Air1      = PTWL["MainRes",number]    
+local Air2      = PTWL["EqualRes",number]  
+local Air3      = PTWL["BrakePipe",number]       
+local Air4      = PTWL["Cyl",number]
+
+
+#
+
+
+
+#
+
+local Horn = Pod["R",number]
+local BellToggle = Pod["Alt",number]
+
+#
+
+#
+
+Battery = GP28_35_38_Connections[1,number]
+
+#
+
+#--------------------------------------------------------------------------------
+
+# Holo Movements
+
+HDLT_A = HDLT_A + (Headlight - HDLT_A)                / max(1.5 , 0)
+#
+Horn_A = Horn_A + (Horn - Horn_A)                     / max(1.7 , 0)
+#
+Reverser_A = Reverser_A + (Reverser - Reverser_A)     / max( 2 , 0 )
+Notch_A = Notch_A + (Throttle - Notch_A)              / max( 2 , 0 )
+Trainsition_A3 =                                        max( 2 , 0 )
+Dynamics_A = Dynamics_A + (DynaNotch - Dynamics_A)    / max( 2 , 0 )
+#
+Load_A = Load_A + ( Load - Load_A)                    / max( 3 , 0 )
+Brake_A = Brake_A + (AirBrake - Brake_A)              / max( 3 , 0 )
+LBrake_A = LBrake_A + (LocoBrake - LBrake_A)          / max( 3 , 0 )
+LocoBleed_A = LocoBleed_A + (LocoBleed - LocoBleed_A) / max(1.3 ,0 )
+Trainsition_A2 =                                        max( 3 , 0 )
+#max( 3 , 0 )
+#
+Air1_A = Air1_A + (Air1 - Air1_A)                     / max( 5 , 0 )
+Air2_A = Air2_A + (Air2 - Air2_A)                     / max( 5 , 0 )
+#
+Air3_A = Air3_A + (Air3 - Air3_A)                     / max( 10 , 0 )
+Air4_A = Air4_A + (Air4 - Air4_A)                     / max( 10 , 0 )
+
+#--------------------------------------------------------------------------------
+
+#
+
+#--------------------------------------------------------------------------------
+
+Active = MU_Master
+
+#--------------------------------------------------------------------------------
+
+#
+
+#--------------------------------------------------------------------------------
+
+#Models & S--t.
+
+FirstDupeCode               = first() | dupefinished()
+HoloTimeSpawnSeconds        = 10000 #Because jazzlok lol
+HoloSpawnName               = "spawn"
+#
+BaseStandModel              = "models/jazzie/trains/locomotives/emd/cab/gp28-35-38_control_stand.mdl"
+BaseStandColor              = vec(255)
+BaseSubMat1                 = "jazzie/trains/grey_metal"
+#
+LoadNeedleModel             = "models/jazzie/trains/locomotives/emd/cab/ammeter_needle.mdl"
+LoadNeedleColor             = vec(255)
+LoadNeedleScale             = vec(0.69)
+#
+ReverserBModel              = "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_reverser_base.mdl"
+ReverserLModel              = "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_reverser_lever.mdl"
+ReverserBColor              = vec(65)
+ReverserLColor              = vec(93,100,100)
+#
+NotchModel                  = "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_throttle_lever.mdl"
+NotchColor                  = vec(65)
+#
+TransitionModel             = "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_transition_lever.mdl"
+TransitionColor             = vec(65)
+#
+AutoBrakeModel              = "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_auto_brake_lever.mdl"
+LocoBrakeModel              = "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_inde_brake_lever.mdl"
+AutoBrakeColor              = vec(130)
+LocoBrakeColor              = vec(130)
+
+AirNeedle1Model             = "models/jazzie/trains/locomotives/emd/cab/speedometer_pointer.mdl"
+AirNeedle1Color             = vec(255,0,0)
+AirNeedle1Scale             = vec(0.97)
+
+AirNeedle2Model             = "models/jazzie/trains/locomotives/emd/cab/speedometer_pointer.mdl"
+AirNeedle2Color             = vec(255)
+AirNeedle2Scale             = vec(0.97)
+
+AirNeedle3Model             = "models/jazzie/trains/locomotives/emd/cab/speedometer_pointer.mdl"
+AirNeedle3Color             = vec(255,0,0)
+AirNeedle3Scale             = vec(0.97)
+
+AirNeedle4Model             = "models/jazzie/trains/locomotives/emd/cab/speedometer_pointer.mdl"
+AirNeedle4Color             = vec(255)
+AirNeedle4Scale             = vec(0.97)
+#
+NotchWheelModel             = "models/jazzie/trains/number_wheel_selector.mdl"
+SelectorWheelModel          = "models/jazzie/trains/number_wheel_throttle.mdl"
+NotchWheelScale             = vec(0.13,0.12,0.09)
+SelectorWheelScale          = vec(0.12,0.12,0.09)
+#
+BellModel                   = "models/jazzie/trains/locomotives/emd/cab/bell_switch.mdl"
+HornModel                   = "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_horn_lever.mdl"
+HornColor                   = vec(220,170,0)
+SanderModel                 = "models/jazzie/trains/locomotives/emd/cab/control_stand_sd-gp9-18-20_sander_switch.mdl"
+HDLTSwitchModel             = "models/jazzie/trains/locomotives/emd/cab/control_panel_switch1.mdl"
+#
+BrakeCutInModel             = "models/magtrainslocos/rotaryswitches/headlight_ge.mdl"
+BrakeCutInColor             = vec(255)
+BrakeCutInSubMat            = "models/proppertextures/brass"
+#
+#--------------------------------------------------------------------------------
+
+#
+
+if(FirstDupeCode)
+{
+    timer(HoloSpawnName,HoloTimeSpawnSeconds)
+    E:setAlpha(0)
+
+}
+
+if(clk(HoloSpawnName))
+{     
+
+#[
+    A = 0
+    holoCreate(A)
+    holoParent(A,entity())
+    holoColor(A,vec(50))
+    holoModel(A, "models/magstrains/vehicles/cabseat_retrofit") 
+    holoPos(A,entity():toWorld(vec(-3,-25,-30)))
+    holoAng(A,entity():toWorld(ang(0,-35,0)))
+    holoBodygroup(A,1,1)
+    holoBodygroup(A,2,1)
+]#
+        
+        
+        
+        
+        
+    A = 1
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,BaseStandColor)
+    holoModel(A, BaseStandModel)
+    holoPos(A,E:toWorld(vec(0,0,0)))
+    holoAng(A,E:toWorld(ang(0,0,0)))
+    holoEntity(A):setSubMaterial(4,BaseSubMat1)
+                
+    A = 2
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,LoadNeedleColor)
+    holoScale(A,LoadNeedleScale)
+    holoModel(A, LoadNeedleModel)
+    holoPos(A,E:toWorld(vec(9.6,3.15,16.5)))
+    holoAng(A,E:toWorld(ang(-66,0,0))) 
+
+    A = 3
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,ReverserBColor)
+    holoModel(A, ReverserBModel)
+    holoPos(A,E:toWorld(vec(6.275,1,-4.75)))
+    holoAng(A,E:toWorld(ang(0,30,0))) 
+    
+    A = 4
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,NotchColor)
+    holoModel(A, NotchModel)
+    holoPos(A,E:toWorld(vec(0)))
+    holoAng(A,E:toWorld(ang(0,40,0))) 
+
+    A = 5
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,TransitionColor)
+    holoModel(A, TransitionModel)
+    holoPos(A,E:toWorld(vec(6.275,-2.6,4.75)))
+    holoAng(A,E:toWorld(ang(0,180,0))) 
+
+    A = 6
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,AutoBrakeColor)
+    holoModel(A, AutoBrakeModel)
+    holoPos(A,E:toWorld(vec(-22.48,-8.8,9.45)))
+    holoAng(A,E:toWorld(ang(0,0,0))) 
+                         
+    A = 7
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,LocoBrakeColor)
+    holoModel(A, LocoBrakeModel)
+    holoPos(A,E:toWorld(vec(-22.4,-9,-1)))
+    holoAng(A,E:toWorld(ang(0,70,0))) 
+                   
+                
+                
+                
+                                              
+    A = 8
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,AirNeedle1Color)
+    holoScale(A,AirNeedle1Scale)
+    holoModel(A, AirNeedle1Model)
+    holoPos(A,E:toWorld(vec(-9.15,1.72,15)))
+    holoAng(A,E:toWorld(ang(-210,0,90)))    
+    
+    A = 9
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,AirNeedle2Color)
+    holoScale(A,AirNeedle2Scale)
+    holoModel(A, AirNeedle2Model)
+    holoPos(A,E:toWorld(vec(-9.15,1.68,15)))
+    holoAng(A,E:toWorld(ang(-210,0,90)))  
+    
+    A = 10
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,AirNeedle3Color)
+    holoScale(A,AirNeedle3Scale)
+    holoModel(A, AirNeedle3Model)
+    holoPos(A,E:toWorld(vec(-1.87,1.72,15)))
+    holoAng(A,E:toWorld(ang(-210,0,90)))    
+    
+    A = 11
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,AirNeedle4Color)
+    holoScale(A,AirNeedle4Scale)
+    holoModel(A, AirNeedle4Model)
+    holoPos(A,E:toWorld(vec(-1.87,1.68,15)))
+    holoAng(A,E:toWorld(ang(-210,0,90)))      
+    
+
+
+
+
+    A = 12
+    holoCreate(A)
+    holoParent(A,E)
+    holoScale(A,NotchWheelScale)
+    holoModel(A, NotchWheelModel)
+    holoPos(A,E:toWorld(vec(-4.67,-2.35,8.45)))
+    holoAng(A,E:toWorld(ang(180,31,180)))     
+    
+    A = 13
+    holoCreate(A)
+    holoParent(A,E)
+    holoScale(A,SelectorWheelScale)
+    holoModel(A, SelectorWheelModel)
+    holoPos(A,E:toWorld(vec(-4.7,-2.4,7.6)))
+    holoAng(A,E:toWorld(ang(180,31,180))) 
+
+
+
+
+
+    A = 14
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, BellModel)
+    holoPos(A,E:toWorld(vec(-15.8,-5.5,-5.62)))
+    holoAng(A,E:toWorld(ang(0,0,0))) 
+ 
+    A = 15
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,vec(220,170,0))
+    holoModel(A, HornModel)
+    holoPos(A,E:toWorld(vec(-16.2,-6.9,9.25)))
+    holoAng(A,E:toWorld(ang(0,0,0)))            
+
+    A = 16
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,ReverserLColor)
+    holoModel(A, ReverserLModel)
+    holoPos(A,E:toWorld(vec(6.275,1,-4.75)))
+    holoAng(A,E:toWorld(ang(0,30,0)))     
+    
+    A = 17
+    holoCreate(A)
+    holoParent(A,E)
+    holoModel(A, SanderModel)
+    holoPos(A,E:toWorld(vec(-15.8,-5.5,0.5)))
+    holoAng(A,E:toWorld(ang(0,0,0)))           
+
+    A = 18
+    holoCreate(A)
+    holoParent(A,E)
+    holoScale(A,vec(1))
+    holoModel(A, HDLTSwitchModel)
+    holoPos(A,E:toWorld(vec(15.1,-4.45,-4.05)))
+    holoAng(A,E:toWorld(ang(180,0,90)))  
+        
+    A = 19
+    holoCreate(A)
+    holoParent(A,E)
+    holoColor(A,BrakeCutInColor)
+    holoModel(A, BrakeCutInModel)
+    holoPos(A,E:toWorld(vec(-23.6,-11,6.3)))
+    holoAng(A,E:toWorld(ang(90,-90,-15))) 
+    holoEntity(A):setSubMaterial(5,BrakeCutInSubMat)
+    holoBodygroup(19,2,1)
+
+
+                                  
+}
+
+#--------------------------------------------------------------------------------
+
+#
+
+interval(120)
+
+  #Throttle Checks 
+  #( . T H E    C O D E    D U N G E O N .    which is what i like to call)
+
+
+if(Battery & FuelPump & Control){
+
+if(Isolation){
+
+Isolation1 = 1
+
+}else{
+
+Isolation1 = 0
+
+}
+
+}else{
+
+Isolation1 = 0
+
+}
+
+#
+
+if(Battery & Engine_Run){
+    
+EngineRun = 1
+
+}else{
+
+EngineRun = 0
+
+}
+
+#
+
+if(Battery & Gen_Field){
+    
+GenField = 1
+
+}else{
+
+GenField = 0
+
+}
+
+#
+
+if(BCI_DN)
+{
+    BCI_A++
+}
+if(BCI_A >= 3)
+{
+    BCI_A = 0
+}
+
+if(BCI_UP)
+{
+    BCI_A--
+}
+if(-BCI_A >= 0)
+{
+    BCI_A = 0
+}
+
+
+
+holoBodygroup(19,1,BCI_A*2)
+
+BCI_Set = BCI_A
+
+if(BCI_Set == 0){
+    
+BCI_SetName = "(BCI Not Set)"
+
+}elseif(BCI_Set == 1){
+    
+BCI_SetName = "Freight"
+
+}elseif(BCI_Set == 2){
+
+BCI_SetName = "Passenger"
+
+}
+
+#if(BCI){
+    
+#BrakeCutIn = 1
+
+#}else{
+
+#BrakeCutIn = 0
+
+#}
+
+#
+
+if(Selector){
+
+TransitionLever = 2
+
+MU = 1
+
+Selector = 1
+
+}else{
+
+MU = 0
+
+TransitionLever = 0
+
+Selector = 0
+
+}
+
+
+if(!Dynamics){Throttle = Throttle} 
+
+
+
+if(Dynamics){
+    
+    DynamicsAng = DynaNotch*1, TransitionLever = -2, Notch_A = Dynamics_A 
+    
+    }
+
+#
+
+
+
+#if(!MU_Master){
+    
+#TransitionLever = 0
+
+#}
+
+#
+
+#--------------------------------------------------------------------------------
+
+#
+
+if(TransitionLever == -2){
+
+TransitionLeverAng = 36
+
+NotchWAng = 29*-0.03       
+#I didnt know how the notch wasn't in the right order but at the same time i couldn't really fix it :/ (oh well DEAL WITH IT xd)
+NotchAng = 8*-0.03         
+
+}elseif(TransitionLever == 0){
+
+TransitionLeverAng = 0
+NotchWAng = 0
+NotchAng = 0
+
+}elseif(TransitionLever == 2){
+
+TransitionLeverAng = -34
+NotchWAng = 0
+NotchAng = 0
+
+}
+
+#
+
+Transition_A = Transition_A + (TransitionLever - Transition_A) / Trainsition_A2       #These type of s--ts will get confusing one day.
+Transition2_A = Transition2_A + (TransitionLeverAng - Transition2_A) / Trainsition_A3
+
+#
+
+#
+
+#elseif & Output Connections
+SelectorNotch = TransitionLever
+BrakeCutIn = BCI_Set
+
+#
+
+#
+
+if(BellToggle){
+    
+Bell = !Bell
+E:soundPlay(0,1, Bell ? "gsgtrainsounds/misc/air_on.wav" : "gsgtrainsounds/misc/air_off.wav")
+
+}
+
+
+
+if(Horn_A > 0.6){
+    
+HornIn = 1
+
+}else{
+
+HornIn = 0
+
+}
+
+
+
+if(Active > 0){
+
+ReverserHandle = 1
+
+}else{
+
+ReverserHandle = 0
+
+}
+
+RH = ReverserHandle
+
+if(ReverserHandle >= 1){
+
+
+holoBodygroup(1,2,1)
+holoBodygroup(1,3,1)
+
+    
+}else{
+
+holoBodygroup(1,2,0)
+holoBodygroup(1,3,0)
+
+}
+
+holoBodygroup(1,1,Engine_Run)
+E:setBodygroup(1,Engine_Run)
+holoBodygroup(1,2,Control)
+E:setBodygroup(2,Control)
+holoBodygroup(1,3,FuelPump)
+E:setBodygroup(3,FuelPump)
+holoBodygroup(1,4,Gen_Field)
+E:setBodygroup(4,Gen_Field)
+holoBodygroup(1,5,HDLT)
+E:setBodygroup(5,HDLT)
+holoBodygroup(1,10,Sanding)
+E:setBodygroup(10,Sanding)
+
+#
+
+if(HDLT){
+
+if(HDLT_A > 0.9){
+
+HDPower = 1
+HDVec = vec(255)
+
+}else{
+
+HDPower = 0
+HDVec = vec(0)
+
+}
+
+}else{
+
+HDVec = vec(0)
+HDPower = 0
+
+}
+
+if(Brake_A > 4.8){
+    
+holoBodygroup(1,9,1)
+EmBrake = 1
+
+}else{
+
+holoBodygroup(1,9,0)
+EmBrake = 0
+
+}
+
+#
+
+#
+
+
+
+#
+
+#
+
+#if(TransitionLever == -2){
+
+#NotchAng = 12
+
+#}else{
+
+#NotchAng = 0
+
+#}
+
+#
+
+#--------------------------------------------------------------------------------
+
+#
+
+
+
+#if(Active==0){holoAlpha(16,0)}
+#else{holoAlpha(16,255)}
+
+
+
+holoAng(2,E:toWorld(+ang(-128-Load_A                *0.08,0,0)))
+holoAng(3,E:toWorld(+ang(0,0+(Reverser_A            * 29),0))) 
+holoAng(4,E:toWorld(+ang(0,40-(Notch_A              * 0.8)+NotchAng,0)))     
+holoAng(5,E:toWorld(+ang(0,0+(-Transition_A         * 15),0))) 
+holoAng(6,E:toWorld(+ang(0,((Brake_A)-2.5)          *18,0)))   
+holoAng(7,E:toWorld(+ang(0,(LBrake_A)               *1.2,LocoBleed_A*5.2))) 
+holoAng(8,E:toWorld(ang(-210+(Air1_A                * 1.51),0,90)))
+holoAng(9,E:toWorld(ang(-210+(Air2_A                * 1.50),0,90)))
+holoAng(10,E:toWorld(ang(-210+(Air4_A               * 1.53),0,90)))
+holoAng(11,E:toWorld(ang(-210+(Air3_A               * 1.49),0,90)))
+holoAng(12,E:toWorld(ang(180,72+(Transition2_A),180)))
+holoAng(13,E:toWorld(ang(180,72-(Notch_A            * 2.845)+NotchWAng,180)))
+holoPos(14,E:toWorld(vec(-15.8,-5.5+(Bell),-5.62)))
+holoAng(15,E:toWorld(+ang(0,0,0+(Horn_A             * 30)))) 
+holoAng(16,E:toWorld(+ang(0,0+(Reverser_A           * 29),0))) 
+holoAlpha(16,Active*255)
+holoPos(17,E:toWorld(vec(-15.8,-5.5+(Sander/1),0.5)))
+holoAng(18,E:toWorld(+ang(180+(HDLT_A               * 180),0,90))) 
+
+
+
+if(Sanding){holoBodygroup(1,10,1)} 
+elseif(WheelSlip){holoBodygroup(1,11,1)} 
+elseif(Dynamics){holoBodygroup(1,8,1)} 
+else{
+    holoBodygroup(1,8,0)
+    holoBodygroup(1,10,0)
+    holoBodygroup(1,11,0)
+    } 
+    
+#--------------------------------------------------------------------------------
+
+#Sounds (Alot...)
+
+if(changed(Throttle) | changed(Dynamics))
+{
+    E:soundPlay("notch",0,select(randint(1,2),"_jazzlok/switches/switch_heavy_02.wav","_jazzlok/switches/switch_heavy_03.wav") )
+    soundStop("notch",0.5) 
+} 
+
+#
+
+if(changed(Bell)){
+ 
+    E:soundPlay("bell",0,"_jazzlok/switches/switch_med_01.wav") 
+    soundStop("bell",0.4)  
+}
+
+if(changed(Sander))
+{
+    E:soundPlay("sand",0,"_jazzlok/switches/barrel_notch.wav") 
+    soundStop("sand",0.4) 
+} 
+
+#
+
+if(changed(Horn))
+{
+    E:soundPlay("horn",0,"_jazzlok/switches/throttle_lever05.wav") 
+    soundStop("horn",0.5) 
+} 
+
+#
+
+if(changed(RH))
+{
+    E:soundPlay("res2",0,"buttons/latchunlocked1.wav")
+    soundPitch("res2", 50)
+    E:soundPlay("res",0,"_jazzlok/switches/barrel_notch.wav")
+    soundPitch("res", 80)
+    soundStop("res",0.5)
+    soundStop("res2",1)    
+    
+}
+
+#
+
+if(changed(Headlight)){
+
+    E:soundPlay("hdlt",0,"gsgtrainsounds/misc/switch_rotating.wav") 
+    soundStop("hdlt",0.55) 
+
+}
+
+#
+
+if(
+changed(Engine_Run) 
+| 
+changed(Control) 
+|
+changed(FuelPump)
+|
+changed(Gen_Field) 
+| 
+changed(HDLT)
+) 
+{
+    E:soundPlay("switch",0,                       
+        select(    
+            randint(1,2),
+            "_jazzlok/switches/switch_heavy_02.wav",
+            "_jazzlok/switches/switch_heavy_03.wav"
+            ) 
+        )
+        
+    soundPitch("switch", select(randint(1,5),140,135,140,155,150))
+    soundVolume("switch",1)
+    soundStop("switch",0.35) 
+}
+
+#
+
+if(changed(AirBrake))
+{
+    E:soundPlay("brake",0,                       
+        select(    
+            randint(1,2),
+            "_jazzlok/switches/valve_01.wav",
+            "_jazzlok/switches/valve_02.wav"
+            ) 
+        )
+        
+    soundPitch("brake", select(randint(1,5),90,105,110,95,100))
+    soundVolume("brake",1)
+    soundStop("brake",0.25) 
+}
+
+#
+
+if(changed(BCI_A))
+{
+    E:soundPlay("bci",0,"gsgtrainsounds/misc/switch_rotating.wav") 
+    soundStop("bci",0.65) 
+} 
+
+#
+
+#This took an hour (maybe) just to get this set up... god
+
+if(changed(TransitionLever == 2)|changed(TransitionLever == -2))
+{
+    
+    E:soundPlay("selectormove",0,"_jazzlok/switches/buzzer_01.wav") 
+    soundPitch("selectormove",120)
+    soundVolume("selectormove",0.2)
+    soundStop("selectormove",0.5)
+
+}
+
+if(changed(Transition_A > 1.8) & Transition_A > 1.8){
+
+    E:soundPlay("selector1",0,"_jazzlok/switches/relay_02.wav") 
+    soundPitch("selector1",70)
+    soundStop("selector1",0.6)
+
+
+}
+
+if(changed(Selector) & Selector){
+ 
+    E:soundPlay("selector2",0,"_jazzlok/switches/selector_action.wav") 
+    
+    soundStop("selector2",0.35) 
+    #Try 3 if u hear the same sound 2 times but very quiet (and also "downgrade" the others if that happens also)
+       
+}
+
+if(changed(!Selector) & !Selector){
+ 
+    E:soundPlay("selector0",0,"_jazzlok/switches/barrel_notch.wav")
+    soundStop("selector0",0.4)
+   
+}
+
+if(changed(Transition_A < 0.3) & Transition_A < 0.3){
+
+    E:soundPlay("selector1",0,"_jazzlok/switches/relay_02.wav") 
+    soundPitch("selector1",70)
+    soundStop("selector1",0.6)
+
+
+}
+
+if(changed(TransitionLever == -2) & TransitionLever == -2){
+
+    E:soundPlay("selectorb",0,"_jazzlok/switches/switch_med_02.wav")
+    soundStop("selectorb",0.65)
+
+}
+
+#
+
+
+
+#--------------------------------------------------------------------------------
+
+RadioCmd = owner():lastSaid():explode(" ")
+
+runOnChat(1)
+if(chatClk(owner()))
+{
+    if(RadioCmd[1,string]=="/fixit")
+    {
+        hideChat(1)
+        print("JAZZLOK: Control Stand Reset") 
+        reset()
+    }
+}
+
+CONTRAINT = 1 
+
+#--------------------------------------------------------------------------------
